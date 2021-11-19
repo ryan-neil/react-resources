@@ -1,6 +1,6 @@
 # React Resources
 <p align="center">
-  <img src="./assets/react-header.png" width="550">
+  <img src="./assets/react-header.png" width="350">
 </p>
 
 React is a JavaScript _library_ for creating user interfaces. It was created by the folks over at Meta (Facebook).
@@ -12,7 +12,10 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   4. [Thinking in React](#4-Thinking-in-React)
   5. [Components](#5-Components)
   6. [JSX](#6-JSX)
-  7. [State vs. Props](#7-State-vs-Props)
+  7. [Properties](#7-Properties)
+  8. [Create React App](#8-Create-React-App)
+  9. [State](#9-State)
+  10. [State vs. Props](#10-State-vs-Props)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -75,15 +78,11 @@ One of the most difficult parts of a React app is figuring out what to make a co
   * They must also include a render method
 
 ```jsx
-// create class component
 class Welcome extends React.Component {
   render() {
     return <h1>Hello, {this.props.name}</h1>
   }
 }
-
-// render class component
-ReactDOM.render(<Welcome />, document.getElementById('root'));
 ```
 
 ### Function Components
@@ -92,13 +91,9 @@ ReactDOM.render(<Welcome />, document.getElementById('root'));
   * There is no render method or methods at all, just a single function that returns some content and that content will be rendered
 
 ```jsx
-// create functional component
 function Welcome(props) {
   return <h1>Hello, {props.name}</h1>;
 }
-
-// render functional component
-ReactDOM.render(<Welcome />, document.getElementById('root'));
 ```
 
 ### Well what's the difference?
@@ -112,8 +107,10 @@ ReactDOM.render(<Welcome />, document.getElementById('root'));
 
 # 6. JSX
   * [Introducing JSX: React Docs](https://reactjs.org/docs/introducing-jsx.html#gatsby-focus-wrapper)
+  * [JSX In Depth: React Docs](https://reactjs.org/docs/jsx-in-depth.html)
+  * [JSX Cheatsheet: codecademy](https://www.codecademy.com/learn/react-101/modules/react-101-jsx-u/cheatsheet)
 
-JSX stands for JavaScript Syntax Extension or JavaScript plus XML (depending on who you ask). What JSX does is essentially it allows us to combine our UI with our JavaScript logic directly in our JavaScript file. 
+JSX stands for JavaScript Syntax Extension or JavaScript plus XML (depending on who you ask). Essentially, what JSX does is it allows us to combine our UI with our JavaScript logic directly in our JavaScript file. 
 
 So rather than having to use a separate template file in HTML that we then call upon in our JavaScript, we can look at a single component and directly see what it is actually doing.
 
@@ -122,12 +119,500 @@ So rather than having to use a separate template file in HTML that we then call 
 ### The Rules
 JSX is much more strict that HTML, elements must either:
   * Have an explicit closing tag: `<h1> ... </h1>`
-  * Be explicitly self-closed: `<input name="msb" />`
+  * Be explicitly self-closed: `<input name="msg" />`
     * Note: you cannot leave off the `/` or else we get a syntax error
+
+### JSX Syntax and JavaScript
+JSX is a syntax extension of JavaScript. It’s used to create DOM elements which are then rendered in the React DOM.
+
+A JavaScript file containing JSX will have to be compiled before it reaches a web browser. The code block shows some example JavaScript code that will need to be compiled.
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(<h1>Render me!</h1>, document.getElementById('root'));
+```
+
+### Nested JSX elements
+In order for the code to compile, a JSX expression must have exactly one outermost element. In the below block of code the `<a>` tag is the outermost element.
+```jsx
+class Account extends React.Component {
+  render() {
+    return (
+      <a href="https://www.josephskycrest.com">
+        <h1>Sign Up!</h1>
+      </a>
+    )
+  }
+}
+```
+
+### Multiline JSX Expression
+A JSX expression that spans multiple lines must be wrapped in parentheses: `(` and `)`. In the example code, we see the opening parentheses on the same line as the constant declaration, before the JSX expression begins. We see the closing parentheses on the line following the end of the JSX expression.
+```jsx
+class List extends React.Component {
+  render() {
+    return (
+      <ul>
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+      </ul>
+    )
+  }
+}
+```
+
+### JSX attributes
+The syntax of JSX attributes closely resembles that of HTML attributes. In the block of code, inside of the opening tag of the `<h1>` JSX element, we see an `id` attribute with the value `"example"`.
+```jsx
+const example = <h1 id="example">JSX Attributes</h1>;
+```
+
+### ReactDOM JavaScript library
+The JavaScript library `react-dom`, sometimes called `ReactDOM`, renders JSX elements to the DOM by taking a JSX expression, creating a corresponding tree of DOM nodes, and adding that tree to the DOM.
+
+The code example begins with `ReactDOM.render()`. The first argument is the JSX expression to be compiled and rendered and the second argument is the HTML element we want to append it to.
+```jsx
+ReactDOM.render(
+  <h1>This is an example.</h1>, 
+  document.getElementById('root')
+);
+```
+
+### Embedding JavaScript in JSX
+JavaScript expressions may be embedded within JSX expressions. The embedded JavaScript expression must be wrapped in curly braces.
+
+In the provided example, we are embedding the JavaScript expression `10 * 10` within the `<h1>` tag. When this JSX expression is rendered to the DOM, the embedded JavaScript expression is evaluated and rendered as `100` as the content of the `<h1>` tag.
+```jsx
+let expr = <h1>{10 * 10}</h1>; // -> <h1>100</h1>
+```
+
+### Embedding JavaScript code in JSX
+Any text between JSX tags will be read as text content, not as JavaScript. In order for the text to be read as JavaScript, the code must be embedded between curly braces `{ }`.
+```jsx
+<p>{ Math.random() }</p>
+ 
+// Above JSX will be rendered something like this: 
+<p>0.88</p>
+```
+
+### The Virtual DOM
+React uses Virtual DOM, which can be thought of as a blueprint of the DOM. When any changes are made to React elements, the Virtual DOM is updated. The Virtual DOM finds the differences between it and the DOM and re-renders only the elements in the DOM that changed. This makes the Virtual DOM faster and more efficient than updating the entire DOM.
+
+### JSX className
+In JSX, you can’t use the word `class`! You have to use `className` instead. This is because JSX gets translated into JavaScript, and `class` is a reserved word in JavaScript.
+
+When JSX is rendered, JSX `className` attributes are automatically rendered as `class` attributes.
+```jsx
+// When rendered, this JSX expression...
+const heading = <h1 className="large-heading">Joseph Skycrest</h1>;
+ 
+// ...will be rendered as this HTML
+<h1 class="large-heading">Joseph Skycrest</h1>
+```
+
+### Setting JSX attribute values with embedded JavaScript
+When writing JSX, it’s common to set attributes using embedded JavaScript variables.
+```jsx
+const introClass = "introduction";
+const introParagraph = <p className={introClass}>Hello world</p>;
+```
+
+### JSX conditionals
+JSX does not support if/else syntax in embedded JavaScript. There are three ways to express conditionals for use with JSX elements:
+  1. a ternary within curly braces in JSX
+  2. an `if` statement outside a JSX element, or 
+  3. the `&&` operator.
+```jsx
+// Using ternary operator
+class NumPicker extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>{num === 7 ? 'Congrats!' : 'Unlucky!'}</h1>
+      </div>
+    );
+  }
+}
+```
+
+```jsx
+// Using if/else outside of JSX 'return'
+class NumPicker extends React.Component {
+  render() {
+    let msg;
+
+    if (num === 7) {
+      msg = (
+        <div>
+          <h2>Congrats!</h2>
+          <img src="https://media.giphy.com/media/WQr2txk5iEYUS6Kv3d/giphy.gif" />
+        </div>
+      );
+    }
+    else {
+      msg = <p>Sorry you lost...</p>;
+		}
+
+    return (
+      <div>
+        <h1>Your number is {num}</h1>
+        {msg}
+      </div>
+    );
+  }
+}
+```
+
+```jsx
+// Using && operator
+class NumPicker extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>{num === 7 && 'Congrats!'}</h1>
+      </div>
+    );
+  }
+}
+```
+
+### JSX and conditional
+In JSX, `&&` is commonly used to render an element based on a boolean condition. `&&` works best in conditionals that will sometimes do an action, but other times do nothing at all.
+
+If the expression on the left of the `&&` evaluates as true, then the JSX on the right of the `&&` will be rendered. If the first expression is false, however, then the JSX to the right of the `&&` will be ignored and not rendered.
+```jsx
+// All of the list items will display if
+// minor is false and age is greater than or equal to 21
+class Yummy extends React.Component {
+  render() {
+    return (
+      <ul>
+        <li>Soda</li>
+        { !minor && <li>Alcohol</li> }
+        { age >= 21 && <li>Beer</li> }
+        { age > 30 && <li>Wine</li> }
+        { age > 50 && <li>Absinthe</li> }
+      </ul>
+    );
+  }
+}
+```
 
 [⬆ Top](#table-of-contents)
 
-# 7. State vs. Props
+# Simple React App Structure
+
+```bash
+├── src
+│  ├── components
+│  │  ├── Navbar.js
+│  │  ├── Main.js
+│  │  └── Footer.js
+│  ├── index.js
+│  └── index.html
+```
+
+Let's have a look inside each of our files to see what's going on.
+
+### `index.html`
+```html
+...
+
+  <script src="./components/Navbar.js" type="text/jsx"></script>
+  <script src="./components/Main.js" type="text/jsx"></script>
+  <script src="./components/Footer.js" type="text/jsx"></script>
+  <script src="./index.js" type="text/jsx"></script>
+<body>
+```
+
+### The Navbar component: `Navbar.js`
+```jsx
+// create Navbar component
+class Navbar extends React.Component {
+  render() {
+    return (
+      <nav>
+        <h2>This is a Navbar section</h2>
+      </nav>
+    );
+  }
+}
+```
+
+### The Main body component: `Main.js`
+```jsx
+// create Main component
+class Main extends React.Component {
+  render() {
+    return (
+      <main>
+        <h2>Hello World!</h2>
+      </main>
+    );
+  }
+}
+```
+
+### The Footer component: `Footer.js`
+```jsx
+// create Footer component
+class Footer extends React.Component {
+  render() {
+    return (
+      <footer>
+        <h2>This is a footer section</h2>
+      </footer>
+    );
+  }
+}
+```
+
+### The App component: `index.js`
+```jsx
+// create App component
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <Main />
+        <Footer />
+      </div>
+    );
+  }
+}
+
+// render App component
+ReactDOM.render(<App />, document.getElementById('root'));
+
+```
+
+# 7. Properties
+
+Table of Contents:
+  * [What are Properties?](#What-are-Properties)
+  * [Properties are immutable!](#Properties-are-immutable)
+  * [Types of Properties](#Types-of-Properties)
+  * [Embedding Values as Properties](#Embedding-Values-as-Properties)
+
+### What are Properties?
+
+_Properties_ aka. _Props_ are really important because they allow us to make our components more customizable. A useful component is a reusable one. This often times means making it configurable or customizable.
+
+  * Properties are for _configuring_ your component
+  * Properties are _immutable_
+
+Let's experiment with _props_. We'll first create a `Hello` component:
+```jsx
+class Hello extends React.Component {
+  render() {
+    return <h2>Hello World!</h2>;
+  }
+}
+```
+
+Next, we'll add a couple `Hello` components into our `App` component:
+```jsx
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Hello />
+        <Hello />
+      </div>
+    );
+  }
+}
+```
+
+Let's give our Hello components some _props_:
+```jsx
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Hello to="Katie" from="Ryan" />
+        <Hello to="John" from="Paul" />
+      </div>
+    );
+  }
+}
+```
+
+To confirm this is working, inside the Hello component let's console log the props:
+```jsx
+class Hello extends React.Component {
+  render() {
+    console.log(this.props);
+
+    return <h2>Hello World!</h2>;
+  }
+}
+
+// -> Object { to: "Katie", from: "Ryan" }
+// -> Object { to: "John", from: "Paul" }
+```
+
+Let's take it a step further and dynamically print us a greeting:
+```jsx
+class Hello extends React.Component {
+  render() {
+    return (
+      <h2>
+				Hi {this.props.to}, from {this.props.from}!
+			</h2>
+		);
+  }
+}
+
+// this is what renders to the screen:
+// -> Hi Katie, from Ryan
+// -> Hi John, from Paul
+```
+
+#### _Side Note!_
+In an effort to shorten the syntax a bit, some people will create a `props` variable:
+```jsx
+class Hello extends React.Component {
+  render() {
+    // shortened props variable
+    const props = this.props;
+
+    return (
+      <h2>
+        Hi {props.to}, from {props.from}
+      </h2>
+    );
+  }
+}
+```
+
+### Properties are immutable!
+
+Meaning, props don't change and you can't change them. Now, this doesn't mean that the data in the application can't change or the components of the application can never be altered. This isn't true, we just don't do it through _props_.
+
+Let's try and change our `to` prop from the previous example:
+```jsx
+class Hello extends React.Component {
+  render() {
+    this.props.to = 'Cathy'; // -> Error!!!
+
+    return (
+      <h2>
+        Hi {this.props.to}, from {this.props.from}
+      </h2>
+    );
+  }
+}
+```
+
+### Types of Properties
+
+Properties can be _strings_:
+```jsx
+<User name="Katie" title="CEO" />
+```
+
+For all _other_ types, embed JS expression using curly braces:
+```jsx
+<div>
+  <User
+    name="Katie"
+    salary={1000000}
+    hobbies={[ 'soccer', 'farming', 'snacking' ]}
+    admin={true}
+    // or just
+    admin // -> true
+  />
+  <Movie name="Star Wars" reviews={5} />
+</div>
+```
+
+### Embedding Values as Properties
+
+Let's look at another example where we call a `Movie` component in our App component:
+```jsx
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Movie 
+          name="Star Wars" 
+          reviews={5} 
+        />
+      </div>
+    );
+  }
+}
+```
+
+Now, over in `Movie.js`:
+```jsx
+class Movie extends React.Component {
+  render() {
+    let reviews = '⭐️'.repeat(this.props.reviews);
+
+    return (
+      <div>
+        <h1>{this.props.name}</h1>
+        <p>Rating: {reviews}</p>
+      </div>
+    );
+  }
+}
+
+// We would then see this rendered to the browser:
+// -> Star Wars
+// -> Rating: ⭐️⭐️⭐️⭐️⭐️
+```
+
+Let's expand on our example a little bit more and add an `img` prop to our `Movie` component:
+```jsx
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Movie 
+          name="Star Wars" 
+          reviews={5}
+          img="path-to-the-image"
+        />
+      </div>
+    );
+  }
+}
+```
+
+Now, over in `Movie.js`:
+```jsx
+class Movie extends React.Component {
+	render() {
+		let reviews = '⭐️'.repeat(this.props.reviews);
+
+		return (
+			<div>
+				<h1>{this.props.name}</h1>
+				<p>Rating: {reviews}</p>
+				<img src={this.props.img} />
+			</div>
+		);
+	}
+}
+```
+
+[⬆ Top](#table-of-contents)
+
+# 8. Create React App
+
+[⬆ Top](#table-of-contents)
+
+# 9. State
+
+[⬆ Top](#table-of-contents)
+
+# 10. State vs. Props
   * [React State vs. Props: Web Dev Simplified](https://www.youtube.com/watch?v=IYvD9oBCuJI)
   * [Props vs. State: uberVU React Guide](https://github.com/uberVU/react-guide/blob/master/props-vs-state.md)
 
@@ -141,8 +626,8 @@ Let's break this down.
 
 One of the main reasons why developers get confused about when to use _state_ vs. _props_ is they don't properly think about which one is going to be handled by the component they're interacting with. 
   * If you are handling that piece of information _inside_ that component and not somewhere outside of it (like a parent component) then you would use _state_
-  * If the information (data) is being handled _outside_ the component (like in a parent component) then you would pass it in via _props_
-  * If the information (data) is static and not going to change, like for example if inside the component you will never need to update the title of that display section, you would want to use _props_ because props are for things that are going to be passed down from the parent and don't change inside the component
+  * If the information is being handled _outside_ the component (like in a parent component) then you would pass it in via _props_
+  * If the information is static and not going to change, like for example if inside the component you will never need to update the title of that display section, you would want to use _props_ because props are for things that are going to be passed down from the parent and don't change inside the component
 
 ### Props
 
@@ -150,7 +635,7 @@ _props_ are a Component's configuration, its options if you may. They are receiv
 
 A Component cannot change its _props_, but it is responsible for putting together the _props_ of its child Components. We can think about _props_ as arguments to a function. When you create a component inside of React and you want to render that component, you're going to pass the _props_ you want to give to it.
 
-### Props Example
+#### Props Example
 
 Let's say we have a counter application. What you will most likely pass to that counter is going to be the initial count. To achieve this, we're going to pass the counter component it's initial count inside of the _props_.
 
@@ -168,7 +653,7 @@ The state starts with a default value when a Component mounts and then __suffers
 
 _State_ is managed within the component (similar to variables declared within a function). _State_ in _React Component_ is its own local state, which means the state cannot be accessed and modified outside the component and can only be used inside it, kind of like a function with it's own local scope.
 
-### State Example
+#### State Example
 
 Back in our counter application, the current up-to-date count is handled inside of the _state_. So, while we pass in the initial count inside of the _props_ we're immediately setting our _state_ to that initial count. Then, inside of the component that's handling our counter we manage updating our counter to increase or decrease it depending on what the user does and we're using _state_ for this.
 
@@ -178,7 +663,7 @@ Now, in the title and subtitle component example, this component will most likel
 
 _state_ is optional. Since _state_ increases complexity and reduces predictability, a Component without _state_ is preferable. Even though you clearly can't do without _state_ in an interactive app, you should avoid having too many "Stateful Components".
 
-#### Component types
+### Component types
   * __Stateless Component__ — Only _props_, no _state_. There's not much going on besides the `render()` function and all their logic revolves around the _props_ they receive. This makes them very easy to follow (and test for that matter). We sometimes call these dumb-as-f*ck Components (which turns out to be the only way to misuse the F-word in the English language).
   * __Stateful Component__ — Both _props_ and _state_. We also call these _state_ managers. They are in charge of client-server communication (XHR, web sockets, etc.), processing data and responding to user events. These sort of logistics should be encapsulated in a moderate number of "Stateful Components", while all visualization and formatting logic should move downstream into as many "Stateless Components" as possible.
 
