@@ -15,9 +15,10 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   7. [Looping in JSX](#7-Looping-in-JSX)
   8. [Simple React App Structure](#8-Simple-React-App-Structure)
   9. [Properties](#9-Properties)
-  10. [Create React App](#10-Create-React-App)
-  11. [State](#11-State)
-  12. [State vs. Props](#12-State-vs-Props)
+  10. [Styling React](#10-Styling-React)
+  11. [Create React App](#11-Create-React-App)
+  12. [State](#12-State)
+  13. [State vs. Props](#13-State-vs-Props)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -309,6 +310,7 @@ class Yummy extends React.Component {
 A very common way to loop in JSX is to use `arr.map(fn)`. Let's look at an example:
 
 ```jsx
+// index.js file
 
 class App extends React.Component {
   render() {
@@ -366,11 +368,6 @@ class Friend extends React.Component {
     );
   }
 }
-
-// -> Thor
-// -> * Smashing
-// -> * Drinking
-// -> * Hammering
 ```
 
 This is a very simple example, but this pattern shows up all the time. So, in other words, some _data_ `.map` and then we're mapping it to much more complex markup or other child components.
@@ -468,9 +465,10 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 #### Table of Contents:
   * [What are Properties?](#What-are-Properties)
-  * [Properties are immutable!](#Properties-are-immutable)
-  * [Types of Properties](#Types-of-Properties)
-  * [Embedding Values as Properties](#Embedding-Values-as-Properties)
+  * [Props are immutable!](#Props-are-immutable)
+  * [Types of Props](#Types-of-Props)
+  * [Embedding Values as Props](#Embedding-Values-as-Props)
+  * [Setting Default Values for Props](#Setting-Default-Values-for-Props)
 
 ### What are Properties?
 
@@ -564,7 +562,7 @@ class Hello extends React.Component {
 }
 ```
 
-### Properties are immutable!
+### Props are immutable!
 
 Meaning, props don't change and you can't change them. Now, this doesn't mean that the data in the application can't change or the components of the application can never be altered. This isn't true, we just don't do it through _props_.
 
@@ -583,7 +581,7 @@ class Hello extends React.Component {
 }
 ```
 
-### Types of Properties
+### Types of Props
 
 Properties can be _strings_:
 ```jsx
@@ -599,13 +597,12 @@ For all _other_ types, embed JS expression using curly braces:
     hobbies={[ 'soccer', 'farming', 'snacking' ]}
     admin={true}
     // or just
-    admin // -> true
+    admin // -> truthy
   />
-  <Movie name="Star Wars" reviews={5} />
 </div>
 ```
 
-### Embedding Values as Properties
+### Embedding Values as Props
 
 Let's look at another example where we call a `Movie` component in our App component:
 ```jsx
@@ -677,17 +674,115 @@ class Movie extends React.Component {
 }
 ```
 
+### Setting Default Values for Props
+  * [Class Properties - defaultProps: React Docs](https://reactjs.org/docs/react-component.html#class-properties-1)
+
+Components can specify default values for missing props. Let's say we have a component and this component doesn't have any props passed in and we want to have a default value for those missing props.
+
+All we would need to do is define an object called `defaultProps` and inside of this object we just put standard _key_ _value_ pairs.
+```jsx
+class CustomButton extends React.Component {
+  // ...
+}
+
+CustomButton.defaultProps = {
+  color: 'blue'
+};
+```
+
+If `props.color` is not provided, it will be set by default to `'blue'`:
+```jsx
+render() {
+  return <CustomButton /> ; // props.color will be set to blue
+}
+```
+
+If `props.color` is set to `null`, it will remain `null`:
+```jsx
+render() {
+  return <CustomButton color={null} /> ; // props.color will remain null
+}
+```
+
+Let's look at an example with a couple of our favorite superheros:
+```jsx
+// index.js file
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Superhero
+          name="Thor"
+          hobbies={[ 'Smashing', 'Drinking', 'Hammering' ]}
+          // manually added organization prop
+          organization="Marvel"
+          rating={4}
+        />
+        <Superhero
+          name="Iron Man"
+          hobbies={[ 'Technology', 'Partying', 'Flying' ]}
+          rating={5}
+        />
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+Notice how in the above `App` component we do not set an `organization` for our 'Iron Man' superhero. 
+
+Back over in our `Superhero` component let's set `organization` as a default property to the `Superhero` component:
+```jsx
+// Superhero.js file
+
+class Superhero extends React.Component {
+  render() {
+    const { name, hobbies, rating, organization } = this.props;
+
+    const lis = hobbies.map((h) => <li>{h}</li>);
+    const stars = '⭐'.repeat(rating);
+
+    return (
+      <div>
+        <h1>{name}</h1>
+        <p>Organization: {organization}</p>
+        <ul>{lis}</ul>
+        <p>Rating: {stars}</p>
+      </div>
+    );
+  }
+}
+
+// set default props
+Superhero.defaultProps = {
+  organization: 'Marvel'
+};
+```
+
+We can now remove all the `organization` props from our `App` component and it will still work as expected. Pretty neat!
+
+Setting default props can be very useful especially for things like colors for example. Often times we might want to have a default color set and the user can override the color by passing it in as a prop.
+
 [⬆ Top](#table-of-contents)
 
-# 10. Create React App
+# 10. Styling React
+
+
 
 [⬆ Top](#table-of-contents)
 
-# 11. State
+# 11. Create React App
 
 [⬆ Top](#table-of-contents)
 
-# 12. State vs. Props
+# 12. State
+
+[⬆ Top](#table-of-contents)
+
+# 13. State vs. Props
   * [React State vs. Props: Web Dev Simplified](https://www.youtube.com/watch?v=IYvD9oBCuJI)
   * [Props vs. State: uberVU React Guide](https://github.com/uberVU/react-guide/blob/master/props-vs-state.md)
 

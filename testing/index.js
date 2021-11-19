@@ -2,10 +2,19 @@
 class App extends React.Component {
 	render() {
 		return (
-			<Friend
-				name="Thor"
-				hobbies={[ 'Smashing', 'Drinking', 'Hammering' ]}
-			/>
+			<div>
+				<Superhero
+					name="Thor"
+					hobbies={[ 'Smashing', 'Drinking', 'Hammering' ]}
+					organization="Marvel"
+					rating={4}
+				/>
+				<Superhero
+					name="Iron Man"
+					hobbies={[ 'Technology', 'Partying', 'Flying' ]}
+					rating={5}
+				/>
+			</div>
 		);
 	}
 }
