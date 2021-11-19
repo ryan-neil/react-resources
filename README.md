@@ -1,6 +1,6 @@
 # React Resources
 <p align="center">
-  <img src="./assets/react-header.png" width="350">
+  <img src="./assets/react-header.png" width="400">
 </p>
 
 React is a JavaScript _library_ for creating user interfaces. It was created by the folks over at Meta (Facebook).
@@ -12,10 +12,12 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   4. [Thinking in React](#4-Thinking-in-React)
   5. [Components](#5-Components)
   6. [JSX](#6-JSX)
-  7. [Properties](#7-Properties)
-  8. [Create React App](#8-Create-React-App)
-  9. [State](#9-State)
-  10. [State vs. Props](#10-State-vs-Props)
+  7. [Looping in JSX](#7-Looping-in-JSX)
+  8. [Simple React App Structure](#8-Simple-React-App-Structure)
+  9. [Properties](#9-Properties)
+  10. [Create React App](#10-Create-React-App)
+  11. [State](#11-State)
+  12. [State vs. Props](#12-State-vs-Props)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -302,7 +304,80 @@ class Yummy extends React.Component {
 
 [⬆ Top](#table-of-contents)
 
-# Simple React App Structure
+# 7. Looping in JSX
+
+A very common way to loop in JSX is to use `arr.map(fn)`. Let's look at an example:
+
+```jsx
+
+class App extends React.Component {
+  render() {
+    return (
+      <Friend
+        name="Thor"
+        hobbies={[ 'Smashing', 'Drinking', 'Hammering' ]}
+      />
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+In the `Friend` component file:
+```jsx
+// Friend.js file
+
+class Friend extends React.Component {
+  render() {
+    const { name, hobbies } = this.props;
+    return (
+      <div>
+        <h1>{name}</h1>
+        <ul>{hobbies.map((h) => <li>{h}</li>)}</ul>
+      </div>
+    );
+  }
+}
+
+// -> Thor
+// -> * Smashing
+// -> * Drinking
+// -> * Hammering
+```
+
+Another solution could be to do this:
+```jsx
+// Friend.js file
+
+class Friend extends React.Component {
+  render() {
+    const { name, hobbies } = this.props;
+    // assign the lis logic to a variable and just call it down below
+    const lis = hobbies.map((h) => <li>{h}</li>);
+
+    return (
+      <div>
+        <h1>{name}</h1>
+        <ul>
+          {lis}
+        </ul>
+      </div>
+    );
+  }
+}
+
+// -> Thor
+// -> * Smashing
+// -> * Drinking
+// -> * Hammering
+```
+
+This is a very simple example, but this pattern shows up all the time. So, in other words, some _data_ `.map` and then we're mapping it to much more complex markup or other child components.
+
+[⬆ Top](#table-of-contents)
+
+# 8. Simple React App Structure
 
 ```bash
 ├── src
@@ -389,9 +464,9 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ```
 
-# 7. Properties
+# 9. Properties
 
-Table of Contents:
+#### Table of Contents:
   * [What are Properties?](#What-are-Properties)
   * [Properties are immutable!](#Properties-are-immutable)
   * [Types of Properties](#Types-of-Properties)
@@ -604,15 +679,15 @@ class Movie extends React.Component {
 
 [⬆ Top](#table-of-contents)
 
-# 8. Create React App
+# 10. Create React App
 
 [⬆ Top](#table-of-contents)
 
-# 9. State
+# 11. State
 
 [⬆ Top](#table-of-contents)
 
-# 10. State vs. Props
+# 12. State vs. Props
   * [React State vs. Props: Web Dev Simplified](https://www.youtube.com/watch?v=IYvD9oBCuJI)
   * [Props vs. State: uberVU React Guide](https://github.com/uberVU/react-guide/blob/master/props-vs-state.md)
 
