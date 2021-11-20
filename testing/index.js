@@ -6,13 +6,12 @@ class App extends React.Component {
 				<Superhero
 					name="Thor"
 					hobbies={[ 'Smashing', 'Drinking', 'Hammering' ]}
-					organization="Marvel"
-					rating={4}
+					mortal={false}
 				/>
 				<Superhero
 					name="Iron Man"
 					hobbies={[ 'Technology', 'Partying', 'Flying' ]}
-					rating={5}
+					mortal={true}
 				/>
 			</div>
 		);

@@ -269,7 +269,7 @@ class NumPicker extends React.Component {
 ```
 
 ```jsx
-// Using && operator
+// Using && operator (short circuiting)
 class NumPicker extends React.Component {
   render() {
     return (
@@ -285,6 +285,10 @@ class NumPicker extends React.Component {
 In JSX, `&&` is commonly used to render an element based on a boolean condition. `&&` works best in conditionals that will sometimes do an action, but other times do nothing at all.
 
 If the expression on the left of the `&&` evaluates as true, then the JSX on the right of the `&&` will be rendered. If the first expression is false, however, then the JSX to the right of the `&&` will be ignored and not rendered.
+
+This is often referred to as '[short circuit conditionals](https://codeburst.io/javascript-short-circuit-conditionals-bbc13ac3e9eb)'.
+
+Let's have a look below:
 ```jsx
 // All of the list items will display if
 // minor is false and age is greater than or equal to 21
@@ -769,8 +773,173 @@ Setting default props can be very useful especially for things like colors for e
 [⬆ Top](#table-of-contents)
 
 # 10. Styling React
+  * [Styling and CSS: React Docs](https://reactjs.org/docs/faq-styling.html)
 
+In order to style our React components we need to pass in a string as the `className` prop to those component elements. Back in our Superhero example from the previous section, let's add some styles:
+```jsx
+// Superhero.js file
 
+class Superhero extends React.Component {
+  render() {
+    const { name, hobbies, rating, organization } = this.props;
+
+    const lis = hobbies.map((h) => <li>{h}</li>);
+    const stars = '⭐'.repeat(rating);
+
+    return (
+      <div className="Superhero">
+        <h1 className="heading">{name}</h1>
+        <ul>{lis}</ul>
+        <p>Rating: {stars}</p>
+      </div>
+    );
+  }
+}
+```
+
+Now, in `app.css` we would just do something like this:
+```css
+/* app.css file */
+
+.Superhero {
+	border: 1px solid grey;
+}
+.heading {
+	color: tomato;
+}
+```
+
+And we should see a grey border around our two `Superhero` components and superhero names should be colored tomato (my favorite built in css color btw).
+
+> Note: `class` instead of `className` would work but React sends us a warming in our console and in general we want to avoid using `class` prop for styling since it is a reserved word.
+
+### Inline CSS Styling
+
+Sometimes, for whatever reason we might want to pass in inline CSS styles rather than through a text class. To achieve this we would just pass in the prop `style` and then an object:
+```jsx
+class Superhero extends React.Component {
+  render() {
+    const { name, hobbies} = this.props;
+    const lis = hobbies.map((h) => <li>{h}</li>);
+
+    return (
+      <div>
+        <h1 style={{ fontSize: '24px', color: 'red' }}>{name}</h1>
+        <ul>{lis}</ul>
+      </div>
+    );
+  }
+}
+```
+
+Typically, if we have multiple inline styles you would just create a variable and set that equal to an object with our styles as key value pairs. Then you would just  pass the object into the `style` prop:
+```jsx
+class Superhero extends React.Component {
+  render() {
+    const { name, hobbies} = this.props;
+    const lis = hobbies.map((h) => <li>{h}</li>);
+
+    // create a variable and set it equal to an object
+    const inlineStyles = {
+      fontSize: '24px',
+      color: 'red'
+    };
+
+    return (
+      <div>
+        <h1 style={inlineStyles}>{name}</h1>
+        <ul>{lis}</ul>
+      </div>
+    );
+  }
+}
+```
+
+### Dynamic or Conditional Styles
+
+inside the `App` component we can add another prop called `mortal` and this will be a boolean value:
+```jsx
+// index.js file
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <Superhero
+          name="Thor"
+          hobbies={[ 'Smashing', 'Drinking', 'Hammering' ]}
+          mortal={false}
+        />
+        <Superhero
+          name="Iron Man"
+          hobbies={[ 'Technology', 'Partying', 'Flying' ]}
+          mortal={true}
+        />
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+Now, over in `app.css`, let's style our two classes:
+```css
+/* app.css file */
+
+.is-mortal {
+	color: green;
+}
+.is-not-mortal {
+	color: red;
+}
+```
+
+In our `Superhero` component we want to first destructure out our `mortal` prop and then add the conditional logic to our 'Mortal?' `p` tag:
+```jsx
+// Superhero.js file
+
+class Superhero extends React.Component {
+  render() {
+    const { name, hobbies, mortal} = this.props;
+    const lis = hobbies.map((h) => <li>{h}</li>);
+
+    return (
+      <div>
+        <h1>{name}</h1>
+        <ul>{lis}</ul>
+        <p className={mortal ? 'is-mortal' : 'is-not-mortal'}>Mortal?</p>
+      </div>
+    );
+  }
+}
+```
+
+What the conditional above is saying is, if `mortal` is `true`, `className` will be equal to `is-mortal` and give our 'Mortal?' text the color of `'green'`. And if mortal is false, `className` will be equal to `is-not-mortal` and give the text the color of `'red'`.
+
+Again, another solution would be to create a new variable and assign the conditional logic to that variable and then just call the variable down below:
+```jsx
+// Superhero.js file
+
+class Superhero extends React.Component {
+  render() {
+    const { name, hobbies, mortal} = this.props;
+
+    const lis = hobbies.map((h) => <li>{h}</li>);
+    const isMortal = mortal ? 'success' : 'failure';
+
+    return (
+      <div>
+        <h1>{name}</h1>
+        <ul>{lis}</ul>
+        <p className={isMortal}>Mortal?</p>
+      </div>
+    );
+  }
+}
+```
+
+This would work just fine as well. We can use either method, whichever you prefer.
 
 [⬆ Top](#table-of-contents)
 
