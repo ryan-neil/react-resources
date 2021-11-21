@@ -1158,7 +1158,7 @@ For example, in a React component file, it's common to have the component be the
 
 ### 11.4 Conventions
 
-
+We will briefly talk about some Create React App _conventions_.
 
 [⬆ Top](#table-of-contents)
 
