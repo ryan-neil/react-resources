@@ -538,9 +538,9 @@ class Hello extends React.Component {
   render() {
     return (
       <h2>
-				Hi {this.props.to}, from {this.props.from}!
-			</h2>
-		);
+        Hi {this.props.to}, from {this.props.from}!
+      </h2>
+    );
   }
 }
 
@@ -568,7 +568,7 @@ class Hello extends React.Component {
 
 ### Props are immutable!
 
-Meaning, props don't change and you can't change them. Now, this doesn't mean that the data in the application can't change or the components of the application can never be altered. This isn't true, we just don't do it through _props_.
+Meaning, _props_ don't change and you can't change them. Now, this doesn't mean that the data in the application can't change or the components of the application can never be altered. This isn't true, we just don't do it through _props_.
 
 Let's try and change our `to` prop from the previous example:
 ```jsx
@@ -608,7 +608,7 @@ For all _other_ types, embed JS expression using curly braces:
 
 ### Embedding Values as Props
 
-Let's look at another example where we call a `Movie` component in our App component:
+Let's look at another example where we call a `Movie` component in our `App` component:
 ```jsx
 class App extends React.Component {
   render() {
@@ -664,17 +664,17 @@ class App extends React.Component {
 Now, over in `Movie.js`:
 ```jsx
 class Movie extends React.Component {
-	render() {
-		let reviews = '⭐️'.repeat(this.props.reviews);
+  render() {
+    let reviews = '⭐️'.repeat(this.props.reviews);
 
-		return (
-			<div>
-				<h1>{this.props.name}</h1>
-				<p>Rating: {reviews}</p>
-				<img src={this.props.img} />
-			</div>
-		);
-	}
+    return (
+      <div>
+        <h1>{this.props.name}</h1>
+        <p>Rating: {reviews}</p>
+        <img src={this.props.img} />
+      </div>
+    );
+  }
 }
 ```
 
@@ -717,14 +717,14 @@ class App extends React.Component {
     return (
       <div>
         <Superhero
-          name="Thor"
+          name='Thor'
           hobbies={[ 'Smashing', 'Drinking', 'Hammering' ]}
           // manually added organization prop
-          organization="Marvel"
+          organization='Marvel'
           rating={4}
         />
         <Superhero
-          name="Iron Man"
+          name='Iron Man'
           hobbies={[ 'Technology', 'Partying', 'Flying' ]}
           rating={5}
         />
@@ -781,16 +781,13 @@ In order to style our React components we need to pass in a string as the `class
 
 class Superhero extends React.Component {
   render() {
-    const { name, hobbies, rating, organization } = this.props;
-
+    const { name, hobbies } = this.props;
     const lis = hobbies.map((h) => <li>{h}</li>);
-    const stars = '⭐'.repeat(rating);
 
     return (
       <div className="Superhero">
         <h1 className="heading">{name}</h1>
         <ul>{lis}</ul>
-        <p>Rating: {stars}</p>
       </div>
     );
   }
@@ -802,16 +799,16 @@ Now, in `app.css` we would just do something like this:
 /* app.css file */
 
 .Superhero {
-	border: 1px solid grey;
+  border: 1px solid grey;
 }
 .heading {
-	color: tomato;
+  color: red;
 }
 ```
 
-And we should see a grey border around our two `Superhero` components and superhero names should be colored tomato (my favorite built in css color btw).
+And we should see a grey border around our two `Superhero` components and superhero names should be colored red.
 
-> Note: `class` instead of `className` would work but React sends us a warming in our console and in general we want to avoid using `class` prop for styling since it is a reserved word.
+> Note: `class` instead of `className` would work but React sends us a warning in our console and in general we want to avoid using `class` as a prop for styling since it is a reserved word.
 
 ### Inline CSS Styling
 
@@ -888,10 +885,10 @@ Now, over in `app.css`, let's style our two classes:
 /* app.css file */
 
 .is-mortal {
-	color: green;
+  color: green;
 }
 .is-not-mortal {
-	color: red;
+  color: red;
 }
 ```
 
@@ -924,8 +921,9 @@ Again, another solution would be to create a new variable and assign the conditi
 class Superhero extends React.Component {
   render() {
     const { name, hobbies, mortal} = this.props;
-
     const lis = hobbies.map((h) => <li>{h}</li>);
+
+    // conditional logic
     const isMortal = mortal ? 'success' : 'failure';
 
     return (
@@ -944,6 +942,221 @@ This would work just fine as well. We can use either method, whichever you prefe
 [⬆ Top](#table-of-contents)
 
 # 11. Create React App
+  * [Create React App: CRA.dev](https://create-react-app.dev/)
+
+#### Table of Contents:
+  * [11.1 Installation](#111-Installation)
+  * [11.2 Webpack](#112-Webpack)
+  * [11.3 Modules: Import and Export](#113-Modules-Import-and-Export)
+  * [11.4 Conventions](#114-Conventions)
+
+__Create-React-App__ (CRA) is a utility script that:
+  * Creates a skeleton react project with a bunch of files and folders already there for you
+  * Sets it up so that the JavaScript files are run through Babel automatically
+  * Lets us use super-modern JavaScript features/idioms
+  * Makes testing and deployment much easier
+
+### 11.1 Installation
+
+#### Quick Start
+```bash
+npx create-react-app my-app
+cd my-app
+npm start
+```
+
+#### Scripts
+Inside the newly created project, you can run some built-in commands:
+```bash
+npm start
+# or
+yarn start
+```
+
+This will run the app in development mode. Open `http://localhost:3000` to view it in the browser.
+
+```bash
+npm test
+# or
+yarn test
+```
+
+This will run the test watcher in an interactive mode. By default, runs tests related to files changed since the last commit.
+  * [Read more about running tests](https://create-react-app.dev/docs/running-tests/)
+
+```bash
+npm run build
+# or
+yarn run build
+```
+
+This will build the app for production to the build folder. It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes. The app is now ready to be deployed.
+
+### 11.2 Webpack
+
+__Create React App__ is built on top of [Webpack](https://webpack.js.org/), a JavaScript utility that:
+  * Enables modules to be imported and exported, basically it makes it extremely easy to reference files and assets in other files
+    * Packages up all our CSS/JavaScript/images into a single file and minified for the browser
+    * Dramatically reduces the number of HTTP requests for performance
+  * Hot reloading: when you change a source file the browser automatically reloads (like nodemon)
+  * Enables easy testing and deployment
+
+Webpack is not so beginner friendly and requires a lot of configuring and setup but out of the box React handles that for us.
+
+### 11.3 Modules: Import and Export
+  * [Importing a Component: CRA Docs](https://create-react-app.dev/docs/importing-a-component/)
+
+__Create React App__ uses ES2015 "modules". This is a newer, standardized version of Node's `require()`. We use modules to export/import classes/data/functions between JavaScript files.
+
+Let's break down a CRA index.js file
+```jsx
+// these files are modules and are coming from the node_modules folder
+import React from 'react';
+import ReactDOM from 'react-dom';
+// this imports our main css file
+import './index.css';
+// this imports our App.js file modules
+import App from './App';
+// don't know
+import reportWebVitals from './reportWebVitals';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. 
+// Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+```
+
+#### Simple Example:
+
+```bash
+├── src
+│  ├── index.js
+│  └── helpers.js
+```
+
+`index.js`: _Invoke_
+```jsx
+// import current directory; helpers.js file
+import hereToHelp from './helpers';
+
+// invoke helpful function logic
+hereToHelp();
+
+// Expected output:
+// -> I'm a helper!
+```
+
+`helpers.js`: _Logic_
+```jsx
+const helpful = () => {
+  console.log("I'm a helper!");
+};
+
+// export default 'helpful' function to be used elsewhere
+// default signifies that when you import the entire file,
+// the default thing to be exported is 'helpful'
+export default helpful;
+```
+
+#### Export/Import Multiple:
+
+From the previous example:
+
+`index.js`: _Invoke_
+```jsx
+import { helpful, sort, filter } from './helpers';
+
+helpful();
+sort();
+filter();
+
+// -> I'm a helper!
+// -> All sorted.
+// -> All filtered.
+```
+
+`helpers.js`: _Logic_
+```jsx
+const helpful = () => {
+  console.log("I'm a helper!");
+};
+
+const sort = () => {
+  console.log('All sorted.');
+};
+
+const filter = () => {
+  console.log('All filtered.');
+};
+
+export { helpful, sort, filter };
+```
+
+#### Export/Import Default and Multiple:
+
+`index.js`: _Invoke_
+```jsx
+import helpful, { sort, filter } from './helpers';
+
+helpful();
+sort();
+filter();
+```
+
+`helpers.js`: _Logic_
+```jsx
+const helpful = () => {
+  console.log("I'm a helper!");
+};
+
+const sort = () => {
+  console.log('All sorted.');
+};
+
+const filter = () => {
+  console.log('All filtered.');
+};
+
+export default helpful;
+export { sort, filter };
+```
+
+#### Export/Import Components:
+
+Let's look at a very common way in which React components are imported:
+
+`index.js`: _Invoke_
+```jsx
+import React, { Component } from 'react';
+
+// ...
+```
+
+This line of code is at the top of every component we write. What this code is doing is, importing the _default_ from `react` and also importing `Component`.
+
+> You MUST export and import or else your console is going to have a bad time. It's a two-way street. Yin and Yang if you will.
+
+#### To Default or to Not Default?
+
+Conventionally, _default_ exports are used when there's an obvious candidate, a "most likely" item to export out of that file.
+
+When we're writing our components there's usually just one single thing we're exporting and then importing. This could be a _Navbar_ or _Footer_, etc.
+
+For example, in a React component file, it's common to have the component be the default export. Also, you never _need_ to make a default export, but it __can be helpful to indicate__ the most important item in a file.
+
+### 11.4 Conventions
+
+
 
 [⬆ Top](#table-of-contents)
 
