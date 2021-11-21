@@ -23,14 +23,16 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
   * [Thinking in React: React Docs](https://reactjs.org/docs/thinking-in-react.html)
+  * [Structuring a React App: React Docs](https://reactjs.org/docs/faq-structure.html)
+  * [Bulletproof React: Github Repo](https://github.com/alan2207/bulletproof-react)
   * [React Cheat sheet (Updated June 2021)](https://dev.to/ericchapman/react-cheat-sheet-updated-may-2021-1mcd)
 
 # 2. Tutorials
   * [The Modern React Bootcamp: Colt Steele](https://www.udemy.com/course/modern-react-bootcamp/learn/lecture/14638530?start=0#overview)
   * [React - The Complete Guide: Maximilian Schwarzmüller](https://www.udemy.com/course/modern-react-bootcamp/learn/lecture/14638530?start=0#overview)
+  * [The Beginner's Guide to React: Kent C. Dodds](https://egghead.io/courses/the-beginner-s-guide-to-react)
   * [React JS Crash Course 2021: Traversy Media](https://www.youtube.com/watch?v=w7ejDZ8SWv8)
   * [Learn React by Building an eCommerce Site: FCC](https://www.youtube.com/watch?v=1DklrGoAxDE)
-
 
 # 3. What is React?
 
@@ -1152,7 +1154,7 @@ Conventionally, _default_ exports are used when there's an obvious candidate, a 
 
 When we're writing our components there's usually just one single thing we're exporting and then importing. This could be a _Navbar_ or _Footer_, etc.
 
-For example, in a React component file, it's common to have the component be the default export. Also, you never _need_ to make a default export, but it __can be helpful to indicate__ the most important item in a file.
+For example, in a React component file, it's common to have the component be the default export. Also, you never _need_ to make a _default_ export, but it __can be helpful to indicate__ the most important item in a file.
 
 ### 11.4 Conventions
 
