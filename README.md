@@ -951,6 +951,7 @@ This would work just fine as well. We can use either method, whichever you prefe
   * [11.2 Webpack](#112-Webpack)
   * [11.3 Modules: Import and Export](#113-Modules-Import-and-Export)
   * [11.4 Conventions](#114-Conventions)
+  * [11.5 CSS and Assets](#115-CSS-and-Assets)
 
 __Create-React-App__ (CRA) is a utility script that:
   * Creates a skeleton react project with a bunch of files and folders already there for you
@@ -1158,7 +1159,47 @@ For example, in a React component file, it's common to have the component be the
 
 ### 11.4 Conventions
 
-We will briefly talk about some Create React App _conventions_.
+Good style:
+  * Each React component should be in it's own file
+    * `src/Car.js` for a `Car` component
+    * `src/House.js` for a `House` component
+    * The name of the file should _always_ match the name of the component in that file
+  * All components should extend(s) _Component_ (imported from React)
+    * Export the component as the _default_ object from that file
+  * CRA skeleton assumes the top object is `App` in `App.js` (best to keep this)
+
+### 11.5 CSS and Assets
+
+To include images and CSS, they can be imported into JavaScript files.
+```jsx
+// App.js file
+
+import logo from './logo.svg';
+import './App.css';
+
+function App() {
+// ..
+```
+
+#### CSS
+
+Good style:
+  * make a CSS file for each React component
+    * `House.css` would be for the `House` component
+  * Component CSS file gets imported at the top of the equivalent JavaScript component file
+    * `House.css` imported at the top of `House.js` component
+  * Conventional to set the class name equal to the component main `div`
+    * `className='House'` on the `House` div
+    * This is then used as a prefix for sub-items to style
+
+> If we ever forget how to import CSS or images, we can always just reference the CRA App.js file.
+
+```jsx
+<div className='House'>
+  <h1 className='House-title'>{ this.props.title }</h1>
+  <p className='House-address'>{ this.props.addr }</p>
+</div>
+```
 
 [⬆ Top](#table-of-contents)
 
