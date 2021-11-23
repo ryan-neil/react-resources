@@ -1,0 +1,35 @@
+.Pokedex {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+.Pokedex-main {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 3rem;
+}
+.result {
+	font-size: 1rem;
+	font-weight: 400;
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+}
+.Pokedex-winner {
+	color: #2ac840;
+	border: 1px solid #2ac840;
+	background-color: rgba(42, 200, 64, 0.1);
+}
+.Pokedex-loser {
+	color: #f10933;
+	border: 1px solid #f10933;
+	background-color: rgb(241, 9, 51, 0.1);
+}
+.Pokedex-exp {
+	font-size: 1rem;
+	font-weight: 400;
+	padding: 0.5rem 1rem;
+	background-color: #373d48;
+	border-radius: 5px;
+}

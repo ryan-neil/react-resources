@@ -1,0 +1,15 @@
+.Pokegame {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+}
+.Pokegame-header {
+	font-size: calc(8px + 2vmin);
+}
+.Pokegame-main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+}

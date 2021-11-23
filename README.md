@@ -955,9 +955,9 @@ This would work just fine as well. We can use either method, whichever you prefe
 
 __Create-React-App__ (CRA) is a utility script that:
   * Creates a skeleton react project with a bunch of files and folders already there for you
-  * Sets it up so that the JavaScript files are run through Babel automatically
-  * Lets us use super-modern JavaScript features/idioms
-  * Makes testing and deployment much easier
+  * When created, the JavaScript files are automatically run through Babel for us
+  * It allows us to use super-modern JavaScript features/idioms
+  * In addition, it makes testing and deployment much easier
 
 ### 11.1 Installation
 
@@ -1022,7 +1022,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // this imports our App.js file modules
 import App from './App';
-// don't know
+// web vitals logic
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -1034,8 +1034,7 @@ ReactDOM.render(
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. 
-// Learn more: https://bit.ly/CRA-vitals
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 ```
 
@@ -1172,7 +1171,7 @@ Good style:
 
 To include images and CSS, they can be imported into JavaScript files.
 ```jsx
-// App.js file
+// CRA App.js file
 
 import logo from './logo.svg';
 import './App.css';
@@ -1192,14 +1191,14 @@ Good style:
     * `className='House'` on the `House` div
     * This is then used as a prefix for sub-items to style
 
-> If we ever forget how to import CSS or images, we can always just reference the CRA App.js file.
-
 ```jsx
 <div className='House'>
   <h1 className='House-title'>{ this.props.title }</h1>
   <p className='House-address'>{ this.props.addr }</p>
 </div>
+
 ```
+> If we ever forget how to import CSS or images, we can always just reference the CRA App.js file.
 
 [⬆ Top](#table-of-contents)
 

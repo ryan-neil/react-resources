@@ -1,13 +1,25 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+	padding: 0;
+	margin: 0;
 }
+body {
+	padding: 1rem;
+	font-family: -apple-system;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	/* Lightmode */
+	/* background-color: white;
+	color: #282c34; */
+
+	/* Darkmode */
+	background-color: #282c34;
+	color: white;
+}
+.Pokecard {
+	/* Lightmode */
+	/* background-color: hsl(0, 0%, 95%);
+	border: 1px solid hsl(0, 0%, 98%); */
+
+	/* Darkmode */
+	background-color: hsl(220, 13%, 25%);
+	border: 1px solid hsl(220, 13%, 30%);
 }
