@@ -1,12 +1,12 @@
+import logo from './logo.svg';
 import './App.css';
 
-// import Pokedex from './components/Pokedex';
-import Pokegame from './components/Pokegame';
+import Rando from './Rando';
 
 function App() {
 	return (
 		<div className="App">
-			<Pokegame />
+			<Rando maxNumber={7} />
 		</div>
 	);
 }

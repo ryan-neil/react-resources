@@ -1203,6 +1203,409 @@ Good style:
 [⬆ Top](#table-of-contents)
 
 # 12. State
+  * [React State: w3schools](https://www.w3schools.com/react/react_state.asp)
+
+#### Table of Contents:
+  * [12.1 What is State?](#121-What-is-State)
+  * [12.2 Initializing State](#122-Initializing-State)
+  * [12.3 super() vs. super(props)](#123-super-vs-superprops)
+  * [12.4 Setting State](#124-Setting-State)
+  * [12.5 Click Events in React](#125-Click-Events-in-React)
+
+### 12.1 What is State?
+
+_State_ is extremely important for making any sort of interactive React application or really any application where you want something to change.
+
+This section doesn't intend on discussing everything there is to know about React _state_ but more of a low-level overview. A few things we will cover are:
+  * Understanding the concept of _state_ in web applications
+  * Learning how to model _state_ in React
+  * How we can use events to trigger _state_ changes
+
+Stepping away from React for minute, Basically any web application that we can develop; there's going to be _state_ that needs to be managed or kept track of. The _patterns_ that we use to manage these _states_ differ from framework to framework.
+
+However, the general idea behind it is the same, there's some data/information that is liable to change and we want to keep track of that somewhere. 
+
+So, for example:
+  * An app where some _logged in_ users are displayed different data/information compared to users who are _not logged in_. 
+  * An app where you can click an edit button and it opens up a pop-up, we would need to keep track of whether or not the pop-up is open or closed.
+  * Sections of a website can expand or collapse, for instance clicking a "Read more" button/link
+
+These are all dynamic elements, they don't necessarily have to deal with the server. The backend of an application doesn't care if the modal is open or closed, or if we have an accordion expanded or collapsed. 
+  
+_"The __state__ of the client interface (frontend) is not always directly tied to the __state__ on the server (backend)."_ - Colt Steele
+
+#### State Changes:
+
+State is designed to constantly change (maybe not constantly) in response to events. Let's think about an example with the game of chess: 
+  * At any point in time, the board is in a complex _state_ and we would need to keep track of this current board _state_
+    * Every new move represents a single discrete _state_ change
+    * Each time one piece moves somewhere else, at the very least, we're updating one part of the _state_
+      * One of the pieces could be 'captured' and at that point we would need to update another part of the _state_ declaring that this piece is no longer on the board
+
+#### What Does State Track?
+
+There are two types of things that _state_ on the client/frontend keeps track of:
+  1. __UI logic__ - the changing state of the interface. For example, there is a modal open right now because the user is editing their profile or maybe the accordion is expanded or closed
+  2. __Business logic__ - the changing state of data. For example, in my inbox messages are either read or unread, and this in turn affects how they display
+
+#### Ye Old Way of Handling State
+
+With libraries like JQuery or even Vanilla JavaScript, the way we kept track of state was by selecting DOM elements and seeing if they were displayed/hidden, or if they had certain styles or attributes.
+
+So, for example, if we had a form and that form had a name input we would select that input and call .value to get the current value.
+```js
+const nameInput = document.querySelector('.input-name');
+nameInput.value; // -> Peter
+```
+
+So, this is how we would figure out the current value of a piece of data on the form. In other words, we would infer the _state_ of the application from the DOM itself.
+
+Now, in React we do the exact opposite.
+
+### 12.2 Initializing State
+
+In React, _state_ is an instance attribute on a component. It's always an object (POJO), since you'll want to keep track of several key/values.
+```js
+// What is the current state of my component?
+console.log(this.state);
+
+// The console would log:
+{
+  playerName: "Whiskey",
+  score: 100
+}
+```
+
+#### Initial State
+
+To actually use our state object, we need to first start by setting an initial state. The state should be initialized as soon as the component is created.
+```jsx
+class ClickCount extends Component {
+  constructor(props) {
+    super(props);
+    // initialize state
+    this.state = {
+      numClicks: 0 // start at zero clicks
+    };
+  }
+}
+```
+
+#### React Constructor Function
+
+If the component is _stateless_, you can omit the constructor function. If you are building a component _with state_, you need a standard React constructor. Let's look at a basic structure for a classic React constructor:
+```jsx
+constructor(props) {
+  super(props);
+  this.state = {
+    // values we want to track
+  }
+}
+```
+
+The constructor takes one argument, `props`. You must call `super(props)` at the start of a constructor, which "registers" your class as a React Component.
+
+In the above example we are setting _state_ with `this.state`. It is currently an empty object but whatever key/value pairs we put in there is the initial _state_. They represent the starting values of the _state_ for this component.
+
+Now, inside of the instance methods, you can refer to `this.state` just like you did with `this.props`. Let's look at an example:
+```jsx
+// Game.js file
+
+import React, { Component } from 'react';
+
+class Game extends Component {
+  constructor(props) {
+    super(props);
+    // initialize our components state
+    this.state = {
+      score: 0,
+      gameOver: false
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Your score is: {this.state.score}</h1>
+      </div>
+    );
+  }
+}
+
+export default Game;
+```
+
+Now when we render a single `Game` component over in `App.js`:
+```jsx
+import React, { Component } from 'react';
+import Game from './Game.js';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+          <Game />
+      </div>
+    );
+  }
+}
+
+export default App;
+```
+
+We get, "Your score is: 0" rendered to the DOM. We must always set _state_ (`this.state`) up in the constructor but with `this.props` we do not need to initialize it.
+
+#### Alternate Syntax for State
+  * [How to Write Better React Components: FCC](https://www.freecodecamp.org/news/how-to-write-better-react-components/)
+
+Let's touch on the Class Properties Proposal syntax very briefly. Using class properties allows us to define properties directly inside the class.
+
+Let's put it into practice with our previous example:
+```jsx
+// old
+class Game extends Component {
+  constructor(props) {
+    super(props);
+    // initialize our components state
+    this.state = {
+      score: 0,
+      gameOver: false
+    };
+  }
+  render() {
+    return (
+      <div>
+        <h1>Your score is: {this.state.score}</h1>
+      </div>
+    );
+  }
+}
+```
+```jsx
+// new
+class Game extends Component {
+  state = {
+    score: 0,
+    gameOver: false
+  };
+  render() {
+    return (
+      <div>
+        <h1>Your score is: {this.state.score}</h1>
+      </div>
+    );
+  }
+}
+```
+
+So, with this alternate syntax:
+  * We don't need a _constructor_ anymore
+  * We don't need to tack on the _this_ in `this.state`
+  * We only need to set _state_ equal to an object with it's corresponding key/values (`state = { ... }`) directly inside the class
+
+### 12.3 super() vs. super(props)
+
+Every time we make a React component, we are _extending_ from __React Component__, the base component class. This is very important because if we don't _extend_ from __React Component__ then we would miss out on a ton of React functionality.
+
+Let's try and breakdown what's going on behind the scenes of a React Component by creating our own Component that another component, Game extends from:
+```js
+class Component {
+  constructor() {
+    console.log('Inside Component constructor!');
+  }
+}
+
+class Game extends Component {
+  constructor() {
+    // we MUST call super() to access Component logic
+    super();
+    console.log('Inside Game constructor!');
+  }
+}
+
+let funNewGame = new Game();
+// -> Inside Component constructor!
+// -> Inside Game constructor!
+```
+
+As you can see by calling `new Game()` we get the console logs of both class logged to the console. Now that we have a general understanding of `super()`, let's talk about `super(props)` and why need have to add that to our React components.
+
+Now, back to React:
+```jsx
+// App.js file
+import React, { Component } from 'react';
+import Demo from './Demo';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Demo animal="Gecko" food="Papaya" />
+      </div>
+    );
+  }
+}
+
+export default Demo;
+```
+```jsx
+// Demo.js file
+import React, { Component } from 'react';
+
+class Demo extends Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props); // -> { animal: "Gecko", food: "Papaya"
+  }
+  render() {
+    return (
+      <div>
+        <h3>
+          {this.props.animal}
+        </h3>
+        <p>
+          A {this.props.animal}'s favorite food is {this.props.food}.
+        </p>
+      </div>
+    );
+  }
+}
+
+export default Demo;
+
+// -> Gecko
+// -> A Gecko's favorite food is Papaya.
+```
+
+Inside of our `Demo` component in the above code, if we are using `this.props` in the constructor we MUST pass in `props` to our constructor() (`constructor(props)`) and super() (`super(props)`).
+
+However, if we're using props outside the constructor or only setting state (`this.state = { ... }`), we do not need to pass in `props` to the `super()`.
+```jsx
+// Demo.js file
+import React, { Component } from 'react';
+
+class Demo extends Component {
+  constructor() {
+    super();
+    console.log(this.props); // -> Error: undefined
+
+    // set state
+    this.state = {
+      color: 'green'
+    };
+  }
+  render() {
+    return (
+      <h1>
+        {this.props.animal}'s are usually {this.state.color}.
+      </h1>
+    );
+  }
+}
+
+export default Demo;
+
+// -> Gecko's are usually green.
+```
+
+As you can see, we still have access to `this.props`, just not inside of the _constructor_.
+
+### 12.4 Setting State
+
+#### Changing State
+  *[setState(): React Docs](https://reactjs.org/docs/react-component.html#setstate)
+
+In React you never want to directly manipulate the _state_. Instead we should use the _magically_ React method, `setState()`:
+```jsx
+class Game extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      score: 99,
+      gameOver: false
+    };
+
+    // bad
+    this.state.score = 0;
+
+    // better
+    this.setState({ score: 0 });
+  }
+  render() {
+    return <h1>Your score is: {this.state.score}</h1>;
+  }
+}
+
+export default Game;
+```
+
+`this.setState` is the built-in React method of changing a component's _state_. We have a couple different ways in which we can call `this.setState()`:
+
+1. We can pass in an object:
+```jsx
+this.setState({ playerName: 'Peter', score: 0 })
+```
+
+> Note: A rule of thumb is we should not be setting state inside of the constructor or render method. This is not a proper React pattern.
+
+#### What `this.setState()` does:
+  * It can be called in any instance method except for the constructor
+  * It takes an object describing the state changes
+  * It patches the state object and keys that you didn't specify don't change
+  * The state change is happening asynchronously
+    * The component state will eventually change and update
+    * React controls when the state will actually change, this is for performance reasons
+  * When a state change occurs, the component that's state changed will re-render
+
+_"Think of `setState()` as a request rather than an immediate command to update the component. For better perceived performance, React may delay it, and then update several components in a single pass. React does not guarantee that the state changes are applied immediately."_ - React Docs
+
+Let's take a look at a simple example:
+```jsx
+import Rando from './Rando';
+
+function App() {
+  return (
+    <div className="App">
+      <Rando maxNumber={7} />
+    </div>
+  );
+}
+
+export default App;
+```
+```jsx
+import React, { Component } from 'react';
+
+class Rando extends Component {
+  constructor(props) {
+    super(props);
+    // set initial state
+    this.state = { num: 0 };
+    // invoke the state change timer method
+    this.createTimer();
+  }
+  createTimer() {
+    setInterval(() => {
+      // get random number between 1 and 7 (maxNumber = 7)
+      let random = Math.floor(Math.random() * this.props.maxNumber);
+      // update our state to that random number every 1 second
+      this.setState({ num: random });
+    }, 1000);
+  }
+  render() {
+    return <h1>Your number is: {this.state.num}</h1>;
+  }
+}
+
+export default Rando;
+```
+
+Now, every one second our Rando component is being re-rendered and we can observe this by opening up the React Developer Tools and looking at our "Component" tab.
+
+### 12.5 Click Events in React
+
+
 
 [⬆ Top](#table-of-contents)
 
