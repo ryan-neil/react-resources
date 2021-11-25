@@ -56,11 +56,11 @@ React out of the box is less feature-rich than a framework like Angular. However
   * [5 Steps to THINK in React: codeSTACKr YouTube](https://www.youtube.com/watch?v=YJPSR9dEQV8)
 
 ### Table of Contents:
-  * [Step 1: Break The UI Into A Component Hierarchy](#Step-1-Break-The-UI-Into-A-Component-Hierarchy)
-  * [Step 2: Build A Static Version in React](#Step-2-Build-A-Static-Version-in-React)
-  * [Step 3: Identify The Minimal (but complete) Representation Of UI State](#Step-3-Identify-The-Minimal-but-complete-Representation-Of-UI-State)
-  * [Step 4: Identify Where Your State Should Live](#Step-4-Identify-Where-Your-State-Should-Live)
-  * [Step 5: Add Inverse Data Flow](#Step-5-Add-Inverse-Data-Flow)
+  * [Step 1:](#Step-1-Break-The-UI-Into-A-Component-Hierarchy) Break The UI Into A Component Hierarchy
+  * [Step 2:](#Step-2-Build-A-Static-Version-in-React) Build A Static Version in React
+  * [Step 3:](#Step-3-Identify-The-Minimal-but-complete-Representation-Of-UI-State) Identify The Minimal (but complete) Representation Of UI State
+  * [Step 4:](#Step-4-Identify-Where-Your-State-Should-Live) Identify Where Your State Should Live
+  * [Step 5:](#Step-5-Add-Inverse-Data-Flow) Add Inverse Data Flow
 
 ## Step 1: Break The UI Into A Component Hierarchy
 
@@ -480,11 +480,11 @@ ReactDOM.render(<App />, document.getElementById('root'));
 # 9. Properties
 
 ### Table of Contents:
-  * [9.1 What are Properties?](#91-What-are-Properties)
-  * [9.2 Props are immutable!](#92-Props-are-immutable)
-  * [9.3 Types of Props](#93-Types-of-Props)
-  * [9.4 Embedding Values as Props](#94-Embedding-Values-as-Props)
-  * [9.5 Setting Default Values for Props](#95-Setting-Default-Values-for-Props)
+  * [9.1](#91-What-are-Properties) What are Properties?
+  * [9.2](#92-Props-are-immutable) Props are immutable!
+  * [9.3](#93-Types-of-Props) Types of Props
+  * [9.4](#94-Embedding-Values-as-Props) Embedding Values as Props
+  * [9.5](#95-Setting-Default-Values-for-Props) Setting Default Values for Props
 
 ## 9.1 What are Properties?
 
@@ -789,8 +789,8 @@ Setting default props can be very useful especially for things like colors for e
   * [Styled Components Crash Course: Traversy Media](https://www.youtube.com/watch?v=02zO0hZmwnw)
 
 ### Table of Contents:
-  * [10.1 Styling Within React](#101-Styling-Within-React)
-  * [10.2 Styled Components (library)](#102-Styled-Components)
+  * [10.1](#101-Styling-Within-React) Styling Within React
+  * [10.2](#102-Styled-Components) Styled Components (library)
 
 ## 10.1 Styling Within React
 
@@ -961,7 +961,7 @@ This would work just fine as well. We can use either method, whichever you prefe
 ## 10.2 Styled Components
 
 ### Table of Contents:
-  * [10.2.1 Introduction](#1021-Introduction)
+  * [10.2.1](#1021-Introduction) Introduction
 
 ## 10.2.1 Introduction
 
@@ -971,11 +971,11 @@ This would work just fine as well. We can use either method, whichever you prefe
   * [Create React App: CRA.dev](https://create-react-app.dev/)
 
 ### Table of Contents:
-  * [11.1 Installation](#111-Installation)
-  * [11.2 Webpack](#112-Webpack)
-  * [11.3 Modules: Import and Export](#113-Modules-Import-and-Export)
-  * [11.4 Conventions](#114-Conventions)
-  * [11.5 CSS and Assets](#115-CSS-and-Assets)
+  * [11.1](#111-Installation) Installation
+  * [11.2](#112-Webpack) Webpack
+  * [11.3](#113-Modules-Import-and-Export) Modules: Import and Export
+  * [11.4](#114-Conventions) Conventions
+  * [11.5](#115-CSS-and-Assets) CSS and Assets
 
 __Create-React-App__ (CRA) is a utility script that:
   * Creates a skeleton react project with a bunch of files and folders already there for you
@@ -1231,12 +1231,12 @@ Good style:
   * [The State of State Management in React: Ben Awad](https://www.youtube.com/watch?v=BhQYZmaxTCM)
 
 ### Table of Contents:
-  * [12.1 What is State?](#121-What-is-State)
-  * [12.2 Initializing State](#122-Initializing-State)
-  * [12.3 super() vs. super(props)](#123-super-vs-superprops)
-  * [12.4 Setting State](#124-Setting-State)
-  * [12.5 Click Events in React](#125-Click-Events-in-React)
-  * [12.6 "State As Props" Design Pattern](#126-State-As-Props-Design-Pattern)
+  * [12.1](#121-What-is-State) What is State?
+  * [12.2](#122-Initializing-State) Initializing State
+  * [12.3](#123-super-vs-superprops) super() vs. super(props)
+  * [12.4](#124-Setting-State) Setting State
+  * [12.5](#125-Click-Events-in-React) Click Events in React
+  * [12.6](#126-State-As-Props-Design-Pattern) "State As Props" Design Pattern
 
 ## 12.1 What is State?
 
@@ -1767,8 +1767,8 @@ This idea is generalized in React as _"downward data flow"_. It means that __com
   * [Props vs. State: uberVU React Guide](https://github.com/uberVU/react-guide/blob/master/props-vs-state.md)
 
 ### Table of Contents:
-  * [13.1 Props](#131-Props)
-  * [13.2 State](#132-State)
+  * [13.1](#131-Props) Props
+  * [13.2](#132-State) State
 
 React shines in it's ability to manage the data and properly re-render the application when that data changes. There are two main ways in React to think about data: _State_ and _Props_. Another challenging part of React is understanding when to use _Props_ and when to use _State_ inside of an application.
 
