@@ -55,15 +55,22 @@ React out of the box is less feature-rich than a framework like Angular. However
   * [Thinking in React: React Docs](https://reactjs.org/docs/thinking-in-react.html)
   * [5 Steps to THINK in React: codeSTACKr YouTube](https://www.youtube.com/watch?v=YJPSR9dEQV8)
 
-### Step 1: Break The UI Into A Component Hierarchy
+### Table of Contents:
+  * [Step 1: Break The UI Into A Component Hierarchy](#Step-1-Break-The-UI-Into-A-Component-Hierarchy)
+  * [Step 2: Build A Static Version in React](#Step-2-Build-A-Static-Version-in-React)
+  * [Step 3: Identify The Minimal (but complete) Representation Of UI State](#Step-3-Identify-The-Minimal-but-complete-Representation-Of-UI-State)
+  * [Step 4: Identify Where Your State Should Live](#Step-4-Identify-Where-Your-State-Should-Live)
+  * [Step 5: Add Inverse Data Flow](#Step-5-Add-Inverse-Data-Flow)
 
-### Step 2: Build A Static Version in React
+## Step 1: Break The UI Into A Component Hierarchy
 
-### Step 3: Identify The Minimal (but complete) Representation Of UI State
+## Step 2: Build A Static Version in React
 
-### Step 4: Identify Where Your State Should Live
+## Step 3: Identify The Minimal (but complete) Representation Of UI State
 
-### Step 5: Add Inverse Data Flow
+## Step 4: Identify Where Your State Should Live
+
+## Step 5: Add Inverse Data Flow
 
 [⬆ Top](#table-of-contents)
 
@@ -472,14 +479,14 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 # 9. Properties
 
-#### Table of Contents:
-  * [What are Properties?](#What-are-Properties)
-  * [Props are immutable!](#Props-are-immutable)
-  * [Types of Props](#Types-of-Props)
-  * [Embedding Values as Props](#Embedding-Values-as-Props)
-  * [Setting Default Values for Props](#Setting-Default-Values-for-Props)
+### Table of Contents:
+  * [9.1 What are Properties?](#91-What-are-Properties)
+  * [9.2 Props are immutable!](#92-Props-are-immutable)
+  * [9.3 Types of Props](#93-Types-of-Props)
+  * [9.4 Embedding Values as Props](#94-Embedding-Values-as-Props)
+  * [9.5 Setting Default Values for Props](#95-Setting-Default-Values-for-Props)
 
-### What are Properties?
+## 9.1 What are Properties?
 
 _Properties_ aka. _Props_ are really important because they allow us to make our components more customizable. A useful component is a reusable one. This often times means making it configurable or customizable.
 
@@ -554,7 +561,7 @@ class Hello extends React.Component {
 // -> Hi John, from Paul
 ```
 
-#### _Side Note!_
+### _Side Note!_
 In an effort to shorten the syntax a bit, some people will create a `props` variable:
 ```jsx
 class Hello extends React.Component {
@@ -571,7 +578,7 @@ class Hello extends React.Component {
 }
 ```
 
-### Props are immutable!
+## 9.2 Props are immutable!
 
 Meaning, _props_ don't change and you can't change them. Now, this doesn't mean that the data in the application can't change or the components of the application can never be altered. This isn't true, we just don't do it through _props_.
 
@@ -590,7 +597,7 @@ class Hello extends React.Component {
 }
 ```
 
-### Types of Props
+## 9.3 Types of Props
 
 Properties can be _strings_:
 ```jsx
@@ -611,7 +618,7 @@ For all _other_ types, embed JS expression using curly braces:
 </div>
 ```
 
-### Embedding Values as Props
+## 9.4 Embedding Values as Props
 
 Let's look at another example where we call a `Movie` component in our `App` component:
 ```jsx
@@ -683,7 +690,7 @@ class Movie extends React.Component {
 }
 ```
 
-### Setting Default Values for Props
+## 9.5 Setting Default Values for Props
   * [Class Properties - defaultProps: React Docs](https://reactjs.org/docs/react-component.html#class-properties-1)
 
 Components can specify default values for missing props. Let's say we have a component and this component doesn't have any props passed in and we want to have a default value for those missing props.
@@ -779,6 +786,13 @@ Setting default props can be very useful especially for things like colors for e
 
 # 10. Styling React
   * [Styling and CSS: React Docs](https://reactjs.org/docs/faq-styling.html)
+  * [Styled Components Crash Course: Traversy Media](https://www.youtube.com/watch?v=02zO0hZmwnw)
+
+### Table of Contents:
+  * [10.1 Styling Within React](#101-Styling-Within-React)
+  * [10.2 Styled Components (library)](#102-Styled-Components)
+
+## 10.1 Styling Within React
 
 In order to style our React components we need to pass in a string as the `className` prop to those component elements. Back in our Superhero example from the previous section, let's add some styles:
 ```jsx
@@ -944,12 +958,19 @@ class Superhero extends React.Component {
 
 This would work just fine as well. We can use either method, whichever you prefer.
 
+## 10.2 Styled Components
+
+### Table of Contents:
+  * [10.2.1 Introduction](#1021-Introduction)
+
+## 10.2.1 Introduction
+
 [⬆ Top](#table-of-contents)
 
 # 11. Create React App
   * [Create React App: CRA.dev](https://create-react-app.dev/)
 
-#### Table of Contents:
+### Table of Contents:
   * [11.1 Installation](#111-Installation)
   * [11.2 Webpack](#112-Webpack)
   * [11.3 Modules: Import and Export](#113-Modules-Import-and-Export)
@@ -962,16 +983,16 @@ __Create-React-App__ (CRA) is a utility script that:
   * It allows us to use super-modern JavaScript features/idioms
   * In addition, it makes testing and deployment much easier
 
-### 11.1 Installation
+## 11.1 Installation
 
-#### Quick Start
+### Quick Start
 ```bash
 npx create-react-app my-app
 cd my-app
 npm start
 ```
 
-#### Scripts
+### Scripts
 Inside the newly created project, you can run some built-in commands:
 ```bash
 npm start
@@ -1000,7 +1021,7 @@ This will build the app for production to the build folder. It correctly bundles
 
 The build is minified and the filenames include the hashes. The app is now ready to be deployed.
 
-### 11.2 Webpack
+## 11.2 Webpack
 
 __Create React App__ is built on top of [Webpack](https://webpack.js.org/), a JavaScript utility that:
   * Enables modules to be imported and exported, basically it makes it extremely easy to reference files and assets in other files
@@ -1011,7 +1032,7 @@ __Create React App__ is built on top of [Webpack](https://webpack.js.org/), a Ja
 
 Webpack is not so beginner friendly and requires a lot of configuring and setup but out of the box React handles that for us.
 
-### 11.3 Modules: Import and Export
+## 11.3 Modules: Import and Export
   * [Importing a Component: CRA Docs](https://create-react-app.dev/docs/importing-a-component/)
 
 __Create React App__ uses ES2015 "modules". This is a newer, standardized version of Node's `require()`. We use modules to export/import classes/data/functions between JavaScript files.
@@ -1041,7 +1062,7 @@ ReactDOM.render(
 reportWebVitals();
 ```
 
-#### Simple Example:
+### Simple Example:
 
 ```bash
 ├── src
@@ -1073,7 +1094,7 @@ const helpful = () => {
 export default helpful;
 ```
 
-#### Export/Import Multiple:
+### Export/Import Multiple:
 
 From the previous example:
 
@@ -1107,7 +1128,7 @@ const filter = () => {
 export { helpful, sort, filter };
 ```
 
-#### Export/Import Default and Multiple:
+### Export/Import Default and Multiple:
 
 `index.js`: _Invoke_
 ```jsx
@@ -1136,7 +1157,7 @@ export default helpful;
 export { sort, filter };
 ```
 
-#### Export/Import Components:
+### Export/Import Components:
 
 Let's look at a very common way in which React components are imported:
 
@@ -1151,7 +1172,7 @@ This line of code is at the top of every component we write. What this code is d
 
 > You MUST export and import or else your console is going to have a bad time. It's a two-way street. Yin and Yang if you will.
 
-#### To Default or to Not Default?
+### To Default or to Not Default?
 
 Conventionally, _default_ exports are used when there's an obvious candidate, a "most likely" item to export out of that file.
 
@@ -1159,7 +1180,7 @@ When we're writing our components there's usually just one single thing we're ex
 
 For example, in a React component file, it's common to have the component be the default export. Also, you never _need_ to make a _default_ export, but it __can be helpful to indicate__ the most important item in a file.
 
-### 11.4 Conventions
+## 11.4 Conventions
 
 Good style:
   * Each React component should be in it's own file
@@ -1170,7 +1191,7 @@ Good style:
     * Export the component as the _default_ object from that file
   * CRA skeleton assumes the top object is `App` in `App.js` (best to keep this)
 
-### 11.5 CSS and Assets
+## 11.5 CSS and Assets
 
 To include images and CSS, they can be imported into JavaScript files.
 ```jsx
@@ -1183,7 +1204,7 @@ function App() {
 // ..
 ```
 
-#### CSS
+### CSS
 
 Good style:
   * make a CSS file for each React component
@@ -1209,7 +1230,7 @@ Good style:
   * [React State: w3schools](https://www.w3schools.com/react/react_state.asp)
   * [The State of State Management in React: Ben Awad](https://www.youtube.com/watch?v=BhQYZmaxTCM)
 
-#### Table of Contents:
+### Table of Contents:
   * [12.1 What is State?](#121-What-is-State)
   * [12.2 Initializing State](#122-Initializing-State)
   * [12.3 super() vs. super(props)](#123-super-vs-superprops)
@@ -1217,7 +1238,7 @@ Good style:
   * [12.5 Click Events in React](#125-Click-Events-in-React)
   * [12.6 "State As Props" Design Pattern](#126-State-As-Props-Design-Pattern)
 
-### 12.1 What is State?
+## 12.1 What is State?
 
 _State_ is extremely important for making any sort of interactive React application or really any application where you want something to change.
 
@@ -1239,7 +1260,7 @@ These are all dynamic elements, they don't necessarily have to deal with the ser
   
 _"The __state__ of the client interface (frontend) is not always directly tied to the __state__ on the server (backend)."_ - Colt Steele
 
-#### State Changes:
+### State Changes:
 
 State is designed to constantly change (maybe not constantly) in response to events. Let's think about an example with the game of chess: 
   * At any point in time, the board is in a complex _state_ and we would need to keep track of this current board _state_
@@ -1247,13 +1268,13 @@ State is designed to constantly change (maybe not constantly) in response to eve
     * Each time one piece moves somewhere else, at the very least, we're updating one part of the _state_
       * One of the pieces could be 'captured' and at that point we would need to update another part of the _state_ declaring that this piece is no longer on the board
 
-#### What Does State Track?
+### What Does State Track?
 
 There are two types of things that _state_ on the client/frontend keeps track of:
   1. __UI logic__ - the changing state of the interface. For example, there is a modal open right now because the user is editing their profile or maybe the accordion is expanded or closed
   2. __Business logic__ - the changing state of data. For example, in my inbox messages are either read or unread, and this in turn affects how they display
 
-#### Ye Old Way of Handling State
+### Ye Old Way of Handling State
 
 With libraries like JQuery or even Vanilla JavaScript, the way we kept track of state was by selecting DOM elements and seeing if they were displayed/hidden, or if they had certain styles or attributes.
 
@@ -1267,7 +1288,7 @@ So, this is how we would figure out the current value of a piece of data on the 
 
 Now, in React we do the exact opposite.
 
-### 12.2 Initializing State
+## 12.2 Initializing State
 
 In React, _state_ is an instance attribute on a component. It's always an object (POJO), since you'll want to keep track of several key/values.
 ```js
@@ -1281,7 +1302,7 @@ console.log(this.state);
 }
 ```
 
-#### Initial State
+### Initial State
 
 To actually use our state object, we need to first start by setting an initial state. The state should be initialized as soon as the component is created.
 ```jsx
@@ -1296,7 +1317,7 @@ class ClickCount extends Component {
 }
 ```
 
-#### React Constructor Function
+### React Constructor Function
 
 If the component is _stateless_, you can omit the constructor function. If you are building a component _with state_, you need a standard React constructor. Let's look at a basic structure for a classic React constructor:
 ```jsx
@@ -1360,7 +1381,7 @@ export default App;
 
 We get, "Your score is: 0" rendered to the DOM. We must always set _state_ (`this.state`) up in the constructor but with `this.props` we do not need to initialize it.
 
-#### Alternate Syntax for State
+### Alternate Syntax for State
   * [How to Write Better React Components: FCC](https://www.freecodecamp.org/news/how-to-write-better-react-components/)
 
 Let's touch on the Class Properties Proposal syntax very briefly. Using class properties allows us to define properties directly inside the class.
@@ -1408,7 +1429,7 @@ So, with this alternate syntax:
   * We don't need to tack on the _this_ in `this.state`
   * We only need to set _state_ equal to an object with it's corresponding key/values (`state = { ... }`) directly inside the class
 
-### 12.3 super() vs. super(props)
+## 12.3 super() vs. super(props)
 
 Every time we make a React component, we are _extending_ from __React Component__, the base component class. This is very important because if we don't _extend_ from __React Component__ then we would miss out on a ton of React functionality.
 
@@ -1515,9 +1536,9 @@ export default Demo;
 
 As you can see, we still have access to `this.props`, just not inside of the _constructor_.
 
-### 12.4 Setting State
+## 12.4 Setting State
 
-#### Changing State
+### Changing State
   *[setState(): React Docs](https://reactjs.org/docs/react-component.html#setstate)
 
 In React you never want to directly manipulate the _state_. Instead we should use the _magically_ React method, `setState()`:
@@ -1554,7 +1575,7 @@ this.setState({ playerName: 'Peter', score: 0 })
 
 > Note: A rule of thumb is we should not be setting state inside of the constructor or render method. This is not a proper React pattern.
 
-#### What `this.setState()` does:
+### What `this.setState()` does:
   * It can be called in any instance method except for the constructor
   * It takes an object describing the state changes
   * It patches the state object and keys that you didn't specify don't change
@@ -1608,7 +1629,7 @@ export default Rando;
 
 Now, every one second our Rando component is being re-rendered and we can observe this by opening up the React Developer Tools and looking at our "Component" tab.
 
-### 12.5 Click Events in React
+## 12.5 Click Events in React
 
 _State_ most commonly changes in direct response to some event. In React, every JSX element has built-in attributes representing every kind of browser event. They are all camel-cased (`onClick`) and they all take callback functions as event listeners.
 ```jsx
@@ -1712,7 +1733,7 @@ export default Demo;
 
 > Note: the logic used in this example is still experimental.
 
-### 12.6 "State As Props" Design Pattern
+## 12.6 "State As Props" Design Pattern
 
 __State__ and __Props__ are the two most important concept in React, with the exception of knowing what a _Component_ is.
 
@@ -1745,26 +1766,30 @@ This idea is generalized in React as _"downward data flow"_. It means that __com
   * [React State vs. Props: Web Dev Simplified](https://www.youtube.com/watch?v=IYvD9oBCuJI)
   * [Props vs. State: uberVU React Guide](https://github.com/uberVU/react-guide/blob/master/props-vs-state.md)
 
+### Table of Contents:
+  * [13.1 Props](#131-Props)
+  * [13.2 State](#132-State)
+
 React shines in it's ability to manage the data and properly re-render the application when that data changes. There are two main ways in React to think about data: _State_ and _Props_. Another challenging part of React is understanding when to use _Props_ and when to use _State_ inside of an application.
 
 _"props (short for “properties”) and state are both plain JavaScript objects. While both hold information that influences the output of render, they are different in one important way: props get passed to the component (similar to function parameters) whereas state is managed within the component (similar to variables declared within a function)."_ - React Docs
 
 Let's break this down.
 
-#### When do you use State vs. Props?
+### When do you use State vs. Props?
 
 One of the main reasons why developers get confused about when to use _state_ vs. _props_ is they don't properly think about which one is going to be handled by the component they're interacting with. 
   * If you are handling that piece of information _inside_ that component and not somewhere outside of it (like a parent component) then you would use _state_
   * If the information is being handled _outside_ the component (like in a parent component) then you would pass it in via _props_
   * If the information is static and not going to change, like for example if inside the component you will never need to update the title of that display section, you would want to use _props_ because props are for things that are going to be passed down from the parent and don't change inside the component
 
-### Props
+## 13.1 Props
 
 _props_ are a Component's configuration, its options if you may. They are received from above and __immutable__ (an object whose state cannot be modified after it is created) as far as the Component receiving them is concerned. 
 
 A Component cannot change its _props_, but it is responsible for putting together the _props_ of its child Components. We can think about _props_ as arguments to a function. When you create a component inside of React and you want to render that component, you're going to pass the _props_ you want to give to it.
 
-#### Props Example
+### Props Example
 
 Let's say we have a counter application. What you will most likely pass to that counter is going to be the initial count. To achieve this, we're going to pass the counter component it's initial count inside of the _props_.
 
@@ -1776,19 +1801,19 @@ Our application then knows if those props change at any point. So if something e
 
 _State_ on the other hand is quite different. _State_ is contained inside of a component.
 
-### State
+## 13.2 State
 
 The state starts with a default value when a Component mounts and then __suffers from mutations in time (mostly generated from user events)__. It's a snapshot of one point in time.
 
 _State_ is managed within the component (similar to variables declared within a function). _State_ in _React Component_ is its own local state, which means the state cannot be accessed and modified outside the component and can only be used inside it, kind of like a function with it's own local scope.
 
-#### State Example
+### State Example
 
 Back in our counter application, the current up-to-date count is handled inside of the _state_. So, while we pass in the initial count inside of the _props_ we're immediately setting our _state_ to that initial count. Then, inside of the component that's handling our counter we manage updating our counter to increase or decrease it depending on what the user does and we're using _state_ for this.
 
 Now, in the title and subtitle component example, this component will most likely not have any _state_ since it's only rendering some simple text and this text is never going to change.
 
-#### Do all Component's need to have state?
+### Do all Component's need to have state?
 
 _state_ is optional. Since _state_ increases complexity and reduces predictability, a Component without _state_ is preferable. Even though you clearly can't do without _state_ in an interactive app, you should avoid having too many "Stateful Components".
 
