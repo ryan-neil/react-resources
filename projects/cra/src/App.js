@@ -1,14 +1,16 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-import Rando from './Rando';
+import Demo from './Demo';
 
-function App() {
-	return (
-		<div className="App">
-			<Rando maxNumber={7} />
-		</div>
-	);
+class App extends Component {
+	render() {
+		return (
+			<div className="App">
+				<Demo />
+			</div>
+		);
+	}
 }
 
 export default App;

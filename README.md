@@ -33,10 +33,13 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   * [The Beginner's Guide to React: Kent C. Dodds](https://egghead.io/courses/the-beginner-s-guide-to-react)
   * [React JS Crash Course 2021: Traversy Media](https://www.youtube.com/watch?v=w7ejDZ8SWv8)
   * [Learn React by Building an eCommerce Site: FCC](https://www.youtube.com/watch?v=1DklrGoAxDE)
+  * [Build and Deploy a React Cryptocurrency App (Redux Toolkit): JavaScript Mastery](https://www.youtube.com/watch?v=9DDX3US3kss)
 
 # 3. What is React?
 
 Basically, React is a frontend framework/library/whatever it is, it's pretty sweet. It was created by the folks over at Meta (Facebook).
+
+  * [React in 100 Seconds: Fireship.io](https://www.youtube.com/watch?v=Tn6-PIqc4UM&t=1s)
 
 ### What does React actually do?
 
@@ -1204,6 +1207,7 @@ Good style:
 
 # 12. State
   * [React State: w3schools](https://www.w3schools.com/react/react_state.asp)
+  * [The State of State Management in React: Ben Awad](https://www.youtube.com/watch?v=BhQYZmaxTCM)
 
 #### Table of Contents:
   * [12.1 What is State?](#121-What-is-State)
@@ -1211,6 +1215,7 @@ Good style:
   * [12.3 super() vs. super(props)](#123-super-vs-superprops)
   * [12.4 Setting State](#124-Setting-State)
   * [12.5 Click Events in React](#125-Click-Events-in-React)
+  * [12.6 "State As Props" Design Pattern](#126-State-As-Props-Design-Pattern)
 
 ### 12.1 What is State?
 
@@ -1446,7 +1451,7 @@ class App extends Component {
   }
 }
 
-export default Demo;
+export default App;
 ```
 ```jsx
 // Demo.js file
@@ -1605,7 +1610,134 @@ Now, every one second our Rando component is being re-rendered and we can observ
 
 ### 12.5 Click Events in React
 
+_State_ most commonly changes in direct response to some event. In React, every JSX element has built-in attributes representing every kind of browser event. They are all camel-cased (`onClick`) and they all take callback functions as event listeners.
+```jsx
+<button onClick={ function(e) {alert('You clicked me!');} }>
+  Click me!
+</button>  
+```
 
+Typically we do not write the onClick callback function logic inline so lets see a more typical way of handling this:
+```jsx
+import React, { Component } from 'react';
+
+class Demo extends Component {
+  constructor(props) {
+    super(props);
+    // set initial state
+    this.state = { clicked: false };
+    // must bind 'this' to onClick
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  // onClick callback function logic
+  handleClick(e) {
+    // change the state to true when the button is clicked
+    this.setState({ clicked: true });
+  }
+
+  render() {
+    return (
+      <div className="Demo">
+        <h1>{this.state.clicked ? 'Clicked!!!' : 'Not clicked.'}</h1>
+        // pass in our handleClick callback remember to not invoke it [handleClick()]
+        <button onClick={this.handleClick}>Click me!</button>
+      </div>
+    );
+  }
+}
+
+export default Demo;
+```
+
+Now, as far as actually 'binding' itself, there are multiple ways we can do it. 
+  * [Passing Functions to Components: React Docs](https://reactjs.org/docs/faq-functions.html)
+
+The first method is the method we just saw, 'binding' in the _constructor_. This method is nice because it's explicit and you end up with all your bindings at the top. This way we can see all the methods that have been found.
+```jsx
+class Foo extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick() {
+    console.log('Click happened');
+  }
+  render() {
+    return <button onClick={this.handleClick}>Click Me</button>;
+  }
+}
+```
+
+Another option is to use class properties where you use the 'fat' arrow (arrow function) and this will 'bind' it for you:
+```jsx
+class Foo extends Component {
+  // Note: this syntax is experimental and not standardized yet.
+  handleClick = () => {
+    console.log('Click happened');
+  };
+  render() {
+    return <button onClick={this.handleClick}>Click Me</button>;
+  }
+}
+```
+
+Lastly, we can bind in the Render but this method is pretty ugly and ends up with a lot of cluttered code. We won't be using this method. But you can do you!
+
+We can also use a _shorter_ alternate syntax like this:
+```jsx
+import React, { Component } from 'react';
+
+class Demo extends Component {
+  // initial state can be set without 'this' (only works if we do not need props in the constructor)
+  state = { clicked: false };
+
+  // this becomes an arrow function which binds 'this'
+  handleClick = (e) => {
+    this.setState({ clicked: true });
+  };
+
+  render() {
+    return (
+      <div className="Demo">
+        <h1>{this.state.clicked ? 'Clicked!!!' : 'Not clicked.'}</h1>
+        <button onClick={this.handleClick}>Click me!</button>
+      </div>
+    );
+  }
+}
+
+export default Demo;
+```
+
+> Note: the logic used in this example is still experimental.
+
+### 12.6 "State As Props" Design Pattern
+
+__State__ and __Props__ are the two most important concept in React, with the exception of knowing what a _Component_ is.
+
+"_State_ as _Props_" is a common pattern we will see over and over again. It is a __stateful__ ("smart") parent component passing down it's _state values as props_ to __stateless__ ("dumb") child components.
+
+```jsx
+class CounterParent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 5 };
+  }
+  render() {
+    // passing down parent state as a prop to the child
+    return (
+      <div>
+        <CounterChild count={this.state.count} />
+      </div>
+    );
+  }
+}
+```
+
+In the above example, the `CounterChild` component is not 'stateful', it would just use 'props' (`this.props.count`). 
+
+This idea is generalized in React as _"downward data flow"_. It means that __components get simpler as you go down the component hierarchy__, and __parents tend to be more 'stateful' than their children__.
 
 [⬆ Top](#table-of-contents)
 
