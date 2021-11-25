@@ -56,11 +56,11 @@ React out of the box is less feature-rich than a framework like Angular. However
   * [5 Steps to THINK in React: codeSTACKr YouTube](https://www.youtube.com/watch?v=YJPSR9dEQV8)
 
 ### Table of Contents:
-  * [Step 1:](#Step-1-Break-The-UI-Into-A-Component-Hierarchy) Break The UI Into A Component Hierarchy
-  * [Step 2:](#Step-2-Build-A-Static-Version-in-React) Build A Static Version in React
-  * [Step 3:](#Step-3-Identify-The-Minimal-but-complete-Representation-Of-UI-State) Identify The Minimal (but complete) Representation Of UI State
-  * [Step 4:](#Step-4-Identify-Where-Your-State-Should-Live) Identify Where Your State Should Live
-  * [Step 5:](#Step-5-Add-Inverse-Data-Flow) Add Inverse Data Flow
+  * [Step 1:](#Step-1-Break-The-UI-Into-A-Component-Hierarchy) - Break The UI Into A Component Hierarchy
+  * [Step 2:](#Step-2-Build-A-Static-Version-in-React) - Build A Static Version in React
+  * [Step 3:](#Step-3-Identify-The-Minimal-but-complete-Representation-Of-UI-State) - Identify The Minimal (but complete) Representation Of UI State
+  * [Step 4:](#Step-4-Identify-Where-Your-State-Should-Live) - Identify Where Your State Should Live
+  * [Step 5:](#Step-5-Add-Inverse-Data-Flow) - Add Inverse Data Flow
 
 ## Step 1: Break The UI Into A Component Hierarchy
 
@@ -480,11 +480,11 @@ ReactDOM.render(<App />, document.getElementById('root'));
 # 9. Properties
 
 ### Table of Contents:
-  * [9.1](#91-What-are-Properties) What are Properties?
-  * [9.2](#92-Props-are-immutable) Props are immutable!
-  * [9.3](#93-Types-of-Props) Types of Props
-  * [9.4](#94-Embedding-Values-as-Props) Embedding Values as Props
-  * [9.5](#95-Setting-Default-Values-for-Props) Setting Default Values for Props
+  * [9.1](#91-What-are-Properties) - What are Properties?
+  * [9.2](#92-Props-are-immutable) - Props are immutable!
+  * [9.3](#93-Types-of-Props) - Types of Props
+  * [9.4](#94-Embedding-Values-as-Props) - Embedding Values as Props
+  * [9.5](#95-Setting-Default-Values-for-Props) - Setting Default Values for Props
 
 ## 9.1 What are Properties?
 
@@ -789,8 +789,8 @@ Setting default props can be very useful especially for things like colors for e
   * [Styled Components Crash Course: Traversy Media](https://www.youtube.com/watch?v=02zO0hZmwnw)
 
 ### Table of Contents:
-  * [10.1](#101-Styling-Within-React) Styling Within React
-  * [10.2](#102-Styled-Components) Styled Components (library)
+  * [10.1](#101-Styling-Within-React) - Styling Within React
+  * [10.2](#102-Styled-Components) - Styled Components (library)
 
 ## 10.1 Styling Within React
 
@@ -961,9 +961,75 @@ This would work just fine as well. We can use either method, whichever you prefe
 ## 10.2 Styled Components
 
 ### Table of Contents:
-  * [10.2.1](#1021-Introduction) Introduction
+  * [10.2.1](#1021-Installation) - Installation
+  * [10.2.2](#1022-Getting-Started) - Getting Started
+  * [10.2.3](#1223-Utilizing-Props) - Utilizing Props
 
-## 10.2.1 Introduction
+### 10.2.1 Installation
+
+```bash
+# with npm
+npm install --save styled-components
+
+# with yarn
+yarn add styled-components
+```
+
+### 10.2.2 Getting Started
+
+`styled-components` utilizes tagged template literals to style your components.
+
+It removes the mapping between components and styles. This means that when you're defining your styles, you're actually creating a normal React component, that has your styles attached to it.
+
+This example creates two simple components, a wrapper and a title, with some styles attached to it:
+```jsx
+// Create a Wrapper component that'll render a <section> tag with some styles
+const Wrapper = styled.section`
+  padding: 4em;
+  background: papayawhip;
+`;
+
+// Create a Title component that'll render an <h1> tag with some styles
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+`;
+
+// Use Title and Wrapper like any other React component – except they're styled!
+render(
+  <Wrapper>
+    <Title>
+      Hello World!
+    </Title>
+  </Wrapper>
+);
+```
+
+### 12.2.3 Utilizing Props
+
+You can pass a function ("interpolations") to a styled component's template literal to adapt it based on its props.
+
+This button component has a primary state that changes its color. When setting the `primary` prop to true, we are swapping out its background and text color.
+```jsx
+const Button = styled.button`
+  background: ${props => props.primary ? "palevioletred" : "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+  
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
+
+render(
+  <div>
+    <Button>Normal</Button>
+    <Button primary>Primary</Button>
+  </div>
+);
+```
 
 [⬆ Top](#table-of-contents)
 
@@ -971,11 +1037,11 @@ This would work just fine as well. We can use either method, whichever you prefe
   * [Create React App: CRA.dev](https://create-react-app.dev/)
 
 ### Table of Contents:
-  * [11.1](#111-Installation) Installation
-  * [11.2](#112-Webpack) Webpack
-  * [11.3](#113-Modules-Import-and-Export) Modules: Import and Export
-  * [11.4](#114-Conventions) Conventions
-  * [11.5](#115-CSS-and-Assets) CSS and Assets
+  * [11.1](#111-Installation) - Installation
+  * [11.2](#112-Webpack) - Webpack
+  * [11.3](#113-Modules-Import-and-Export) - Modules: Import and Export
+  * [11.4](#114-Conventions) - Conventions
+  * [11.5](#115-CSS-and-Assets) - CSS and Assets
 
 __Create-React-App__ (CRA) is a utility script that:
   * Creates a skeleton react project with a bunch of files and folders already there for you
@@ -1231,12 +1297,12 @@ Good style:
   * [The State of State Management in React: Ben Awad](https://www.youtube.com/watch?v=BhQYZmaxTCM)
 
 ### Table of Contents:
-  * [12.1](#121-What-is-State) What is State?
-  * [12.2](#122-Initializing-State) Initializing State
-  * [12.3](#123-super-vs-superprops) super() vs. super(props)
-  * [12.4](#124-Setting-State) Setting State
-  * [12.5](#125-Click-Events-in-React) Click Events in React
-  * [12.6](#126-State-As-Props-Design-Pattern) "State As Props" Design Pattern
+  * [12.1](#121-What-is-State) - What is State?
+  * [12.2](#122-Initializing-State) - Initializing State
+  * [12.3](#123-super-vs-superprops) - super() vs. super(props)
+  * [12.4](#124-Setting-State) - Setting State
+  * [12.5](#125-Click-Events-in-React) - Click Events in React
+  * [12.6](#126-State-As-Props-Design-Pattern) - "State As Props" Design Pattern
 
 ## 12.1 What is State?
 
@@ -1767,8 +1833,8 @@ This idea is generalized in React as _"downward data flow"_. It means that __com
   * [Props vs. State: uberVU React Guide](https://github.com/uberVU/react-guide/blob/master/props-vs-state.md)
 
 ### Table of Contents:
-  * [13.1](#131-Props) Props
-  * [13.2](#132-State) State
+  * [13.1](#131-Props) - Props
+  * [13.2](#132-State) - State
 
 React shines in it's ability to manage the data and properly re-render the application when that data changes. There are two main ways in React to think about data: _State_ and _Props_. Another challenging part of React is understanding when to use _Props_ and when to use _State_ inside of an application.
 
