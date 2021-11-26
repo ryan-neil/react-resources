@@ -1,6 +1,5 @@
-# React Resources
 <p align="center">
-  <img src="./assets/react-header.png" width="400">
+  <img src="./assets/react-header.svg" width="550">
 </p>
 
 React is a JavaScript _library_ for creating user interfaces. It was created by the folks over at Meta (Facebook).
@@ -19,6 +18,7 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   11. [Create React App](#11-Create-React-App)
   12. [State](#12-State)
   13. [State vs. Props](#13-State-vs-Props)
+  14. [React State Patterns](#14-React-State-Patterns)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -1953,6 +1953,12 @@ _state_ is optional. Since _state_ increases complexity and reduces predictabili
   2. _State_ is __handled__ _inside_ the component and can be __updated__ _inside_ the component
   3. When the _state_ of the component changes React is going to re-render that component or section of the application
   4. With _props_ you can't actually change them, they need to be changed outside of the component
+
+[⬆ Top](#table-of-contents)
+
+# 14. React State Patterns
+
+
 
 [⬆ Top](#table-of-contents)
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // Component(s)
 import RollDice from './components/RollDice';
 // Styles
-import './App.css';
+import './components/styles/App.css';
 
 class App extends Component {
 	render() {
