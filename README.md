@@ -964,6 +964,7 @@ This would work just fine as well. We can use either method, whichever you prefe
   * [10.2.1](#1021-Installation) - Installation
   * [10.2.2](#1022-Getting-Started) - Getting Started
   * [10.2.3](#1223-Utilizing-Props) - Utilizing Props
+  * [10.2.4](#1224-Icons) - Icons
 
 ### 10.2.1 Installation
 
@@ -1029,6 +1030,66 @@ render(
     <Button primary>Primary</Button>
   </div>
 );
+```
+
+### 12.2.4 Icons
+  * [Styled Components Icons Docs](https://github.com/styled-icons/styled-icons)
+
+### Installation:
+
+```bash
+npm install styled-icons --save
+# or
+yarn add styled-icons
+```
+
+### Usage:
+
+All icons are available for preview at the [Icon Explorer](https://styled-icons.dev/).
+
+The entire icon packs are available via the main import and sub-imports:
+```jsx
+import { material, octicons } from 'styled-icons'
+```
+
+You can also import just the icons you need:
+```jsx
+import React, { Fragment } from 'react'
+import { AccountCircle, Lock } from '@styled-icons/material'
+
+const App = () => (
+  <Fragment>
+    <AccountCircle />
+    <Lock />
+  </Fragment>
+)
+```
+
+All icons are exported as Styled Components, which means it is possible to utilize the Styled Components API:
+```jsx
+import styled from 'styled-components'
+import { Lock } from '@styled-icons/material'
+
+export const RedLock = styled(Lock)`
+  color: red;
+
+  font-weight: ${(props) => (props.important ? 'bold' : 'normal')};
+`
+```
+
+### Base Icon Styles
+
+If you wish to style all icons at once, you can create a wrapper styled component that imparts a particular style to all icons contained within the wrapper by targeting the StyledIconBase component:
+```jsx
+import styled from 'styled-components'
+import { StyledIconBase } from '@styled-icons/styled-icon'
+
+export const IconStyleWrapper = styled.div`
+  ${StyledIconBase} {
+    color: red;
+    /* icon styles go here */
+  }
+`
 ```
 
 [⬆ Top](#table-of-contents)
