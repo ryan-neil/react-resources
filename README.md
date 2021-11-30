@@ -478,6 +478,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 # 9. Properties
+  * [React Props: John Smilga](https://www.youtube.com/watch?v=vR1psFPE92M)
 
 ### Table of Contents:
   * [9.1](#91-What-are-Properties) - What are Properties?
@@ -790,6 +791,7 @@ Setting default props can be very useful especially for things like colors for e
 
 ### Table of Contents:
   * [10.1](#101-Styling-Within-React) - Styling Within React
+  * [10.2](#102-Material-UI) - Material UI (library)
   * [10.2](#102-Styled-Components) - Styled Components (library)
 
 ## 10.1 Styling Within React
@@ -958,15 +960,33 @@ class Superhero extends React.Component {
 
 This would work just fine as well. We can use either method, whichever you prefer.
 
-## 10.2 Styled Components
+## 10.2 Material UI
+
+### Tutorials:
+  * [Learn Material UI in One Hour: JavaScript Mastery](https://www.youtube.com/watch?v=Xoz31I1FuiY)
+  * [Material UI Tutorial: The Net Ninja](https://www.youtube.com/watch?v=0KEpWHtG10M&list=PL4cUxeGkcC9gjxLvV4VEkZ6H6H4yWuS58&index=1)
 
 ### Table of Contents:
   * [10.2.1](#1021-Installation) - Installation
-  * [10.2.2](#1022-Getting-Started) - Getting Started
-  * [10.2.3](#1223-Utilizing-Props) - Utilizing Props
-  * [10.2.4](#1224-Icons) - Icons
 
-### 10.2.1 Installation
+### Installation:
+
+
+
+[⬆ Top](#table-of-contents)
+
+## 10.3 Styled Components
+
+### Tutorials:
+  * [Learn Material UI in One Hour: JavaScript Mastery](https://www.youtube.com/watch?v=Xoz31I1FuiY)
+
+### Table of Contents:
+  * [10.3.1](#1031-Installation) - Installation
+  * [10.3.2](#1032-Getting-Started) - Getting Started
+  * [10.3.3](#1033-Utilizing-Props) - Utilizing Props
+  * [10.3.4](#1034-Icons) - Icons
+
+### 10.3.1 Installation
 
 ```bash
 # with npm
@@ -976,7 +996,7 @@ npm install --save styled-components
 yarn add styled-components
 ```
 
-### 10.2.2 Getting Started
+### 10.3.2 Getting Started
 
 `styled-components` utilizes tagged template literals to style your components.
 
@@ -1007,7 +1027,7 @@ render(
 );
 ```
 
-### 12.2.3 Utilizing Props
+### 10.3.3 Utilizing Props
 
 You can pass a function ("interpolations") to a styled component's template literal to adapt it based on its props.
 
@@ -1032,7 +1052,7 @@ render(
 );
 ```
 
-### 12.2.4 Icons
+### 10.3.4 Icons
   * [Styled Components Icons Docs](https://github.com/styled-icons/styled-icons)
 
 ### Installation:
@@ -1958,7 +1978,429 @@ _state_ is optional. Since _state_ increases complexity and reduces predictabili
 
 # 14. React State Patterns
 
+In this section we will be going over:
+  * How we can update _state_ based off of existing _state_
+  * How to properly manage _state_ updates for mutable (changing) data structures
+  * Best practices when working with _state_ and designing components
 
+### Table of Contents:
+  * [14.1](#141-Setting-State-Using-State) - Setting State Using State
+  * [14.2](#142-Abstracting-State-Updates) - Abstracting State Updates
+  * [14.3](#143-Mutating-State-the-Safe-Way) - Mutating State the Safe Way
+  * [14.4](#144-Designing) - Designing State
+  * [14.5](#145-State-EXample-Lottery) - State Example (Lottery)
+
+## 14.1 Setting State Using State
+
+It's important to remember that `setState()` is asynchronous. So, it's risky to assume the previous call has finished when you call it. Also, React will sometimes _batch_ calls to `setState` together into one for performance reasons.
+
+If a call to `setState()` depends on a _current state_, the safest thing is to use the alternate "callback form".
+```jsx
+this.setState(callback)
+```
+
+Instead of passing an object, we would pass it a callback function with the _current state_ as a _parameter_. The callback should return an object representing the _new state_.
+```jsx
+this.setState((curState) => ({ count: curState.count + 1 }))
+```
+
+Let's look at an example of this (_this example only makes sense for explaining the "callback form" of `setState`_):
+```jsx
+import React, { Component } from 'react';
+
+class ScoreKeeper extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { score: 0 };
+    this.singleKill = this.singleKill.bind(this);
+    this.tripleKill = this.tripleKill.bind(this);
+  }
+
+  // okay
+  singleKill() {
+    // works but bad practice
+    return this.setState({ score: this.state.score + 1 });
+  }
+
+  // bad
+  tripleKill() {
+    // doesn't work, React only calls the last setState call for performance reasons
+    this.setState({ score: this.state.score + 1 });
+    this.setState({ score: this.state.score + 1 });
+    this.setState({ score: this.state.score + 1 });
+  }
+
+  // better
+  tripleKill() {
+    this.setState((currState) => {
+      return { score: currState.score + 1 };
+    });
+    this.setState((currState) => {
+      return { score: currState.score + 1 };
+    });
+    this.setState((currState) => {
+      return { score: currState.score + 1 };
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Score is: {this.state.score}</h1>
+        <button onClick={this.singleKill}>Single Kill!</button>
+        <button onClick={this.tripleKill}>Triple Kill!</button>
+      </div>
+    );
+  }
+}
+
+export default ScoreKeeper;
+```
+
+## 14.2 Abstracting State Updates
+
+Since we can pass a function to `this.setState`, this lends itself nicely to a more advanced pattern called "_functional setState_", or creating our own functions to set _state_.
+
+Basically, what this means is you can define a function, like `incrementCounter` or `incrementScore` and it returns an object that represents a _state_, and then we can just call `this.setState()` and pass in that function.
+```jsx
+import React, { Component } from 'react';
+
+class ScoreKeeper extends Component {
+  constructor(props) {
+    super(props);
+    // set initial state
+    this.state = { score: 0 };
+  }
+
+  // create 'setState' helper callback function
+  incrementScore = (currState) => {
+    // return an object that updates 'score' to current score and adds 1
+    return { score: currState.score + 1 };
+	}
+
+  // good
+  singleKill = () => {
+    this.setState(this.incrementScore);
+  }
+
+  // good
+  tripleKill = () => {
+    this.setState(this.incrementScore);
+    this.setState(this.incrementScore);
+    this.setState(this.incrementScore);
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Score is: {this.state.score}</h1>
+        <button onClick={this.singleKill}>Single Kill!</button>
+        <button onClick={this.tripleKill}>Triple Kill!</button>
+      </div>
+    );
+  }
+}
+
+export default ScoreKeeper;
+```
+
+#### But why would we do this?
+  * Testing your state changes is as simple as testing a plain function:
+```jsx
+expect(incrementCounter({ count: 0 })).toEqual({ count: 1 });
+```
+  * This pattern also comes up all the time in Redux!
+
+## 14.3 Mutating State the Safe Way
+
+Until now, we've been setting _state_ to __primitives__: mainly __numbers__ and __strings__. But component _state_ also commonly includes __objects__, __arrays__, and __arrays of objects__.
+
+Let's look at an example that works but is considered bad practice:
+```jsx
+// bad
+function completeTodo(id) {
+  const theTodo = this.state.todos.find((todo) => todo.id === id);
+  theTodo.done = true;
+
+  this.setState({
+    todos: this.state.todos
+  });
+}
+```
+
+Now, let's look at an example of the correct way to update state where we make a new copy of the data structure that we're working with and we then update that copy and reset the whole thing in the state. 
+
+We can use any _pure function_ to achieve this:
+```jsx
+// good
+function completeTodo(id) {
+  // Array.prototype.map returns a new array
+  const newTodos = this.state.todos.map((todo) => {
+    if (todo.id === id) {
+      // if we find the matching todo ID we are going to return a new object
+      return { ...todo, done: true }; // make a copy of the todo with done = true
+    }
+    return todo; // old todos can pass through
+  });
+
+  this.setState({
+    todos: newTodos // set state to new array
+  });
+}
+```
+
+In the example above, we're not simply toggling the existing _state_ of the `todo` but instead, we're using the spread operator to take the existing `todo` object and copy it over to a new object. At which point we then set `done` to be `true`.
+
+So to summarize all of this, the pattern that we follow all the time in React is, we take the existing state and if we want to update a small part of it (object, array, data structure, etc.) we make a copy of it and then in that copy, make our change and then set state.
+
+Let's look at another example of this pattern:
+```jsx
+import React, { Component } from 'react';
+
+class Demo extends Component {
+  static defaultProps = {
+    options: [
+      'angry',
+      'anchor',
+      'archive',
+      'at',
+      'archway',
+      'baby',
+      'bell',
+      'bolt',
+      'bone',
+      'car',
+      'city',
+      'cloud',
+      'couch'
+    ]
+  };
+
+  constructor(props) {
+    super(props);
+    // set initial state
+    this.state = { icons: [] };
+  }
+
+  addIcon = () => {
+    // select a random index
+    let idx = Math.floor(Math.random() * this.props.options.length);
+    // use randomly selected index to access an option
+    let newIcon = this.props.options[idx];
+
+    // make new array with existing icons and add the new icon onto it
+    this.setState({
+      icons: [ ...this.state.icons, newIcon ]
+    });
+  };
+
+  render() {
+    const icons = this.state.icons.map((icon) => (
+      <i className={`fas fa-${icon}`} />
+    ));
+
+    return (
+      <div>
+        <h1>Icons: {icons}</h1>
+        <button onClick={this.addIcon}>Add New Icon</button>
+      </div>
+    );
+  }
+}
+
+export default Demo;
+```
+
+There is a slight efficiency cost due to the O(N) space/time required to make a copy, but it's almost always worth it to ensure that your app doesn't become extremely difficult to detect bugs due to mischievous side effects.
+
+Immutable State Summary:
+  * While it sounds like an oxymoron, __immutable state__ just means that there is an _old state_ and a _new state_ object that are both snapshots in time
+  * The safest way to update _state_ is to make a copy of it, and then call `this.setState` with the new copy
+  * This pattern is a _good habit_ to get into for React apps and _required_ for using Redux
+
+[⬆ Top](#table-of-contents)
+
+## 14.4 Designing State
+
+Designing the _state_ of a React application (or any modern web app) is a challenging skill. React gives us a lot of freedom and control to how we can do this.
+
+For example, a challenging aspect is figuring out what needs to be a _component_ and which _component_ manages what part of the _state_. To help us out with this, React has some fairly easy "best practices":
+  1. Minimize _State_
+  1. Downward Data Flow
+
+### Minimize State:
+
+In React, you want to try and put as little data in state as possible. As slim and compact as possible without limiting functionality.
+
+A fairly simple way we can test this is asking, "does __x__ change? If not, __x__ should not be part of _state_. __x__ should be a _prop_". We can also ask, "is __x__ already captured by some other value __y__ in _state_ or _props_? If yes, derive it from there instead".
+
+```jsx
+// bad
+this.state = {
+  firstName: 'Joseph',
+  lastName: 'Skycrest',
+  birthday: '1992-01-02T07:37:59.711Z',
+  age: 29,
+  mood: 'focused',
+  active: false
+};
+```
+```jsx
+// good
+this.props = {
+  firstName: 'Joseph',
+  lastName: 'Skycrest',
+  birthday: '1992-01-02T07:37:59.711Z',
+  age: 29, // we can derive 'age' from 'birthday' so it stays a prop
+};
+
+this.state = {
+  mood: 'focused',
+  active: false
+};
+```
+
+### Downward Data Flow:
+
+As a general rule of thumb, _state should live on the parent_. As we briefly discussed earlier, we want to support the "downward data flow" philosophy of React.
+
+In general, it makes more sense for a parent component to manage _state_ and have a bunch of "dumb" _stateless_ child components that just display the pieces that have been passed in as _props_.
+
+This makes debugging a lot easier, because the state is centralized and it's easier to predict where to find _state_:
+  * So if a current component is _stateless_, and something is displaying weird or values are not what is expected, you figure out what's 'rendering' it and there's the _state_
+  * That parent is what's managing all the _state_ for those dumb child 'display' components
+
+Let's look at a Todo example. In this example we'll have the todo list manage all the _state_:
+```jsx
+// Todo.jsx
+import React, { Component } from 'react';
+
+class Todo extends Component {
+	constructor(props) {
+		super(props);
+
+    console.log(this.state); 
+    // -> undefined
+    console.log(this.props);
+    // -> { task: "do laundry", done: false, id: 1 }
+    // -> { task: "wash car", done: true, id: 2 }
+	}
+
+	render() {
+		return <li>{this.props.task}</li>;
+	}
+}
+
+export default Todo;
+```
+```jsx
+// TodoList.jsx
+import React, { Component } from 'react';
+// import Todo component
+import Todo from './components/Todo';
+
+class TodoList extends Component {
+  constructor(props) {
+    super(props);
+    // handle state
+    this.state = {
+      todos: [
+        { task: 'do laundry', done: false, id: 1 },
+        { task: 'wash car', done: true, id: 2 }
+      ]
+    };
+  }
+
+  // other methods...
+
+  render() {
+    return <ul>{this.state.todos.map((t) => <Todo {...t} />)}</ul>;
+  }
+}
+
+export default TodoList;
+```
+
+As you can see from this simple example, `TodoList` is a smart parent with lots of methods, while the "dumb" individual `Todo` items are just `<li>` tags with some text and styling.
+
+### 14.5 State Example (Lottery)
+
+```jsx
+// LottoBall.jsx
+import React, { Component } from 'react';
+
+class LottoBall extends Component {
+  render() {
+    return <div className="LottoBall">{this.props.num}</div>;
+  }
+}
+
+export default LottoBall;
+```
+```jsx
+// Lottery.jsx
+import React, { Component } from 'react';
+import LottoBall from './components/LottoBall';
+
+class Lottery extends Component {
+  // set default props
+  static defaultProps = {
+    title: 'Lotto',
+    numBalls: 6,
+    maxNum: 40
+  };
+
+  constructor(props) {
+    super(props);
+    // set initial state
+    this.state = {
+      // create an empty array with 6 (maxBalls) possible slots
+      nums: Array.from({ length: this.props.numBalls })
+    };
+  }
+
+  generate = () => {
+    this.setState((currState) => ({
+      // set 'this.state.nums' to random number from 1 to maxNum (40)
+      nums: currState.nums.map((n) => Math.floor(Math.random() * this.props.maxNum) + 1)
+    }));
+  };
+
+  handleClick = () => {
+    this.generate();
+  };
+
+  render() {
+    // loop over nums array and create a LottoBall for each number (n), set num prop to random number from array
+    return (
+      <div className="Lottery">
+        <h2>{this.props.title}</h2>
+        <div className="Lottery-container">
+          {this.state.nums.map((n) => <LottoBall num={n} />)}
+        </div>
+        <button onClick={this.handleClick}>Generate</button>
+      </div>
+    );
+  }
+}
+
+export default Lottery;
+```
+```jsx
+// App.js
+import Lottery from './components/Lottery';
+
+function App() {
+  return (
+    <div className="App">
+      <Lottery />
+      <Lottery title="Mini Lotto" numBalls={4} maxNum={10} />
+    </div>
+  );
+}
+
+export default App;
+```
 
 [⬆ Top](#table-of-contents)
 

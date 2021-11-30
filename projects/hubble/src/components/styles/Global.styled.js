@@ -15,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
     height: 100%;
   }
   body {
-    background-color: ${({ theme }) => theme.colors.body};
+    background-color: ${(props) => props.theme.colors.body};
     font-family: Ubuntu, -apple-system;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;

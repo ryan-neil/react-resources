@@ -1,1 +1,1 @@
-[Styled Components Crash Course: TM](https://www.youtube.com/watch?v=02zO0hZmwnw&list=PLfruCl-i8oXyRY67iEnMIzwLDlQ9wD8A1&index=1&t=955s)
+[Styled Components Crash Course: TM](https://www.youtube.com/watch?v=02zO0hZmwnw&list=PLfruCl-i8oXyRY67iEnMIzwLDlQ9wD8A1&index=2&t=955s)
