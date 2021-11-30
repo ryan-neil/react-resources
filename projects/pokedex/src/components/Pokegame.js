@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../css/Pokegame.css';
+import './styles/Pokegame.css';
 
 import Pokedex from './Pokedex';
 

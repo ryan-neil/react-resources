@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../css/Pokecard.css';
+import './styles/Pokecard.css';
 
 // link for high quality poke images
 const POKE_API = `https://assets.pokemon.com/assets/cms2/img/pokedex/detail/`;

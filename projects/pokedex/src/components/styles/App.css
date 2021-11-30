@@ -23,3 +23,8 @@ body {
 	background-color: hsl(220, 13%, 25%);
 	border: 1px solid hsl(220, 13%, 30%);
 }
+
+.App {
+	min-height: 100vh;
+	padding: 0 1rem;
+}

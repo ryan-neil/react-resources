@@ -7,4 +7,4 @@ const Container = styled.div`
 	margin: 0 auto;
 `;
 
-export { Container };
+export default Container;

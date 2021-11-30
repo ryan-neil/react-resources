@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import '../css/Pokedex.css';
+import './styles/Pokedex.css';
 import Pokecard from './Pokecard';
 
 // create Pokedex component

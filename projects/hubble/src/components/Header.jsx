@@ -6,7 +6,7 @@ import {
 	Paragraph,
 	Image
 } from './styles/Header.styled';
-import { Container } from './styles/Container.styled';
+import Container from './styles/Container.styled';
 import Flex from './styles/Flex.styled';
 import Button from './styles/Button.styled';
 
@@ -32,6 +32,7 @@ function Header() {
 							Get Started For Free
 						</Button>
 					</div>
+
 					<Image
 						src="./images/illustration-mockups.svg"
 						alt="Illustration Mock Up"
