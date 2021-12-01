@@ -51,24 +51,3 @@ h6 {
 .App {
 	text-align: center;
 }
-.Lottery {
-	/* display: flex;
-	flex-direction: column;
-	gap: 1rem; */
-}
-.Lottery-container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 1rem;
-
-	margin: 1rem 0;
-}
-.LottoBall {
-	color: white;
-	background-color: tomato;
-	border-radius: 50%;
-	height: 50px;
-	width: 50px;
-	padding: 1rem;
-}

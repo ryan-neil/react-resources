@@ -1,49 +1,36 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
+import './styles/Parent.css';
 
-import LottoBall from './Child';
+import Child from './Child';
 
-class Lottery extends Component {
-	static defaultProps = {
-		title: 'Lotto',
-		numBalls: 6,
-		maxNum: 40
-	};
-
+class Parent extends Component {
 	constructor(props) {
 		super(props);
-		// console.log(this.props);
-
 		this.state = {
-			// create an empty array with 6 (maxBalls) possible slots
-			nums: Array.from({ length: this.props.numBalls })
+			nums: [ 1, 2, 3, 4, 5 ]
 		};
 	}
 
-	generate = () => {
-		this.setState((currState) => ({
-			nums: currState.nums.map(
-				(n) => Math.floor(Math.random() * this.props.maxNum) + 1
-			)
+	remove(num) {
+		this.setState((st) => ({
+			nums: st.nums.filter((n) => n !== num)
 		}));
-	};
+	}
 
-	handleClick = () => {
-		this.generate();
-	};
-
-	// loop over nums array and create a LottoBall for each number (n), set num prop to random number from array
+	// pass remove() as a prop (func) to the Child component
 	render() {
+		let nums = this.state.nums.map((n) => (
+			<Child value={n} func={() => this.remove(n)} />
+		));
+
 		return (
-			<div className="Lottery">
-				<h2>{this.props.title}</h2>
-				<div className="Lottery-container">
-					{this.state.nums.map((n) => <LottoBall num={n} />)}
-				</div>
-				<button onClick={this.handleClick}>Generate</button>
+			<div className="Parent">
+				<h1>Number List</h1>
+				<ul>{nums}</ul>
 			</div>
 		);
 	}
 }
 
-export default Lottery;
+export default Parent;

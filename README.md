@@ -19,6 +19,7 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   12. [State](#12-State)
   13. [State vs. Props](#13-State-vs-Props)
   14. [React State Patterns](#14-React-State-Patterns)
+  15. [React Events](#15-React-Events)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -49,7 +50,7 @@ At the end of the day, React apps consist of a bunch of small components that ar
 
 React out of the box is less feature-rich than a framework like Angular. However, when developers write large React apps they are usually using other React-specific tools. These are things like, React Router, Redux, etc.
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 4. Thinking in React
   * [Thinking in React: React Docs](https://reactjs.org/docs/thinking-in-react.html)
@@ -72,7 +73,7 @@ React out of the box is less feature-rich than a framework like Angular. However
 
 ## Step 5: Add Inverse Data Flow
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 5. Components
   * [Components and Props: React Docs](https://reactjs.org/docs/components-and-props.html)
@@ -118,7 +119,7 @@ function Welcome(props) {
       * Lifecycle Methods
   * With the introduction of _Hooks_, we can now write full-featured function components
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 6. JSX
   * [Introducing JSX: React Docs](https://reactjs.org/docs/introducing-jsx.html#gatsby-focus-wrapper)
@@ -319,7 +320,7 @@ class Yummy extends React.Component {
 }
 ```
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 7. Looping in JSX
 
@@ -388,7 +389,7 @@ class Friend extends React.Component {
 
 This is a very simple example, but this pattern shows up all the time. So, in other words, some _data_ `.map` and then we're mapping it to much more complex markup or other child components.
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 8. Simple React App Structure
 
@@ -783,7 +784,7 @@ We can now remove all the `organization` props from our `App` component and it w
 
 Setting default props can be very useful especially for things like colors for example. Often times we might want to have a default color set and the user can override the color by passing it in as a prop.
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 10. Styling React
   * [Styling and CSS: React Docs](https://reactjs.org/docs/faq-styling.html)
@@ -973,7 +974,7 @@ This would work just fine as well. We can use either method, whichever you prefe
 
 
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 ## 10.3 Styled Components
 
@@ -1112,7 +1113,7 @@ export const IconStyleWrapper = styled.div`
 `
 ```
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 11. Create React App
   * [Create React App: CRA.dev](https://create-react-app.dev/)
@@ -1371,7 +1372,7 @@ Good style:
 ```
 > If we ever forget how to import CSS or images, we can always just reference the CRA App.js file.
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 12. State
   * [React State: w3schools](https://www.w3schools.com/react/react_state.asp)
@@ -1907,7 +1908,7 @@ In the above example, the `CounterChild` component is not 'stateful', it would j
 
 This idea is generalized in React as _"downward data flow"_. It means that __components get simpler as you go down the component hierarchy__, and __parents tend to be more 'stateful' than their children__.
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 13. State vs. Props
   * [React State vs. Props: Web Dev Simplified](https://www.youtube.com/watch?v=IYvD9oBCuJI)
@@ -1974,7 +1975,7 @@ _state_ is optional. Since _state_ increases complexity and reduces predictabili
   3. When the _state_ of the component changes React is going to re-render that component or section of the application
   4. With _props_ you can't actually change them, they need to be changed outside of the component
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 # 14. React State Patterns
 
@@ -1988,7 +1989,7 @@ In this section we will be going over:
   * [14.2](#142-Abstracting-State-Updates) - Abstracting State Updates
   * [14.3](#143-Mutating-State-the-Safe-Way) - Mutating State the Safe Way
   * [14.4](#144-Designing) - Designing State
-  * [14.5](#145-State-EXample-Lottery) - State Example (Lottery)
+  * [14.5](#145-State-Example-Lottery) - State Example (Lottery)
 
 ## 14.1 Setting State Using State
 
@@ -2218,7 +2219,7 @@ Immutable State Summary:
   * The safest way to update _state_ is to make a copy of it, and then call `this.setState` with the new copy
   * This pattern is a _good habit_ to get into for React apps and _required_ for using Redux
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
 
 ## 14.4 Designing State
 
@@ -2323,7 +2324,7 @@ export default TodoList;
 
 As you can see from this simple example, `TodoList` is a smart parent with lots of methods, while the "dumb" individual `Todo` items are just `<li>` tags with some text and styling.
 
-### 14.5 State Example (Lottery)
+## 14.5 State Example (Lottery)
 
 ```jsx
 // LottoBall.jsx
@@ -2402,9 +2403,337 @@ function App() {
 export default App;
 ```
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)
+
+# 15. React Events
+
+### Table of Contents:
+  * [15.1](#151-Common-React-Events) - Common React Events
+  * [15.2](#152-Method-Binding) - Method Binding
+  * [15.3](#153-Method-Binding-with-Arguments) - Method Binding with Arguments
+  * [15.4](#154-Passing-Methods-to-Children) - Passing Methods to Children
+
+## 15.1 Common React Events
+  * [Supported Events: React Docs](https://reactjs.org/docs/events.html#supported-events)
+
+### Event Attributes
+
+Any event attribute we can listen to in JavaScript, we can listen in React.
+  * Mouse events: `onClick`, `onMouseOver`, etc.
+  * Form events: `onSubmit`, etc.
+  * Keyboard events: `onKeyDown`, `onKeyUp`, `onKeyPress`, etc.
+
+Form event example:
+```jsx
+function Form() {
+
+  function handleSubmit(e) {
+    e.preventDefault();    
+    console.log('You clicked submit.');
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+In this section we won't be going over every event but touching on some a few of the most commonly used events in React.
+
+## 15.2 Method Binding
+
+There are multiple ways we can go about properly binding `this` in our methods but for this section we will only discuss 3 of them:
+  1. Use 'bind' inline
+  2. Use an arrow (`=>`) function 
+  3. 'Bind' in the `constructor`
+
+### 1. Bind Inline
+
+```jsx
+<div onMouseEnter={this.handleMouseEnter.bind(this)}>
+  { some content... }
+</div>
+```
+
+#### Pros:
+  * Explicit
+  
+#### Cons:
+  * If we need to pass `this.handleMouseEnter` to multiple components, we will need to 'bind' it multiple times
+  * `bind` creates a new function, so if we're binding inside of render, we're going to be creating a lot of new functions
+
+### 2. Arrow Function Binding
+
+```jsx
+<div onMouseEnter={() => this.handleMouseEnter()}>
+  { some content... }
+</div>
+```
+
+> Note: we must invoke the function with the arrow function syntax
+
+#### Pros:
+  * No mention of `bind`
+  
+#### Cons:
+  * Intent is less clear, less explicit
+  * Similar to binding inline, what if we need to pas the function to multiple components?
+  * A new function is created on every render
+
+### 3. Binding in the Constructor
+
+```jsx
+class MouseEnter extends Component {
+  constructor(props) {
+    super(props):
+    // handle binding
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+  }
+}
+```
+
+#### Pros:
+  * We only need to `bind` one time
+  * More performant
+  
+#### Cons:
+  * Uglier, clunkier syntax
+
+### 4. Public Class Fields Syntax (Experimental)
+
+```jsx
+handleMouseEnter = () => {
+  // do something...
+}
+
+render() {
+  return (
+    <div onMouseEnter={this.handleMouseEnter}>
+      { some content... }
+    </div>
+  )
+}
+```
+
+## 15.3 Method Binding with Arguments
+
+Often times in React we need data, or arguments for our event handlers.
+
+Let's look at an example:
+```jsx
+import React, { Component } from 'react';
+
+class ColorChanger extends Component {
+  // set default props
+  static defaultProps = {
+    colors: [ '#e056fd', '#eb4d4b', '#badc58', '#f0932b' ]
+  };
+  constructor(props) {
+    super(props);
+    // set initial state
+    this.state = {
+      color: 'dodgerblue'
+    };
+  }
+
+  // changeColor is expecting to be passed a new color
+  changeColor(newColor) {
+    this.setState({ color: newColor });
+  }
+
+  // we are binding 'this' inline on the button, 'bind' receives newColor as it's 2nd argument 
+  render() {
+    return (
+      <div style={{ backgroundColor: this.state.color }}>
+        {this.props.colors.map((c) => {
+          const colorObject = { backgroundColor: c };
+          return (
+            <button style={colorObject} onClick={this.changeColor.bind(this, c)}>
+              Click me!
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+}
+
+export default ColorChanger;
+```
+
+From the above example, we can also use an arrow function to bind `this`:
+```jsx
+render() {
+    return (
+      <div style={{ backgroundColor: this.state.color }}>
+        {this.props.colors.map((c) => {
+          const colorObject = { backgroundColor: c };
+          return (
+            <button style={colorObject} onClick={() => this.changeColor(c)}>
+              Click me!
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+```
+
+However, with these methods of binding arguments we are making new functions inside of `render`. In the next section, we will explore a different pattern where we can pass a function down from a parent to a child and we wont have to `bind` in `render`.
+
+## 15.4 Passing Methods to Children
+
+Passing functions to child components is a very common pattern in React. The idea behind this is, children are often not _stateful_, but need to tell parents to change _state_. 
+
+There's usually a centralized place for a lot of the _state_ and then various children components need to 'speak up' to the parent component in order to change that part of the _state_.
+
+So, how do we send data 'back up' the chain to a parent component?
+
+### How Data Flows
+
+  * A parent component defines a function
+  * The function is passed as a _prop_ to a child component
+  * The child component then has that _prop_ and can invoke that function as a _prop_
+  * The parent function is then called, which usually sets or updates the new _state_
+  * Since this causes a change in the parent _state_, the parent component is _re-rendered_ along with it's children
+
+Let's have a look at an example of this:
+```jsx
+// Parent.jsx
+import React, { Component } from 'react';
+import Child from './Child';
+
+class Parent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { nums: [ 1, 2, 3, 4, 5 ] };
+  }
+
+  // function to be passed to Child component
+  remove(num) {
+    this.setState((st) => ({
+      nums: st.nums.filter((n) => n !== num)
+    }));
+  }
+
+  // pass remove() as a prop (func) to the Child component (bind with arrow function)
+  render() {
+    let nums = this.state.nums.map((n) => (
+      <Child value={n} func={() => this.remove(n)} />
+    ));
+
+    return (
+      <div>
+        <h1>Number List</h1>
+        <ul>{nums}</ul>
+      </div>
+    );
+  }
+}
+
+export default Parent;
+```
+```jsx
+// Child.jsx
+import React, { Component } from 'react';
+
+class Child extends Component {
+  // we can access our Parent function with 'this.props.func'
+  render() {
+    return (
+      <li>
+        {this.props.value}
+        <button onClick={this.props.func}>X</button>
+      </li>
+    );
+  }
+}
+
+export default Child;
+```
+
+Again, since we are 'binding' `this` inline inside our `render` we're making a bunch of new functions every time React calls `render`. 
+
+So this poses the question, is there a better way where we can use a single bound function so we don't have to continually `bind` over and over?
+
+Well...Yes! Let's have a look.
+
+```jsx
+// Parent.jsx
+import React, { Component } from 'react';
+import Child from './Child';
+
+class Parent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { nums: [ 1, 2, 3, 4, 5 ] };
+    // bind this to remove inside the constructor
+    this.remove = this.remove.bind(this);
+  }
+
+  remove(num) {
+    this.setState((st) => ({
+      nums: st.nums.filter((n) => n !== num)
+    }));
+  }
+
+  // we can lose the arrow function and just call the function (this.remove)
+  render() {
+    let nums = this.state.nums.map((n) => (
+      <Child value={n} func={this.remove} />
+    ));
+
+    return (
+      <div>
+        <h1>Number List</h1>
+        <ul>{nums}</ul>
+      </div>
+    );
+  }
+}
+
+export default Parent;
+```
+```jsx
+// Child.jsx
+import React, { Component } from 'react';
+
+class Child extends Component {
+  constructor(props) {
+    super(props);
+    // bind this to handleRemove function
+    this.handleRemove = this.handleRemove.bind(this);
+  }
+  // we call our parent function from inside this function and pass it the value prop from the parent
+  handleRemove() {
+    this.props.remove(this.props.value)
+  }
+
+  // call our handleRemove helper function
+  render() {
+    return (
+      <li>
+        {this.props.value}
+        <button onClick={this.handleRemove}>X</button>
+      </li>
+    );
+  }
+}
+
+export default Child;
+```
+
+So as you can see in the above example, instead of directly calling `remove` on click, we're calling our helper function (`handleRemove`) we created to handle the `remove` function from our `Parent` component.
+
+Inside of `handleRemove` we are manually calling `this.props.remove` and passing in the `value`. This `value` will change depending on what was passed in to the `Child` component inside the `Parent` component.
+
+So each `Child` component will have a different `value` _prop_ and therefore, will call `handleRemove` differently.
+
+[⬆ Top](#Table-of-Contents)
 
 # Contributing
 Contributions are always welcome! All I ask is that you open an issue and we discuss your proposed changes before you create a pull request.
 
-[⬆ Top](#table-of-contents)
+[⬆ Top](#Table-of-Contents)

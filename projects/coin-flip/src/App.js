@@ -1,10 +1,10 @@
-import Parent from './components/Parent';
+import CoinFlip from './components/CoinFlip';
 import './App.css';
 
 function App() {
 	return (
 		<div className="App">
-			<Parent />
+			<CoinFlip />
 		</div>
 	);
 }
