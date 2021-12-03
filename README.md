@@ -20,6 +20,7 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   13. [State vs. Props](#13-State-vs-Props)
   14. [React State Patterns](#14-React-State-Patterns)
   15. [React Events](#15-React-Events)
+  16. [List and Keys](#16-List-and-Keys)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -2412,6 +2413,7 @@ export default App;
   * [15.2](#152-Method-Binding) - Method Binding
   * [15.3](#153-Method-Binding-with-Arguments) - Method Binding with Arguments
   * [15.4](#154-Passing-Methods-to-Children) - Passing Methods to Children
+  * [15.5](#155-Naming-Conventions) - Naming Conventions
 
 ## 15.1 Common React Events
   * [Supported Events: React Docs](https://reactjs.org/docs/events.html#supported-events)
@@ -2540,7 +2542,9 @@ class ColorChanger extends Component {
 
   // changeColor is expecting to be passed a new color
   changeColor(newColor) {
-    this.setState({ color: newColor });
+    this.setState({ 
+      color: newColor 
+    });
   }
 
   // we are binding 'this' inline on the button, 'bind' receives newColor as it's 2nd argument 
@@ -2608,7 +2612,9 @@ import Child from './Child';
 class Parent extends Component {
   constructor(props) {
     super(props);
-    this.state = { nums: [ 1, 2, 3, 4, 5 ] };
+    this.state = { 
+      nums: [ 1, 2, 3, 4, 5 ] 
+    };
   }
 
   // function to be passed to Child component
@@ -2668,7 +2674,9 @@ import Child from './Child';
 class Parent extends Component {
   constructor(props) {
     super(props);
-    this.state = { nums: [ 1, 2, 3, 4, 5 ] };
+    this.state = { 
+      nums: [ 1, 2, 3, 4, 5 ] 
+    };
     // bind this to remove inside the constructor
     this.remove = this.remove.bind(this);
   }
@@ -2703,9 +2711,10 @@ import React, { Component } from 'react';
 class Child extends Component {
   constructor(props) {
     super(props);
-    // bind this to handleRemove function
+    // bind 'this' to 'handleRemove'
     this.handleRemove = this.handleRemove.bind(this);
   }
+
   // we call our parent function from inside this function and pass it the value prop from the parent
   handleRemove() {
     this.props.remove(this.props.value)
@@ -2725,11 +2734,209 @@ class Child extends Component {
 export default Child;
 ```
 
-So as you can see in the above example, instead of directly calling `remove` on click, we're calling our helper function (`handleRemove`) we created to handle the `remove` function from our `Parent` component.
+So as you can see in the above example, instead of directly calling `remove` on click, we're calling our helper function (`handleRemove`).
 
 Inside of `handleRemove` we are manually calling `this.props.remove` and passing in the `value`. This `value` will change depending on what was passed in to the `Child` component inside the `Parent` component.
 
 So each `Child` component will have a different `value` _prop_ and therefore, will call `handleRemove` differently.
+
+So, to wrap up:
+
+### Where to bind?
+  * The higher the better - don't _bind_ in the child component if not needed
+  * If you need an _argument_ or _parameter_, pass it down to the child as a _prop_, then _bind_ in the parent and in the child
+  * Avoid inline arrow functions / _binding_ inside of `render` if possible
+  * There's no need to bind in the constructor __and__ make an inline function, choose one
+  * If you get stuck, don't worry about performance, just try and get the communication working
+    * If we can get the components to talk to one another, children talking to the parent (talking meaning, affecting the _state_ in the parent) causing a re-render, that's all that really matters
+    * We can always refactor later
+
+## 15.5 Naming Conventions
+
+When it comes to a parent-child relationship and we're passing down a function from the parent to a child and then calling it from inside the child, instead of its own event handler, there's a lot of possibilities or options for how you name things.
+
+In general, we can call these handlers whatever we want, React doesn't care. But, for consistency, try to follow the `action`/`handleAction` pattern.
+
+So, in the parent we have some 'action', like `remove`, `add`, etc. being passed down as a _prop_ and then inside of the child component we would have a 'handle action', like `handleRemove`, `handleAdd`, etc.
+
+In the `Parent` component:
+```jsx
+// Parent.jsx
+import React, { Component } from 'react';
+import Child from './Child';
+
+class Parent extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  alert() {
+    alert('Hello from the parent!');
+  }
+
+  render() {
+    return <Child func={this.alert} />;
+  }
+}
+
+export default Parent;
+```
+
+In the `Child` component:
+```jsx
+// Child.jsx
+import React, { Component } from 'react';
+
+class Child extends Component {
+  constructor(props) {
+    super(props);
+    this.handleAlert = this.handleAlert.bind(this);
+  }
+
+  handleAlert() {
+    this.props.alert();
+  }
+
+  render() {
+    return <button onClick={this.props.func}>Click me!</button>;
+  }
+}
+
+export default Child;
+```
+
+[⬆ Top](#Table-of-Contents)
+
+# 16. List and Keys
+
+When mapping over data and returning components, you get a warning about keys for list items. The __key__ is a special _string_ attribute to include when creating lists of elements.
+
+  * [Lists and Keys: React Docs](https://reactjs.org/docs/lists-and-keys.html#keys)
+
+Keys help React identify which items have changed, are added, or are removed. Keys should be given to the elements inside the array to give the elements a stable identity:
+```jsx
+const numbers = [1, 2, 3, 4, 5];
+
+const listItems = numbers.map((num) =>
+  <li key={num.toString()}>    
+    {num}
+  </li>
+);
+```
+
+The best way to pick a _key_ is to use a string that uniquely identifies a list item among its siblings. Most often you would use _IDs_ from your data as keys:
+```jsx
+const todo = [
+  { task: 'wash dished', id: 1 }, { task: 'walk dog', id: 2 }, { task: 'vacuum room', id: 3 },
+]
+
+const todoItems = todos.map((todo) =>
+  <li key={todo.id}>    
+    {todo.task}
+  </li>
+);
+```
+
+When you don’t have stable _IDs_ for rendered items, you may use the item _index_ as a key as a last resort:
+```jsx
+const todos = ['wash dishes', 'walk dog', 'vacuum room']
+
+const todoItems = todos.map((todo, index) =>
+  // Only do this if items have no stable IDs  
+  <li key={index}>    
+    {todo.text}
+  </li>
+);
+```
+
+We don’t recommend using indexes for keys if the order of items may change. This can negatively impact performance and may cause issues with component state.
+
+### Best Case Scenario (we have stable IDs)
+
+Let's create a `TodoList` component:
+```jsx
+import React, { Component } from 'react';
+
+class TodoList extends Component {
+  static defaultProps = {
+    todos: [
+      { task: 'wash dishes', id: 1 },
+      { task: 'walk dog', id: 2 },
+      { task: 'vacuum room', id: 3 }
+    ]
+  };
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <ul>
+        {this.props.todos.map((t) => 
+          <li key={t.id}>
+            {t.task}
+          </li>)
+        }
+      </ul>
+    );
+  }
+}
+
+export default TodoList;
+```
+
+Let's refactor our render method from the above example:
+```jsx
+render() {
+  const lis = this.props.todos.map((t) => <li key={t.id}>{t.task}</li>);
+
+  return <ul>{lis}</ul>;
+}
+```
+
+### Last Resort Scenario (we don't have stable IDs)
+
+When we don't have stable IDs for rendered items, you may use the iteration index as a key as a last resort.
+
+Continuing with our `TodoList` component example:
+```jsx
+import React, { Component } from 'react';
+
+class TodoList extends Component {
+	static defaultProps = {
+		todos: [
+			{ task: 'wash dishes' },
+			{ task: 'walk dog' },
+			{ task: 'vacuum room' }
+		]
+	};
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+		const lis = this.props.todos.map((t, idx) => (
+			<li key={idx}>
+        {t.task}
+      </li>
+		));
+
+		return <ul>{lis}</ul>;
+	}
+}
+
+export default TodoList;
+```
+
+This method works if our data is never going to change. So, if items need to be re-ordered or removed, then you should not use the index method.
+
+> Note: We can use external libraries that will help you make short, unique identifiers (shortid, uuid, etc.).
+
+[⬆ Top](#Table-of-Contents)
+
+# 17. Section
+
+
 
 [⬆ Top](#Table-of-Contents)
 

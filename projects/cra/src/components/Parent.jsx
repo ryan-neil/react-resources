@@ -5,31 +5,24 @@ import './styles/Parent.css';
 import Child from './Child';
 
 class Parent extends Component {
+	static defaultProps = {
+		todos: [
+			{ task: 'wash dishes' },
+			{ task: 'walk dog' },
+			{ task: 'vacuum room' }
+		]
+	};
+
 	constructor(props) {
 		super(props);
-		this.state = {
-			nums: [ 1, 2, 3, 4, 5 ]
-		};
+		console.log(this.props.todos);
 	}
 
-	remove(num) {
-		this.setState((st) => ({
-			nums: st.nums.filter((n) => n !== num)
-		}));
-	}
-
-	// pass remove() as a prop (func) to the Child component
 	render() {
-		let nums = this.state.nums.map((n) => (
-			<Child value={n} func={() => this.remove(n)} />
+		const lis = this.props.todos.map((t, idx) => (
+			<li key={idx}>{t.task}</li>
 		));
-
-		return (
-			<div className="Parent">
-				<h1>Number List</h1>
-				<ul>{nums}</ul>
-			</div>
-		);
+		return <ul>{lis}</ul>;
 	}
 }
 

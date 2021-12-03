@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import './styles/Child.css';
 
 class Child extends Component {
+	constructor(props) {
+		super(props);
+		this.handleAlert = this.handleAlert.bind(this);
+	}
+
+	handleAlert() {
+		this.props.alert();
+	}
+
 	render() {
-		return (
-			<div className="Child">
-				<li>
-					{this.props.value}
-					<button onClick={this.props.func}>X</button>
-				</li>
-			</div>
-		);
+		return <button onClick={this.props.func}>Click me!</button>;
 	}
 }
 
