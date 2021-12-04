@@ -21,6 +21,7 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   14. [React State Patterns](#14-React-State-Patterns)
   15. [React Events](#15-React-Events)
   16. [List and Keys](#16-List-and-Keys)
+  17. [React Forms](#17-React-Forms)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -793,8 +794,8 @@ Setting default props can be very useful especially for things like colors for e
 
 ### Table of Contents:
   * [10.1](#101-Styling-Within-React) - Styling Within React
-  * [10.2](#102-Material-UI) - Material UI (library)
   * [10.2](#102-Styled-Components) - Styled Components (library)
+  * [10.3](#103-Material-UI) - Material UI (library)
 
 ## 10.1 Styling Within React
 
@@ -962,33 +963,19 @@ class Superhero extends React.Component {
 
 This would work just fine as well. We can use either method, whichever you prefer.
 
-## 10.2 Material UI
+## 10.2 Styled Components
 
 ### Tutorials:
-  * [Learn Material UI in One Hour: JavaScript Mastery](https://www.youtube.com/watch?v=Xoz31I1FuiY)
-  * [Material UI Tutorial: The Net Ninja](https://www.youtube.com/watch?v=0KEpWHtG10M&list=PL4cUxeGkcC9gjxLvV4VEkZ6H6H4yWuS58&index=1)
-
-### Table of Contents:
-  * [10.2.1](#1021-Installation) - Installation
-
-### Installation:
-
-
-
-[⬆ Top](#Table-of-Contents)
-
-## 10.3 Styled Components
-
-### Tutorials:
+  * [Styled Components Docs](https://styled-components.com/docs)
   * [Learn Material UI in One Hour: JavaScript Mastery](https://www.youtube.com/watch?v=Xoz31I1FuiY)
 
 ### Table of Contents:
-  * [10.3.1](#1031-Installation) - Installation
-  * [10.3.2](#1032-Getting-Started) - Getting Started
-  * [10.3.3](#1033-Utilizing-Props) - Utilizing Props
-  * [10.3.4](#1034-Icons) - Icons
+  * [10.2.1](#1031-Installation) - Installation
+  * [10.2.2](#1032-Getting-Started) - Getting Started
+  * [10.2.3](#1033-Utilizing-Props) - Utilizing Props
+  * [10.2.4](#1034-Icons) - Icons
 
-### 10.3.1 Installation
+### 10.2.1 Installation
 
 ```bash
 # with npm
@@ -998,7 +985,7 @@ npm install --save styled-components
 yarn add styled-components
 ```
 
-### 10.3.2 Getting Started
+### 10.2.2 Getting Started
 
 `styled-components` utilizes tagged template literals to style your components.
 
@@ -1029,7 +1016,7 @@ render(
 );
 ```
 
-### 10.3.3 Utilizing Props
+### 10.2.3 Utilizing Props
 
 You can pass a function ("interpolations") to a styled component's template literal to adapt it based on its props.
 
@@ -1054,7 +1041,7 @@ render(
 );
 ```
 
-### 10.3.4 Icons
+### 10.2.4 Icons
   * [Styled Components Icons Docs](https://github.com/styled-icons/styled-icons)
 
 ### Installation:
@@ -1113,6 +1100,18 @@ export const IconStyleWrapper = styled.div`
   }
 `
 ```
+
+## 10.3 Material UI
+
+### Tutorials:
+  * [Learn Material UI in One Hour: JavaScript Mastery](https://www.youtube.com/watch?v=Xoz31I1FuiY)
+  * [Material UI Tutorial: The Net Ninja](https://www.youtube.com/watch?v=0KEpWHtG10M&list=PL4cUxeGkcC9gjxLvV4VEkZ6H6H4yWuS58&index=1)
+
+### Table of Contents:
+  * [10.3.1](#1021-Installation) - Installation
+
+### 10.3.1 Installation:
+
 
 [⬆ Top](#Table-of-Contents)
 
@@ -2934,7 +2933,7 @@ This method works if our data is never going to change. So, if items need to be 
 
 [⬆ Top](#Table-of-Contents)
 
-# 17. Section
+# 17. React Forms
 
 
 
