@@ -65,48 +65,7 @@ export const DarkTheme = {
 	}
 };
 
-export const themes = {
+export const mode = {
 	light: LightTheme,
 	dark: DarkTheme
 };
-
-// OLD
-// const Theme = {
-// 	colors: {
-// 		primary: '#19A0F6',
-// 		primaryLight: 'rgba(25, 160, 246, 0.1)',
-// 		secondary: '#db757f',
-// 		primaryBG: '#ffffff',
-// 		secondaryBG: '#343a46',
-// 		heading: '#23272f',
-// 		paragraph: '#ebecf0',
-// 		border: '#444c56',
-// 		// misc
-// 		tertiary: '#FFAD42',
-// 		green: '#45fa39',
-// 		orange: '#f0883e',
-// 		red: '#da3633',
-// 		pink: '#d961a1',
-// 		violet: '#8957e5',
-// 		blue: '#378afc'
-// 	},
-// 	colorsDark: {
-// 		primary: '#19A0F6',
-// 		primaryLight: 'rgba(25, 160, 246, 0.1)',
-// 		secondary: '#dd6571',
-// 		primaryBG: '#23272f',
-// 		secondaryBG: '#343a46',
-// 		heading: '#f6f7f9',
-// 		paragraph: '#404756',
-// 		paragraphLight: '#99A1B3',
-// 		border: '#f5f5f5'
-// 	},
-// 	web: {
-// 		width: '1275px'
-// 	},
-// 	mobile: {
-// 		width: '768px'
-// 	}
-// };
-
-// export default Theme;

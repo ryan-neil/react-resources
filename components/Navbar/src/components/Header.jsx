@@ -4,6 +4,7 @@ import {
 	Img,
 	H1,
 	Tag,
+	LogoContainer,
 	SearchContainer,
 	InputSearchIcon,
 	Input,
@@ -33,11 +34,11 @@ function Header(props) {
 			<Container>
 				<Nav>
 					{/* Logo */}
-					<Flex>
+					<LogoContainer>
 						<Img src="./logo.svg" />
 						<H1>GoSurf</H1>
 						<Tag>Beta</Tag>
-					</Flex>
+					</LogoContainer>
 					{/* SearchBar */}
 					<SearchContainer>
 						<InputSearchIcon />

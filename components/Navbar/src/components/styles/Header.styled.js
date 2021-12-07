@@ -18,6 +18,11 @@ export const Nav = styled.nav`
 
 // Header Left
 // Logo
+export const LogoContainer = styled.div`
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+`;
 export const Img = styled.img`
 	height: 36px;
 	width: 36px;
@@ -33,7 +38,7 @@ export const Tag = styled.p`
 	color: ${(props) => props.theme.colors.primary};
 	background-color: ${(props) => props.theme.colors.primaryLight};
 
-	font-size: 0.8rem;
+	font-size: 0.7rem;
 	padding: 0 .25rem;
 	letter-spacing: .025em;
 	border-radius: .25rem;
