@@ -10,18 +10,15 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   3. [What is React?](#3-What-is-React)
   4. [JSX](#4-JSX)
   5. [Components](#5-Components)
-      * [5.1](#51-Class-Components) - Class Components
-      * [5.2](#52-Functional-Components) - Functional Components
+      * 5.1 - [Class Components](#51-Class-Components)
+      * 5.2 - [Functional Components](#52-Functional-Components)
   6. [Applying Styles](#6-Applying-Styles)
-      * [6.1](#61-Styling-within-React) - Styling within React
-      * [6.2](#62-Styled-Components) - Styled Components
+      * 6.1 - [Styling within React](#61-Styling-within-React)
+      * 6.2 - [Styled Components](#62-Styled-Components)
   7. [React Events](#7-React-Events)
   8. [State](#8-State)
-      * [8.1](#81-useState-Hook) - useState Hook
+      * 8.1 - [useState Hook](#81-useState-Hook)
 
-Keyboard shortcuts (MacOS):
-__Fold All__ folds in editor - Command + (K => 0)
-__Unfold All__ folds in editor - Command + (K => J)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -29,6 +26,10 @@ __Unfold All__ folds in editor - Command + (K => J)
   * [Structuring a React App: React Docs](https://reactjs.org/docs/faq-structure.html)
   * [Bulletproof React: Github Repo](https://github.com/alan2207/bulletproof-react)
   * [React Cheat sheet (Updated June 2021)](https://dev.to/ericchapman/react-cheat-sheet-updated-may-2021-1mcd)
+
+### Keyboard shortcuts (MacOS): \
+__Fold All__ folds in editor - Command + (K => 0) \
+__Unfold All__ folds in editor - Command + (K => J)
 
 # 2. Tutorials
   * [The Modern React Bootcamp: Colt Steele](https://www.udemy.com/course/modern-react-bootcamp/learn/lecture/14638530?start=0#overview)
@@ -344,7 +345,7 @@ const Footer = () => {
 export default Footer;
 ```
 
-Now over inside of App.js we will structure our application by importing all of our components:
+Now over inside of `App.js` we will structure our application by importing all of our components:
 ```jsx
 // App.js
 import Header from './components/Header';
@@ -523,10 +524,10 @@ It also removes the mapping between components and styles – using components a
   * [Styled Components Crash Course: Traversy Media](https://www.youtube.com/watch?v=02zO0hZmwnw)
 
 ### Table of Contents:
-  * [6.2.1](#621-Installation) - Installation
-  * [6.2.2](#622-Getting-Started) - Getting Started
-  * [6.2.3](#623-Utilizing-Props) - Utilizing Props
-  * [6.2.4](#624-Icons) - Icons
+  * 6.2.1 - [Installation](#621-Installation)
+  * 6.2.2 - [Getting Started](#622-Getting-Started)
+  * 6.2.3 - [Utilizing Props](#623-Utilizing-Props)
+  * 6.2.4 - [Icons](#624-Icons)
 
 ### 6.2.1 Installation
 
@@ -774,6 +775,7 @@ The React `useState` Hook allows us to track state in a function component. Stat
 
 The `useState` Hook can be used to keep track of strings, numbers, booleans, arrays, objects, and any combination of these.
 
+Let's look at an example:
 ```jsx
 // import useState
 import { useState } from 'react';
@@ -794,15 +796,15 @@ export default Main;
 // -> Hello, Katie!
 ```
 
-Notice that we are destructuring the returned values from `useState`. The first value, `name`, is our current _state_ (`Katie`). The second value, `setName` is the function that is used to update our _state_.
+Notice that we are destructuring the returned values from `useState`. The first value, `name`, is our current _state_. The second value, `setName` is the function that is used to update our _state_.
 
 > Note: These names are variables that can be named anything we want.
 
-Lastly, we set the initial state to the string: `'Katie'`.
+Lastly, we set the initial state (`name`) to the string: `'Katie'`.
 
 ### Updating State
 
-Again, from our previous example, we are relying on `handleNameChange` to update our state. 
+From the previous example, we are relying on `handleNameChange` to update our state. 
 
 Inside `handleNameChange` we are calling our state updater function, `setName` and passing in the logic to generate a random name:
 ```jsx
@@ -812,11 +814,10 @@ const Main = () => {
   const [ name, setName ] = useState('Katie');
 
   const handleNameChange = () => {
-  const names = [ 'Katie', 'Ryan', 'John' ];
-
-  // call state updater method
-  setName(names[Math.floor(Math.random() * names.length)]);
-};
+    const names = [ 'Katie', 'Ryan', 'John' ];
+    // call state updater method
+    setName(names[Math.floor(Math.random() * names.length)]);
+  };
 
   return (
     <main>
@@ -858,7 +859,10 @@ In other words we can add as many `setCount()`'s as we want but if we log to the
 
 > Note: we use `const` to initialize useState because we never want to allow the state to be changed directly.
 
-As far as naming our `useState` variables, convention is to name them what you're holding (describe the data) and then in the method it almost always starts with a lowercase 'set' and then the name of the first value.
+As far as naming our `useState` variables, the general convention is to name them what you're holding (describe the data) and then in the method it almost always starts with a lowercase 'set' and then the name of the first value.
+```jsx
+const [ count, setCount ] = useState(0);
+```
 
 ### Using Multiple State Hooks
 
@@ -910,9 +914,9 @@ export default Car;
 
 ### Updating Objects and Arrays in State
 
-When state is updated, the entire state gets overwritten. Well, what if we only want to update the color of our car?
+When state is updated, the entire state gets overwritten. Well, what if we just want to update the _color_ of our car?
 
-If we only called `setCar({color: "blue"})`, this would remove the brand, model, and year from our state. To help us out with this, we can use the JavaScript spread operator:
+If we only called `setCar({color: "blue"})`, this would remove the brand, model, and year from our state. So, to help us out with this, we can use the JavaScript spread operator:
 ```jsx
 function Car() {
   const [ car, setCar ] = useState({
