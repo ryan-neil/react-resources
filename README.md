@@ -15,9 +15,10 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   6. [Applying Styles](#6-Applying-Styles)
       * 6.1 - [Styling within React](#61-Styling-within-React)
       * 6.2 - [Styled Components](#62-Styled-Components)
-  7. [React Events](#7-React-Events)
+  7. [Events](#7-Events)
   8. [State](#8-State)
       * 8.1 - [useState Hook](#81-useState-Hook)
+  9. [Lists & Keys](#9-Lists-&-Keys)
 
 
 # 1. Resources
@@ -258,6 +259,7 @@ function Yummy() {
 
 # 5. Components
   * [Components and Props: React Docs](https://reactjs.org/docs/components-and-props.html)
+  * [Keeping Components Pure: React Docs](https://beta.reactjs.org/learn/keeping-components-pure)
 
 Components are the building blocks of React. React quite literally exists to help you create components and then have those components communicate (pass data, pass information, methods, etc.) between one another.
 
@@ -657,7 +659,7 @@ export const IconStyleWrapper = styled.div`
 
 [⬆ Top](#Table-of-Contents)
 
-# 7 React Events
+# 7 Events
   * [Supported Events: React Docs](https://reactjs.org/docs/events.html#supported-events)
 
 Just like HTML DOM events, React can perform actions based on user events. React has the same events as HTML: `click`, `change`, `mouseover` etc.
@@ -945,6 +947,221 @@ function Car() {
 Because we need the current value of state, we pass a function into our `setCar` function. This function receives the previous value.
 
 We then return an object, spreading the `previousState` and overwriting only the color.
+
+[⬆ Top](#Table-of-Contents)
+
+# 9. Lists & Keys
+  * [Lists and Keys: React Docs](https://reactjs.org/docs/lists-and-keys.html)
+
+In React we are able to __transform__ arrays into _lists_ of [elements](https://reactjs.org/docs/rendering-elements.html). We are then able to __build__ _collections_ of elements to include in JSX with curly braces (`{}`).
+
+## Lists
+
+Let's explore how we can transform arrays by creating a little `TodoList` component:
+```jsx
+// TodoList.jsx
+import { useState } from 'react';
+
+// data
+const tasks = [
+  {
+    id: 1,
+    checked: false,
+    task: 'Wash dishes'
+  },
+  {
+    id: 2,
+    checked: true,
+    task: 'Vacuum bedroom'
+  },
+  {
+    id: 3,
+    checked: true,
+    task: 'Call mom'
+  }
+];
+
+const ToDoList = () => {
+  // set initial state to our app data
+  const [items, setItems] = useState(tasks);
+
+  // create task elements
+  const lis = items.map((i) => {
+    return (
+      <li>{i.task}</li>
+		);
+  })
+
+  // render tasks
+  return (
+    <div>
+      <ul>
+        {lis}
+      </ul>
+    </div>
+  )
+}
+
+export default TodoList;
+```
+
+### Refactor with 'props'
+
+Let's refactor the `TodoList` component so that it can accept an _array_ of tasks and output a list of elements:
+```jsx
+// TodoList.jsx
+const TodoList = (props) => {
+
+  const lis = props.tasks.map((t) => {
+    return (
+      <li>{t.task}</li>
+    );
+  });
+
+  return (
+    <div>
+      <ul>
+        {lis}
+      </ul>
+    </div>
+  )
+}
+
+export default TodoList;
+```
+
+Now, over in `App.js`:
+```jsx
+// App.js
+import TodoList from './components/TodoList';
+
+// data
+const tasks = [
+  {
+    id: 1,
+    checked: false,
+    task: 'Wash dishes'
+  },
+  {
+    id: 2,
+    checked: true,
+    task: 'Vacuum bedroom'
+  },
+  {
+    id: 3,
+    checked: true,
+    task: 'Call mom'
+  }
+];
+
+function App() {
+  return (
+    <div>
+      <Header />
+      <TodoList tasks={tasks} />
+      <Footer />
+    </div>
+  )
+}
+```
+
+## Keys
+
+When we run the above code, you’ll be given a warning that a key should be provided for list items. A “key” is a special string attribute you need to include when creating lists of elements.
+
+Let’s assign a _key_ to our `TodoList` elements and fix the missing _key_ issue:
+```jsx
+const TodoList = (props) => {
+
+  const lis = props.tasks.map((t) => {
+    return (
+      // set list element key to tasks ID (ideally)
+      <li key={t.id}>
+        {t.task}
+      </li>
+    );
+  });
+
+...
+```
+
+Keys help React identify which items have changed, are added, or are removed. Keys should be given to the elements inside the array to give the elements a stable identity.
+
+The best way to pick a key is to use a string that uniquely identifies a list item among its siblings. Most often you would use IDs from your data as we did in the above `TodoList` example.
+
+When you don’t have stable IDs for rendered items, you may use the item index as a key as a last resort:
+```jsx
+const TodoList = (props) => {
+
+  const lis = props.tasks.map((t, idx) => {
+    return (
+      // only do this if items have no stable ID
+      <li key={idx}>
+        {t.task}
+      </li>
+    );
+  });
+
+...
+```
+
+Now, in order to take our little `TodoList` application to the next level, let's update the _state_ of the component by adding a 'checkbox':
+```jsx
+const TodoList = ({ tasks }) => {
+	const [ items, setItems ] = useState(tasks);
+
+  const handleCheck = (id) => {
+
+    const listItems = items.map(
+      (i) => (i.id === id ? { ...i, checked: !i.checked } : i)
+    );
+
+    // update the state
+    setItems(listItems);
+  };
+
+  // update li's to have an input with type checkbox
+  const lis = items.map((i) => {
+    return (
+      <li key={i.id}>
+        <input
+          type="checkbox"
+          checked={i.checked}
+          onChange={() => handleCheck(i.id)}
+        />
+        <label>{i.task}</label>
+        <button>Delete</button>
+      </li>
+    );
+  });
+
+  return (
+    <div>
+      <ul>
+        {lis}
+      </ul>
+    </div>
+  )
+}
+
+export default TodoList;
+```
+
+Let's break down the handleCheck method from the above coed:
+```jsx
+const handleCheck = (id) => {
+  // check
+  const listItems = items.map(
+    (i) => (i.id === id ? { ...i, checked: !i.checked } : i)
+  );
+
+  // update the state
+  setItems(listItems);
+};
+```
+Inside the `handleClick` method, we're checking if the item id is equal to the `id` coming in and if it is, we return a new item which is the same item but toggling the `checked` status. If the `id` is not equal, return the item (`i`) that already exists. 
+
+Then, once we have that
 
 [⬆ Top](#Table-of-Contents)
 

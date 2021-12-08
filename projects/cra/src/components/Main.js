@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { useState } from 'react';
 
 const MainStyled = styled.main`
 	height: 100%;
@@ -10,46 +10,45 @@ const MainStyled = styled.main`
 `;
 
 const Main = () => {
-	const [ count, setCount ] = useState(0);
-
-	const handleCount = () => {
-		setCount(count + 1);
-		console.log(count); // -> 0
-	};
-
 	return (
 		<MainStyled>
-			<p>Count is: {count}</p>
-			<button onClick={handleCount}>Press me!</button>
+			<h1>Main section</h1>
 		</MainStyled>
 	);
 };
 
-function Car() {
-	const [ car, setCar ] = useState({
-		brand: 'Ford',
-		model: 'Mustang',
-		year: '1964',
-		color: 'red'
-	});
+const TodoList = ({ tasks }) => {
+	const [ items, setItems ] = useState(tasks);
 
-	const updateColor = () => {
-		setCar((previousState) => {
-			return { ...previousState, color: 'blue' };
-		});
+	const handleCheck = (id) => {
+		// if the item id is = to the id coming in, return a new item which is the same item but toggling the 'checked' status, if not equal, return the item that already exists
+		const listItems = items.map(
+			(i) => (i.id === id ? { ...i, checked: !i.checked } : i)
+		);
+
+		setItems(listItems);
 	};
 
-	return (
-		<div>
-			<h1>My {car.brand}</h1>
-			<p>
-				It is a {car.color} {car.model} from {car.year}.
-			</p>
-			<button type="button" onClick={updateColor}>
-				Update Car!
-			</button>
-		</div>
-	);
-}
+	const lis = items.map((i) => {
+		return (
+			<li key={i.id}>
+				<input
+					type="checkbox"
+					checked={i.checked}
+					onChange={() => handleCheck(i.id)}
+				/>
+				<label>{i.task}</label>
+				<button>Delete</button>
+			</li>
+		);
+	});
 
-export default Main;
+	return (
+		<MainStyled>
+			<ul>{lis}</ul>
+		</MainStyled>
+	);
+};
+
+// export default Main;
+export { Main, TodoList };

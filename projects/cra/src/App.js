@@ -1,9 +1,11 @@
 // components
 import Header from './components/Header';
-import Main from './components/Main';
+import { Main, TodoList } from './components/Main';
 import Footer from './components/Footer';
 // styles
 import styled from 'styled-components';
+import './App.css';
+
 const Container = styled.div`
 	height: 100vh;
 	width: 100%;
@@ -13,11 +15,30 @@ const Container = styled.div`
 	justify-content: space-around;
 `;
 
+const tasks = [
+	{
+		id: 1,
+		checked: true,
+		task: 'Wash dishes'
+	},
+	{
+		id: 2,
+		checked: false,
+		task: 'Vacuum bedroom'
+	},
+	{
+		id: 3,
+		checked: true,
+		task: 'Call mom'
+	}
+];
+
 function App() {
 	return (
 		<Container className="App">
 			<Header />
-			<Main />
+			{/* <Main /> */}
+			<TodoList tasks={tasks} />
 			<Footer />
 		</Container>
 	);
