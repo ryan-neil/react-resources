@@ -12,6 +12,7 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   5. [Components](#5-Components)
       * 5.1 - [Class Components](#51-Class-Components)
       * 5.2 - [Functional Components](#52-Functional-Components)
+      * 5.3 - [Building an App with Functional Components](#53-Building-an-App-with-Functional-Components)
   6. [Applying Styles](#6-Applying-Styles)
       * 6.1 - [Styling within React](#61-Styling-within-React)
       * 6.2 - [Styled Components](#62-Styled-Components)
@@ -19,7 +20,9 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   8. [State](#8-State)
       * 8.1 - [useState Hook](#81-useState-Hook)
   9. [Lists & Keys](#9-Lists-&-Keys)
-
+  10. [Props and Prop Drilling](#10-Props-and-Prop-Drilling)
+      * 10.1 - [Default Props](#101-Default-Props)
+      * 10.2 - [Prop Drilling](#102-Prop-Drilling)
 
 # 1. Resources
   * [React Docs (Beta)](https://beta.reactjs.org/)
@@ -300,6 +303,8 @@ function Welcome(props) {
 }
 ```
 
+## 5.3 Building an App with Functional Components
+
 Let's now build our first app with functional components! We will be creating 3 functional components for our mini application, a `Header` component, a `Main` component, and a `Footer` component:
 ```jsx
 // Header.js
@@ -316,6 +321,8 @@ export default Header;
 ```jsx
 // Main.js
 const Main = () => {
+  
+  // some logic
   const handleNameChange = () => {
     const names = [ 'Katie', 'Ryan', 'John' ];
     return names[Math.floor(Math.random() * names.length)];
@@ -526,12 +533,12 @@ It also removes the mapping between components and styles – using components a
   * [Styled Components Crash Course: Traversy Media](https://www.youtube.com/watch?v=02zO0hZmwnw)
 
 ### Table of Contents:
-  * 6.2.1 - [Installation](#621-Installation)
-  * 6.2.2 - [Getting Started](#622-Getting-Started)
-  * 6.2.3 - [Utilizing Props](#623-Utilizing-Props)
-  * 6.2.4 - [Icons](#624-Icons)
+  * 7.2.1 - [Installation](#721-Installation)
+  * 7.2.2 - [Getting Started](#722-Getting-Started)
+  * 7.2.3 - [Utilizing Props](#723-Utilizing-Props)
+  * 7.2.4 - [Icons](#724-Icons)
 
-### 6.2.1 Installation
+### 7.2.1 Installation
 
 ```bash
 # with npm
@@ -541,7 +548,7 @@ npm install --save styled-components
 yarn add styled-components
 ```
 
-### 6.2.2 Getting Started
+### 7.2.2 Getting Started
 
 `styled-components` utilizes tagged template literals to style your components.
 
@@ -572,7 +579,7 @@ render(
 );
 ```
 
-### 6.2.3 Utilizing Props
+### 7.2.3 Utilizing Props
 
 You can pass a function ("interpolations") to a styled component's template literal to adapt it based on its props.
 
@@ -597,7 +604,7 @@ render(
 );
 ```
 
-### 6.2.4 Icons
+### 7.2.4 Icons
   * [Styled Icons Docs](https://github.com/styled-icons/styled-icons)
 
 #### Installation:
@@ -659,7 +666,7 @@ export const IconStyleWrapper = styled.div`
 
 [⬆ Top](#Table-of-Contents)
 
-# 7 Events
+# 7. Events
   * [Supported Events: React Docs](https://reactjs.org/docs/events.html#supported-events)
 
 Just like HTML DOM events, React can perform actions based on user events. React has the same events as HTML: `click`, `change`, `mouseover` etc.
@@ -953,16 +960,15 @@ We then return an object, spreading the `previousState` and overwriting only the
 # 9. Lists & Keys
   * [Lists and Keys: React Docs](https://reactjs.org/docs/lists-and-keys.html)
 
-In React we are able to __transform__ arrays into _lists_ of [elements](https://reactjs.org/docs/rendering-elements.html). We are then able to __build__ _collections_ of elements to include in JSX with curly braces (`{}`).
+In React we are able to __transform__ arrays into _lists_ of [elements](https://reactjs.org/docs/rendering-elements.html). We can then __build__ _collections_ of elements to include in JSX with curly braces (`{}`).
 
 ## Lists
 
 Let's explore how we can transform arrays by creating a little `TodoList` component:
 ```jsx
-// TodoList.jsx
+// TodoList.js
 import { useState } from 'react';
 
-// data
 const tasks = [
   {
     id: 1,
@@ -982,60 +988,36 @@ const tasks = [
 ];
 
 const ToDoList = () => {
-  // set initial state to our app data
+  // set initial state to our tasks data
   const [items, setItems] = useState(tasks);
 
-  // create task elements
+  // create the task list elements
   const lis = items.map((i) => {
     return (
       <li>{i.task}</li>
-		);
+    );
   })
 
-  // render tasks
   return (
-    <div>
-      <ul>
-        {lis}
-      </ul>
-    </div>
+    <ul>
+      {lis}
+    </ul>
   )
 }
 
 export default TodoList;
 ```
 
-### Refactor with 'props'
+### Spoiler Alert! Refactoring with 'props'
 
-Let's refactor the `TodoList` component so that it can accept an _array_ of tasks and output a list of elements:
-```jsx
-// TodoList.jsx
-const TodoList = (props) => {
+Here's a sneak peek at how we can use props in our applications.
 
-  const lis = props.tasks.map((t) => {
-    return (
-      <li>{t.task}</li>
-    );
-  });
-
-  return (
-    <div>
-      <ul>
-        {lis}
-      </ul>
-    </div>
-  )
-}
-
-export default TodoList;
-```
-
-Now, over in `App.js`:
+Let's refactor the `TodoList` component so that it can accept an _array_ as a _prop_ and output a list of elements:
 ```jsx
 // App.js
 import TodoList from './components/TodoList';
 
-// data
+// the data coming in from an API or external file
 const tasks = [
   {
     id: 1,
@@ -1055,6 +1037,7 @@ const tasks = [
 ];
 
 function App() {
+  // pass the data to 'TodoList' as a prop
   return (
     <div>
       <Header />
@@ -1063,6 +1046,27 @@ function App() {
     </div>
   )
 }
+```
+
+Now, back in `TodoList.js` we have access to the `tasks` _prop_ that we passed to the component in `App.js`:
+```jsx
+// TodoList.js
+const TodoList = (props) => {
+
+  const lis = props.tasks.map((t) => {
+    return (
+      <li>{t.task}</li>
+    );
+  });
+
+  return (
+    <ul>
+      {lis}
+    </ul>
+  )
+}
+
+export default TodoList;
 ```
 
 ## Keys
@@ -1105,63 +1109,498 @@ const TodoList = (props) => {
 ...
 ```
 
-Now, in order to take our little `TodoList` application to the next level, let's update the _state_ of the component by adding a 'checkbox':
+### Updating the State
+
+Now, in order to take our little `TodoList` application to the next level, let's see how we can update the _state_ of the component by adding a 'checkbox':
 ```jsx
+// TodoList.js
+import { useState } from 'react';
+
 const TodoList = ({ tasks }) => {
-	const [ items, setItems ] = useState(tasks);
+  const [ items, setItems ] = useState(tasks);
 
-  const handleCheck = (id) => {
-
-    const listItems = items.map(
-      (i) => (i.id === id ? { ...i, checked: !i.checked } : i)
-    );
-
-    // update the state
+  const handleChecked = (id) => {
+    // loop through the items and check if the item id matches the id being passed in (clicked)
+    const listItems = items.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item));
+    // update the state with the updated or same item (object)
     setItems(listItems);
   };
 
   // update li's to have an input with type checkbox
-  const lis = items.map((i) => {
+  const lis = items.map((item) => {
     return (
-      <li key={i.id}>
+      <li key={item.id}>
         <input
           type="checkbox"
-          checked={i.checked}
-          onChange={() => handleCheck(i.id)}
+          checked={item.checked}
+          onChange={() => handleChecked(item.id)}
         />
-        <label>{i.task}</label>
+        <label>{item.task}</label>
         <button>Delete</button>
       </li>
     );
   });
 
   return (
-    <div>
-      <ul>
-        {lis}
-      </ul>
-    </div>
+    <ul>
+      {lis}
+    </ul>
   )
 }
 
 export default TodoList;
 ```
 
-Let's break down the handleCheck method from the above coed:
+Inside the `handleChecked` method, we're checking if the item id is equal to the `id` coming in and if it is, we return a new item which is the same item (`...item`) but switching the `checked` status. The exclamation mark in `{ checked: !item.checked }` means that the changed status will be the opposite of what it currently is since it is a boolean.
+
+If the `id` is not equal, we just return the item (`item`) that already exists. Once we have that logic saved to a variable we can pass that to our `setItems` method to update the state and cause a re-render.
+
+### Saving the State with Local Storage
+
+Now the final step is to save the state of the application and bring that saved state back when the app loads. To achieve this we will be using local storage.
 ```jsx
-const handleCheck = (id) => {
-  // check
-  const listItems = items.map(
-    (i) => (i.id === id ? { ...i, checked: !i.checked } : i)
-  );
+// TodoList.js
+import { useState } from 'react';
 
-  // update the state
-  setItems(listItems);
-};
+const TodoList = ({ tasks }) => {
+  const [ items, setItems ] = useState(tasks);
+
+  const handleChecked = (id) => {
+    const listItems = items.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item));
+    setItems(listItems);
+
+    // set local storage
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+
+  const lis = items.map((item) => {
+    return (
+      <li key={item.id}>
+        <input
+          type="checkbox"
+          checked={item.checked}
+          onChange={() => handleChecked(item.id)}
+        />
+        <label>{item.task}</label>
+        <button>Delete</button>
+      </li>
+    );
+  });
+
+  return (
+    <ul>
+      {lis}
+    </ul>
+  )
+}
+
+export default TodoList;
 ```
-Inside the `handleClick` method, we're checking if the item id is equal to the `id` coming in and if it is, we return a new item which is the same item but toggling the `checked` status. If the `id` is not equal, return the item (`i`) that already exists. 
 
-Then, once we have that
+Now, when we make a check, we're saving it to _local storage_ and we will be able to pull that back later instead of the _default_ state that we started with.
+
+### Deleting a Task Logic
+
+We're now ready to add the method for deleting an item, or task. Our `handleDelete` function will look very similar to the `handleChecked` function accept instead of 'mapping' through the array we will 'filter' through it:
+```jsx
+// TodoList.js
+import { useState } from 'react';
+
+const TodoList = ({ tasks }) => {
+  const [ items, setItems ] = useState(tasks);
+
+  const handleChecked = (id) => {
+    const listItems = items.map((item) => (item.id === id ? { ...item, checked: !item.checked } : item));
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+  
+  // function to delete a task from our array
+  const handleDelete = (id) => {
+    // filter through our items array
+    const listItems = items.filter((item) => item.id !== id);
+
+    // update state (same as 'handleChecked')
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+
+  const lis = items.map((item) => {
+    return (
+      <li key={item.id}>
+        <input
+          type="checkbox"
+          checked={item.checked}
+          onChange={() => handleChecked(item.id)}
+        />
+        <label>{item.task}</label>
+        {/* pass in handleDelete anonymous arrow function to our button */}
+				<button onClick={() => handleDelete(item.id)}>Delete</button>
+      </li>
+    );
+  });
+
+  return (
+    <ul>
+      {lis}
+    </ul>
+  )
+}
+
+export default TodoList;
+```
+
+This creates a new array that has filtered out the item id (`item.id`) that is equal to the id (`id`) being passed in. In other words the new array will only have id's that are not equal to the item id that is being passed in with the click event.
+ 
+Now the 'handleDelete' function is exactly the same as the 'handleChecked' function, we pass our `listItems` into the `setItems` method and then add to local storage.
+
+# 10. Props and Prop Drilling
+
+Props, short for _properties_, hold data. Prop Drilling allows us to pass that data down from parent components to child components.
+
+Let's see how we can add props to our little todo app:
+```jsx
+// App.js
+import Header from './components/Header';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+
+function App() {
+  return (
+    <div className="App">
+      <Header title="Todo List"/>
+      <TodoList />
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+```
+In the above snippet, you notice we are passing our `Header` component the property of `title`. Back over in our Header component we have access to that prop:
+```jsx
+// Header.js
+const Header = ({ title }) => {
+  return (
+    <header>
+      <h2>{title}</h2>
+    </header>
+  )
+}
+
+export default Header;
+
+// -> <h2>Todo List</h2>
+```
+
+## 10.1 Default Props
+
+Default props allow us to set values for the props _expected_ in the component. If the props are not provided from the parent component, then the default child prop values will take over instead of receiving an error.
+
+This is really helpful to do when specking a component or first designing the component and need dummy data/values.
+
+Back in our `Header` component, we would do something like this:
+```jsx
+// Header.js
+const Header = ({ title }) => {
+  return (
+    <header>
+      <h2>{title}</h2>
+    </header>
+  )
+}
+
+// set default properties for the 'Header' component
+Header.defaultProps = {
+	title: 'Todo List'
+};
+
+export default Header;
+```
+
+> It's important to note, any 'props' being passed into the component from the parent will ALWAYS override the default 'props' set in the child component itself.
+
+### 10.2 Prop Drilling
+
+Let's take our app to another level and look at how we can pass props into our `TodoList` component and `Footer` components. What we would like to do is display how many list items we have inside of the footer section.
+
+This means, our `Footer` component needs access to the `listItems` from inside the `TodoList` component. These components are sibling components so they can't just reach over to each other and share data.
+
+What we need to do is take the data from the `TodoList` component and move it up to the `App` component and then _drill_ it down to both the `TodoList` and `Footer` components.
+
+Let's do this now. Inside of our `App` component:
+```jsx
+import Header from './components/Header';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+// import useState
+import { useState } from 'react';
+
+// this could be API data, external file data or database data
+const tasks = [
+  {
+    id: 1,
+    checked: false,
+    item: 'This is item 1'
+  },
+  {
+    id: 2,
+    checked: true,
+    item: 'This is item 2'
+  },
+  {
+    id: 3,
+    checked: true,
+    item: 'This is item 3'
+  }
+];
+
+function App() {
+  // 1. set state in the "App" component
+  const [ items, setItems ] = useState(tasks);
+
+  // 2. move handle checked method into 'App' since it needs access to 'items' and 'setItems'
+  const handleChecked = (id) => {
+    const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+
+  // 3. move handle delete method into 'App' since it needs access to 'items' and 'setItems'
+  const handleDelete = (id) => {
+    const listItems = items.filter((item) => item.id !== id);
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+
+  // 4. drill down (pass) all props to TodoList component
+  return (
+    <div className="App">
+      <Header title="Todo List" />
+      <TodoList
+        items={items}
+        handleChecked={handleChecked}
+        handleDelete={handleDelete}
+      />
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+```
+
+Back in the `TodoList` component:
+```jsx
+// destructure the props
+const TodoList = ({ items, handleChecked, handleDelete }) => {
+	
+  // loops through the items being passed in and set values
+  const lis = items.map((item) => {
+    return (
+      <li key={item.id}>
+        <input
+          type="checkbox"
+          checked={item.checked}
+          onChange={() => handleChecked(item.id)}
+        />
+        <label>{item.task}</label>
+        <button onClick={() => handleDelete(item.id)}>Delete</button>
+      </li>
+    );
+  });
+
+  return (
+    <main>
+      <ul>{lis}</ul>
+    </main>
+  );
+};
+
+export default TodoList;
+```
+
+Our functions are all now being passed down to the `TodoList` component file. This is being done through _props_ and _prop drilling_. This method also allows us to refer to the items that we are holding in state in other components, like our `Footer` component.
+
+So, let's now pass a prop to our `Footer` component from inside the `App` component:
+```jsx
+import Header from './components/Header';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+import { useState } from 'react';
+
+const tasks = [
+  {
+    id: 1,
+    checked: false,
+    item: 'This is item 1'
+  },
+  {
+    id: 2,
+    checked: true,
+    item: 'This is item 2'
+  },
+  {
+    id: 3,
+    checked: true,
+    item: 'This is item 3'
+  }
+];
+
+function App() {
+  const [ items, setItems ] = useState(tasks);
+
+  const handleChecked = (id) => {
+    const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+
+  const handleDelete = (id) => {
+    const listItems = items.filter((item) => item.id !== id);
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+
+  return (
+    <div className="App">
+      <Header title="Todo List" />
+      <TodoList
+        items={items}
+        handleChecked={handleChecked}
+        handleDelete={handleDelete}
+      />
+      <Footer length={items.length}/>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Here we're gaining access to the list items length so we can display that in the footer section. Let's display our todo list length now.
+
+Over in the Footer component:
+```jsx
+// destructure the length prop
+const Footer = ({ length }) => {
+  return (
+    <footer>
+      <h2>{length} todo item(s)</h2>
+    </footer>
+  );
+};
+
+export default Footer;
+```
+
+#### Component Cleanup
+
+Now that we have done this, let's refactor our `TodoList` component a bit more and use _abstraction_ to hide some of the logic. 
+
+To do this we can make another component called `ItemList` and spread some of the code into this new component. This helps de-clutter some of the code inside of the `TodoList` component.
+
+Let's do this now:
+```jsx
+// ItemList.js
+const ItemList = ({ items, handleChecked, handleDelete }) => {
+  return (
+    <ul>
+      {items.map((item) => {
+        return (
+          <li key={item.id}>
+            <input
+              type="checkbox"
+              checked={item.checked}
+              onChange={() => handleChecked(item.id)}
+            />
+            <label>{item.task}</label>
+            <button onClick={() => handleDelete(item.id)}>Delete</button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+export default ItemList;
+```
+
+Now, we can clean up the `TodoList` component:
+```jsx
+// import 'ItemsList' component
+import ItemList from './ItemList';
+
+const TodoList = ({ items, handleChecked, handleDelete }) => {
+  return (
+    // pass props to child 'ItemList' component
+    <main>
+      <ItemList
+        items={items}
+        handleChecked={handleChecked}
+        handleDelete={handleDelete}
+      />
+    </main>
+  );
+};
+
+export default TodoList;
+```
+
+As you can see above, we're _prop drilling_ two layers deep: `App` -> `TodoList` -> `ItemList`.
+
+Now, with that out of the way we are going to _drill_ down one more level and create another component called `LineItem`. This component will be a reusable component that we will use for every line item.
+
+Let's take care of this now:
+```jsx
+// LineItem.js
+const LineItem = ({ item, handleChecked, handleDelete }) => {
+  return (
+    <li>
+      <input
+        type="checkbox"
+        checked={item.checked}
+        onChange={() => handleChecked(item.id)}
+      />
+      <label>{item.task}</label>
+      <button onClick={() => handleDelete(item.id)}>Delete</button>
+    </li>
+  );
+};
+
+export default LineItem;
+```
+
+Over in the `ItemList` component, we can do some more cleaning up:
+```jsx
+// itemList.js
+// import LineItem component
+import LineItem from './LineItem';
+
+const ItemList = ({ items, handleChecked, handleDelete }) => {
+	return (
+		<ul>
+			{items.map((item) => {
+				return (
+          // pass in our new reusable 'LineItem' component with the appropriate props (we must set the 'key' on this component)
+					<LineItem
+						key={item.id}
+						item={item}
+						handleChecked={handleChecked}
+						handleDelete={handleDelete}
+					/>
+				);
+			})}
+		</ul>
+	);
+};
+
+export default ItemList;
+```
+
+This is all working as expected. We are also now _prop drilling_ three layers deep: `App` -> `TodoList` -> `ItemList` -> `LineItem`. 
+
+Now, with that out of the way we will be building on our app even more and adding new items to the list and loading the items that we have saved from local storage.
 
 [⬆ Top](#Table-of-Contents)
 

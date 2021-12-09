@@ -1,11 +1,11 @@
 // components
 import Header from './components/Header';
-import { Main, TodoList } from './components/Main';
+import TodoList from './components/TodoList';
 import Footer from './components/Footer';
+import { useState } from 'react';
 // styles
-import styled from 'styled-components';
 import './App.css';
-
+import styled from 'styled-components';
 const Container = styled.div`
 	height: 100vh;
 	width: 100%;
@@ -15,6 +15,7 @@ const Container = styled.div`
 	justify-content: space-around;
 `;
 
+// data
 const tasks = [
 	{
 		id: 1,
@@ -30,16 +31,46 @@ const tasks = [
 		id: 3,
 		checked: true,
 		task: 'Call mom'
+	},
+	{
+		id: 4,
+		checked: true,
+		task: 'Clean fans'
+	},
+	{
+		id: 5,
+		checked: true,
+		task: 'Wrap presents'
 	}
 ];
 
 function App() {
+	const [ items, setItems ] = useState(tasks);
+
+	const handleChecked = (id) => {
+		const listItems = items.map(
+			(item) =>
+				item.id === id ? { ...item, checked: !item.checked } : item
+		);
+		setItems(listItems);
+		localStorage.setItem('todolist', JSON.stringify(listItems));
+	};
+
+	const handleDelete = (id) => {
+		const listItems = items.filter((item) => item.id !== id);
+		setItems(listItems);
+		localStorage.setItem('todolist', JSON.stringify(listItems));
+	};
+
 	return (
 		<Container className="App">
-			<Header />
-			{/* <Main /> */}
-			<TodoList tasks={tasks} />
-			<Footer />
+			<Header title="Todo List" />
+			<TodoList
+				items={items}
+				handleChecked={handleChecked}
+				handleDelete={handleDelete}
+			/>
+			<Footer length={items.length} />
 		</Container>
 	);
 }
