@@ -1219,7 +1219,6 @@ const TodoList = ({ tasks }) => {
   const handleDelete = (id) => {
     // filter through our items array
     const listItems = items.filter((item) => item.id !== id);
-
     // update state (same as 'handleChecked')
     setItems(listItems);
     localStorage.setItem('todolist', JSON.stringify(listItems));
@@ -1235,7 +1234,7 @@ const TodoList = ({ tasks }) => {
         />
         <label>{item.task}</label>
         {/* pass in handleDelete anonymous arrow function to our button */}
-				<button onClick={() => handleDelete(item.id)}>Delete</button>
+        <button onClick={() => handleDelete(item.id)}>Delete</button>
       </li>
     );
   });
@@ -1277,7 +1276,7 @@ function App() {
 
 export default App;
 ```
-In the above snippet, you notice we are passing our `Header` component the property of `title`. Back over in our Header component we have access to that prop:
+In the above snippet, you notice we are passing the `Header` component the property of `title`. Back over inside of the `Header` component we have access to that prop:
 ```jsx
 // Header.js
 const Header = ({ title }) => {
@@ -1312,7 +1311,7 @@ const Header = ({ title }) => {
 
 // set default properties for the 'Header' component
 Header.defaultProps = {
-	title: 'Todo List'
+  title: 'Todo List'
 };
 
 export default Header;
@@ -1578,21 +1577,21 @@ Over in the `ItemList` component, we can do some more cleaning up:
 import LineItem from './LineItem';
 
 const ItemList = ({ items, handleChecked, handleDelete }) => {
-	return (
-		<ul>
-			{items.map((item) => {
-				return (
+  return (
+    <ul>
+      {items.map((item) => {
+        return (
           // pass in our new reusable 'LineItem' component with the appropriate props (we must set the 'key' on this component)
-					<LineItem
-						key={item.id}
-						item={item}
-						handleChecked={handleChecked}
-						handleDelete={handleDelete}
-					/>
-				);
-			})}
-		</ul>
-	);
+          <LineItem
+            key={item.id}
+            item={item}
+            handleChecked={handleChecked}
+            handleDelete={handleDelete}
+          />
+        );
+      })}
+    </ul>
+  );
 };
 
 export default ItemList;
