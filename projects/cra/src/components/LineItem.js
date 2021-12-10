@@ -6,7 +6,11 @@ const LineItem = ({ item, handleChecked, handleDelete }) => {
 				checked={item.checked}
 				onChange={() => handleChecked(item.id)}
 			/>
-			<label>{item.task}</label>
+			<label
+				style={item.checked ? { textDecoration: 'line-through' } : null}
+			>
+				{item.task}
+			</label>
 			<button onClick={() => handleDelete(item.id)}>Delete</button>
 		</li>
 	);

@@ -18,7 +18,9 @@ const FooterStyled = styled.footer`
 const Footer = ({ length }) => {
 	return (
 		<FooterStyled>
-			<h2>{length} todo item(s)</h2>
+			<h2>
+				{length} Todo {length === 1 ? 'item' : 'items'}
+			</h2>
 		</FooterStyled>
 	);
 };

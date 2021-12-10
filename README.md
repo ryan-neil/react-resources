@@ -20,29 +20,33 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   8. [State](#8-State)
       * 8.1 - [useState Hook](#81-useState-Hook)
   9. [Lists & Keys](#9-Lists-&-Keys)
-  10. [Props and Prop Drilling](#10-Props-and-Prop-Drilling)
+  10. [Props](#10-Props)
       * 10.1 - [Default Props](#101-Default-Props)
-      * 10.2 - [Prop Drilling](#102-Prop-Drilling)
+      * 10.2 - [Prop Drilling (Threading)](#102-Prop-Drilling-Threading)
+  11. [Controlled Form Inputs](#11-Controlled-Form-Inputs)
 
 # 1. Resources
-  * [React Docs (Beta)](https://beta.reactjs.org/)
-  * [Thinking in React: React Docs](https://reactjs.org/docs/thinking-in-react.html)
-  * [Structuring a React App: React Docs](https://reactjs.org/docs/faq-structure.html)
-  * [Bulletproof React: Github Repo](https://github.com/alan2207/bulletproof-react)
-  * [React Cheat sheet (Updated June 2021)](https://dev.to/ericchapman/react-cheat-sheet-updated-may-2021-1mcd)
-
-### Keyboard shortcuts (MacOS): \
-__Fold All__ folds in editor - Command + (K => 0) \
-__Unfold All__ folds in editor - Command + (K => J)
+  * [React Docs:](https://reactjs.org/docs/getting-started.html) React Docs
+  * [React Docs:](https://beta.reactjs.org/) React Docs (Beta)
+  * [Thinking in React:](https://reactjs.org/docs/thinking-in-react.html) React Docs
+  * [Airbnb React/JSX Style Guide:](https://github.com/airbnb/javascript/tree/master/react) Airbnb Github Repo
+  * [Structuring a React App:](https://reactjs.org/docs/faq-structure.html) React Docs
+  * [Bulletproof React:](https://github.com/alan2207/bulletproof-react) Github Repo
+  * [React Cheat sheet:](https://dev.to/ericchapman/react-cheat-sheet-updated-may-2021-1mcd) DEV (Updated June 2021)
+  * [A Visual Guide to useEffect:](https://alexsidorenko.com/blog/useeffect/) Alex Sidorenko
 
 # 2. Tutorials
-  * [The Modern React Bootcamp: Colt Steele](https://www.udemy.com/course/modern-react-bootcamp/learn/lecture/14638530?start=0#overview)
-  * [React - The Complete Guide: Maximilian Schwarzmüller](https://www.udemy.com/course/modern-react-bootcamp/learn/lecture/14638530?start=0#overview)
-  * [The Beginner's Guide to React: Kent C. Dodds](https://egghead.io/courses/the-beginner-s-guide-to-react)
-  * [React JS Crash Course 2021: Traversy Media](https://www.youtube.com/watch?v=w7ejDZ8SWv8)
-  * [React JS Full Course for Beginners: Dave Gray](https://www.youtube.com/watch?v=RVFAyFWO4go)
-  * [Learn React by Building an eCommerce Site: FCC](https://www.youtube.com/watch?v=1DklrGoAxDE)
-  * [Build and Deploy a React Cryptocurrency App (Redux Toolkit): JavaScript Mastery](https://www.youtube.com/watch?v=9DDX3US3kss)
+#### Full Courses:
+  * [The Modern React Bootcamp:](https://www.udemy.com/course/modern-react-bootcamp/learn/lecture/14638530?start=0#overview) Colt Steele
+  * [The Complete React Guide:](https://www.udemy.com/course/react-the-complete-guide-incl-redux/) Maximilian Schwarzmüller
+  * [React JS Full Course for Beginners:](https://www.youtube.com/watch?v=RVFAyFWO4go) Dave Gray
+  * [The Beginner's Guide to React:](https://egghead.io/courses/the-beginner-s-guide-to-react) Kent C. Dodds
+  * [React JS Crash Course 2021:](https://www.youtube.com/watch?v=w7ejDZ8SWv8) Traversy Media
+  * [React Crash Course for Beginners 2021:](https://www.youtube.com/watch?v=9DDX3US3kss) Academind
+  * [React.js Hooks Crash Course:](https://www.youtube.com/watch?v=-MlNBTSg_Ww) Academind
+#### Project Learning:
+  * [Learn React by Building an eCommerce Site:](https://www.youtube.com/watch?v=1DklrGoAxDE) FreeCodeCamp
+  * [Build and Deploy a React Cryptocurrency App (Redux Toolkit):](https://www.youtube.com/watch?v=9DDX3US3kss) JavaScript Mastery
 
 # 3. What is React?
 
@@ -521,24 +525,24 @@ export default Header;
 
 [⬆ Top](#Table-of-Contents)
 
-## 6.2 Styled Components
+## 6.2 Styled Components  
 
-Utilizing tagged template literals (a recent addition to JavaScript) and the power of CSS, `styled-components` allows you to write actual CSS code to style your components. 
-
-It also removes the mapping between components and styles – using components as a low-level styling construct could not be easier!
+Utilizing tagged template literals (a recent addition to JavaScript) and the power of CSS, `styled-components` allows you to write actual CSS code to style your components. It also removes the mapping between components and styles – making it much easier to use components as a low-level styling construct.
 
 ### Resources:
-  * [Styled Components Docs](https://styled-components.com/docs)
-  * [Styled Icons Docs](https://github.com/styled-icons/styled-icons)
-  * [Styled Components Crash Course: Traversy Media](https://www.youtube.com/watch?v=02zO0hZmwnw)
+  * [Styled Components Docs:](https://styled-components.com/docs) Styled Components Docs
+  * [Styled Icons:](https://github.com/styled-icons/styled-icons) Styled Components Docs
+  * [Styled Components Crash Course:](https://www.youtube.com/watch?v=02zO0hZmwnw) Traversy Media
+  * [Working with Styled-components in React:](https://www.section.io/engineering-education/working-with-styled-components-in-react/) Section.io
+  * [The state of CSS, CSS in JS & how styled-components is solving the problems we’ve had for decades:](https://medium.com/@vviikk/the-state-of-css-css-in-js-how-styled-components-is-solving-the-problems-weve-had-for-decades-d8abbc8bc148) Medium
 
 ### Table of Contents:
-  * 7.2.1 - [Installation](#721-Installation)
-  * 7.2.2 - [Getting Started](#722-Getting-Started)
-  * 7.2.3 - [Utilizing Props](#723-Utilizing-Props)
-  * 7.2.4 - [Icons](#724-Icons)
+  * 6.2.1 - [Installation](#621-Installation)
+  * 6.2.2 - [Getting Started](#622-Getting-Started)
+  * 6.2.3 - [Utilizing Props](#623-Utilizing-Props)
+  * 6.2.4 - [Icons](#624-Icons)
 
-### 7.2.1 Installation
+### 6.2.1 Installation
 
 ```bash
 # with npm
@@ -548,7 +552,7 @@ npm install --save styled-components
 yarn add styled-components
 ```
 
-### 7.2.2 Getting Started
+### 6.2.2 Getting Started
 
 `styled-components` utilizes tagged template literals to style your components.
 
@@ -579,7 +583,7 @@ render(
 );
 ```
 
-### 7.2.3 Utilizing Props
+### 6.2.3 Utilizing Props
 
 You can pass a function ("interpolations") to a styled component's template literal to adapt it based on its props.
 
@@ -604,7 +608,7 @@ render(
 );
 ```
 
-### 7.2.4 Icons
+### 6.2.4 Icons
   * [Styled Icons Docs](https://github.com/styled-icons/styled-icons)
 
 #### Installation:
@@ -1253,9 +1257,17 @@ This creates a new array that has filtered out the item id (`item.id`) that is e
  
 Now the 'handleDelete' function is exactly the same as the 'handleChecked' function, we pass our `listItems` into the `setItems` method and then add to local storage.
 
-# 10. Props and Prop Drilling
+# 10. Props
 
-Props, short for _properties_, hold data. Prop Drilling allows us to pass that data down from parent components to child components.
+### Resources:
+  * [Passing Props to a Component:](https://beta.reactjs.org/learn/passing-props-to-a-component) React Docs (Beta)
+  * [React Props:](https://www.codecademy.com/resources/docs/react/props) codecademy
+  * [Prop Drilling:](https://kentcdodds.com/blog/prop-drilling) Kent C. Dodds
+  * [Props Drilling In React.Js:](https://medium.com/analytics-vidhya/props-drilling-in-react-js-934120a4906b) Medium
+
+React components use _props_ to communicate with each other. Every parent component can pass some information to its child components by giving them props. Props might remind you of HTML attributes, but you can pass any JavaScript value through them, including objects, arrays, and functions.
+
+Prop Drilling (also called "threading") allows us to pass that data down from parent components to child components. It refers to the process you have to go through to get data to parts of the React Component tree.
 
 Let's see how we can add props to our little todo app:
 ```jsx
@@ -1319,7 +1331,7 @@ export default Header;
 
 > It's important to note, any 'props' being passed into the component from the parent will ALWAYS override the default 'props' set in the child component itself.
 
-### 10.2 Prop Drilling
+## 10.2 Prop Drilling (Threading)
 
 Let's take our app to another level and look at how we can pass props into our `TodoList` component and `Footer` components. What we would like to do is display how many list items we have inside of the footer section.
 
@@ -1340,17 +1352,17 @@ const tasks = [
   {
     id: 1,
     checked: false,
-    item: 'This is item 1'
+    task: 'Wash dishes'
   },
   {
     id: 2,
     checked: true,
-    item: 'This is item 2'
+    task: 'Vacuum bedroom'
   },
   {
     id: 3,
     checked: true,
-    item: 'This is item 3'
+    task: 'Call mom'
   }
 ];
 
@@ -1432,17 +1444,17 @@ const tasks = [
   {
     id: 1,
     checked: false,
-    item: 'This is item 1'
+    task: 'Wash dishes'
   },
   {
     id: 2,
     checked: true,
-    item: 'This is item 2'
+    task: 'Vacuum bedroom'
   },
   {
     id: 3,
     checked: true,
-    item: 'This is item 3'
+    task: 'Call mom'
   }
 ];
 
@@ -1479,7 +1491,7 @@ export default App;
 
 Here we're gaining access to the list items length so we can display that in the footer section. Let's display our todo list length now.
 
-Over in the Footer component:
+Over in the `Footer` component:
 ```jsx
 // destructure the length prop
 const Footer = ({ length }) => {
@@ -1600,6 +1612,252 @@ export default ItemList;
 This is all working as expected. We are also now _prop drilling_ three layers deep: `App` -> `TodoList` -> `ItemList` -> `LineItem`. 
 
 Now, with that out of the way we will be building on our app even more and adding new items to the list and loading the items that we have saved from local storage.
+
+[⬆ Top](#Table-of-Contents)
+
+# 11. Controlled Form Inputs
+
+So far in our mini todo application we have not been pulling our state back from local storage because we have no way of creating or adding todo tasks to the application. 
+
+In this section we'll learn how we can add items (tasks) to our list. To begin, let's update our `App` component:
+```jsx
+// App.js
+import Header from './components/Header';
+// import 'AddItem' component
+import AddItem from './components/AddItem';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+import { useState } from 'react';
+
+const tasks = [
+  {
+    id: 1,
+    checked: false,
+    task: 'Wash dishes'
+  },
+  {
+    id: 2,
+    checked: true,
+    task: 'Vacuum bedroom'
+  },
+  {
+    id: 3,
+    checked: true,
+    task: 'Call mom'
+  }
+];
+
+function App() {
+  const [ items, setItems ] = useState(tasks);
+  // 1. set and control the input state, we want one source of truth for the input and we want to change the state as the input changes
+  const [ newItem, setNewItem ] = useState('');
+
+  // 4. add new item (task) logic
+  const addItem = (item) => {
+    // set id value
+    const id = items.length ? items[items.length - 1].id + 1 : 1; // check if 'items' array has a length, if yes get the last item index and subtract 1, if 'items' array has no length, set items.length to 1
+    // create new item object
+    const myNewItem = { id: id, checked: false, task: item };
+    // create new item list array (add the new item to the end of the list)
+    const listItems = [ ...items, myNewItem ];
+    // update the state of the todo list (same as handleChecked and handleDelete functions)
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  }
+
+  const handleChecked = (id) => {
+    const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+
+  const handleDelete = (id) => {
+    const listItems = items.filter((item) => item.id !== id);
+    setItems(listItems);
+    localStorage.setItem('todolist', JSON.stringify(listItems));
+  };
+
+  // 2. create our handle submit function
+  const handleSubmit = (e) => {
+    // prevent page refresh
+    e.preventDefault();
+    // check for a new item
+    if (!newItem) return;
+    // create the new item
+    addItem(newItem);
+    // reset the input to default state
+    setNewItem('');
+  }
+
+  return (
+    // 3. pass newItem, setNewItem, and handleSubmit props to 'AddItem' component
+    <div className="App">
+      <Header title="Todo List" />
+      <AddItem 
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
+      <TodoList
+        items={items}
+        handleChecked={handleChecked}
+        handleDelete={handleDelete}
+      />
+      <Footer length={items.length}/>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Now, let's create the `AddItem` component:
+```jsx
+// AddItem.js
+// 1. destructure props coming in from 'App' component
+const AddItem = ({ newItem, setNewItem, handleSubmit }) => {
+  return (
+    // 2. pass in 'handleSubmit' to onSubmit event (event object is implicitly passed with 'handleSubmit')
+    <form onSubmit={handleSubmit}>
+      <label>Add item</label>
+      <input
+        type="text"
+        placeholder="Add Item"
+        required
+        // 3. set the default value for controlled input ('')
+        value={newItem}
+        // 4. as we type in the input, it will set the new state
+        onChange={(e) => setNewItem(e.target.value)}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default AddItem;
+```
+
+Beautiful! This is working as expected. Let's take care of a little bit of housekeeping. 
+
+Inside our `App` component we are not following the _DRY_ principles. We are repeating ourselves quite a bit so let's create another method called, `setStateAndSaveItemsLocally` to help de-clutter the code:
+```jsx
+// App.js
+...
+
+function App() {
+  const [ items, setItems ] = useState(tasks);
+  const [ newItem, setNewItem ] = useState('');
+
+  // 1. create function to update state and set local storage
+  const setStateAndSaveItemsLocally = (newItems) => {
+    setItems(newItems);
+    localStorage.setItem('todolist', JSON.stringify(newItems));
+  }
+
+  const addItem = (item) => {
+    const id = items.length ? items[items.length - 1].id + 1 : 1;
+    const myNewItem = { id: id, checked: false, task: item };
+    const listItems = [ ...items, myNewItem ];
+    // 2. replace old repetitive code with new function 
+    setStateAndSaveItemsLocally(listItems);
+  }
+
+  const handleChecked = (id) => {
+    const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
+    // 3. replace old repetitive code with new function 
+    setStateAndSaveItemsLocally(listItems);
+  };
+
+  const handleDelete = (id) => {
+    const listItems = items.filter((item) => item.id !== id);
+    // 4. replace old repetitive code with new function 
+    setStateAndSaveItemsLocally(listItems);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!newItem) return;
+    addItem(newItem);
+    setNewItem('');
+  }
+
+  return (
+    <div className="App">
+      <Header title="Todo List" />
+      <AddItem 
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
+      <TodoList
+        items={items}
+        handleChecked={handleChecked}
+        handleDelete={handleDelete}
+      />
+      <Footer length={items.length}/>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Now that we've done this, let's add our logic for handling the saved data inside local storage.
+```jsx
+// App.js
+...
+
+function App() {
+  // 1. remove the default data and pull in local storage 
+  const [ items, setItems ] = useState(JSON.parse(localStorage.getItem('todolist')));
+  const [ newItem, setNewItem ] = useState('');
+
+  const setStateAndSaveItemsLocally = (newItems) => {
+    setItems(newItems);
+    // this is where we're adding the new items to local storage as well as naming the item list
+    localStorage.setItem('todolist', JSON.stringify(newItems));
+  }
+
+  const addItem = (item) => {
+    ...
+  }
+
+  const handleChecked = (id) => {
+    ...
+  };
+
+  const handleDelete = (id) => {
+    ...
+  };
+
+  const handleSubmit = (e) => {
+    ...
+  }
+
+  return (
+    <div className="App">
+      <Header title="Todo List" />
+      <AddItem 
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
+      <TodoList
+        items={items}
+        handleChecked={handleChecked}
+        handleDelete={handleDelete}
+      />
+      <Footer length={items.length}/>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### Adding Search
+
+We're going to create another new component called `SearchItem.js`:
 
 [⬆ Top](#Table-of-Contents)
 
