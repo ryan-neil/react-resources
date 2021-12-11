@@ -15,9 +15,6 @@ body {
 	font-family: Ubuntu, -apple-system;
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
-
-	/* to be removed */
-	/* padding: 1rem; */
 }
 img,
 picture,
@@ -45,9 +42,4 @@ h6 {
 #root,
 #__next {
 	isolation: isolate;
-}
-
-/* App styles */
-.App {
-	/* text-align: center; */
 }

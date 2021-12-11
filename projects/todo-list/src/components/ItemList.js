@@ -1,8 +1,16 @@
 import LineItem from './LineItem';
+// styles
+import styled from 'styled-components';
+const Ul = styled.ul`
+	width: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+`;
 
 const ItemList = ({ items, handleChecked, handleDelete }) => {
 	return (
-		<ul>
+		<Ul>
 			{items.map((item) => {
 				return (
 					<LineItem
@@ -13,7 +21,7 @@ const ItemList = ({ items, handleChecked, handleDelete }) => {
 					/>
 				);
 			})}
-		</ul>
+		</Ul>
 	);
 };
 

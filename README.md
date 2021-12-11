@@ -1855,9 +1855,99 @@ function App() {
 export default App;
 ```
 
-### Adding Search
+### Adding a Search Feature
 
-We're going to create another new component called `SearchItem.js`:
+Let's update our `App` component:
+```jsx
+// App.js
+...
+
+function App() {
+  const [ items, setItems ] = useState(JSON.parse(localStorage.getItem('todolist')));
+  const [ newItem, setNewItem ] = useState('');
+  // 1. set search state
+	const [ search, setSearch ] = useState('');
+
+  const setStateAndSaveItemsLocally = (newItems) => {
+    setItems(newItems);
+    localStorage.setItem('todolist', JSON.stringify(newItems));
+  }
+
+  const addItem = (item) => {
+    ...
+  }
+
+  const handleChecked = (id) => {
+    ...
+  };
+
+  const handleDelete = (id) => {
+    ...
+  };
+
+  const handleSubmit = (e) => {
+    ...
+  }
+
+  // 2. create handle search function
+  const handleSearch = () => {
+    return items.filter((item) => item.task.toLowerCase().includes(search.toLowerCase()));
+  }
+
+  return (
+    <div className="App">
+      <Header title="Todo List" />
+      <AddItem 
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
+      <SearchItem 
+        // 3. pass in our search props for the SearchItem component to use
+        search={search} 
+        setSearch={setSearch}
+      />
+      <TodoList
+        // 4. replace {items} with the handleSearch function
+        items={handleSearch()}
+        handleChecked={handleChecked}
+        handleDelete={handleDelete}
+      />
+      <Footer length={items.length}/>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Now, we can go ahead and create another new component called `SearchItem`:
+```jsx
+// SearchItem.js
+// 1. destructure props from App component
+const SearchItem = ({ search, setSearch }) => {
+  return (
+    // 2. pass in prevent default method straight away
+    <form onSubmit={(e) => e.preventDefault()}>
+      <label htmlFor="search">Search</label>
+      <input
+        type="search"
+        id="search"
+        role="searchbox"
+        placeholder="Search items"
+        // 3. set initial state
+        value={search}
+        // 4. updated state based on user typing
+        onChange={(e) => setSearch(e.target.value)}
+      />
+    </form>
+  );
+};
+
+export default SearchItem;
+```
+
+And that's it! We've finished our little todo application.
 
 [⬆ Top](#Table-of-Contents)
 

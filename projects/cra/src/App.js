@@ -1,12 +1,13 @@
 // styles
+import './styles/resets.css';
 import styled from 'styled-components';
-import './App.css';
+const AppContainer = styled.div`text-align: center;`;
 
 function App() {
 	return (
-		<div>
-			<h1>App running...</h1>
-		</div>
+		<AppContainer>
+			<h3>App running...</h3>
+		</AppContainer>
 	);
 }
 

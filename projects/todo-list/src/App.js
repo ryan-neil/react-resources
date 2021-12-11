@@ -1,5 +1,6 @@
 // components
 import Header from './components/Header';
+import SearchItem from './components/SearchItem';
 import AddItem from './components/AddItem';
 import TodoList from './components/TodoList';
 import Footer from './components/Footer';
@@ -40,6 +41,8 @@ function App() {
 		JSON.parse(localStorage.getItem('todolist'))
 	);
 	const [ newItem, setNewItem ] = useState('');
+	// 1. set search state
+	const [ search, setSearch ] = useState('');
 
 	const setStateAndSaveItemsLocally = (newItems) => {
 		setItems(newItems);
@@ -81,6 +84,14 @@ function App() {
 		setNewItem('');
 	};
 
+	const handleSearch = () => {
+		return items.filter(
+			// (item) => item.task.includes(search)
+			// toLowerCase to remove casing
+			(item) => item.task.toLowerCase().includes(search.toLowerCase())
+		);
+	};
+
 	return (
 		<Container className="App">
 			<Header title="Todo List" />
@@ -89,8 +100,9 @@ function App() {
 				setNewItem={setNewItem}
 				handleSubmit={handleSubmit}
 			/>
+			<SearchItem search={search} setSearch={setSearch} />
 			<TodoList
-				items={items}
+				items={handleSearch()}
 				handleChecked={handleChecked}
 				handleDelete={handleDelete}
 			/>
