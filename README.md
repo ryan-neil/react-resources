@@ -2085,8 +2085,15 @@ function App() {
   const [ search, setSearch ] = useState('');
 
   useEffect(() => {
+    // load data from local storage
     setItems(JSON.parse(localStorage.getItem('todolist'))); // or some API data
   }, []);
+
+  const setStateAndSaveItemsLocally = (newItems) => {
+    // save data to local storage
+    localStorage.setItem('todolist', JSON.stringify(newItems));
+    setItems(newItems);
+  };
 
 ...
 ```
@@ -2113,13 +2120,13 @@ import { useState, useEffect } from 'react';
 function App() {
   // 1.  load local storage data (or API data)
   const [ items, setItems ] = useState(JSON.parse(localStorage.getItem('todolist')) || []);
-	const [ newItem, setNewItem ] = useState('');
-	const [ search, setSearch ] = useState('');
+  const [ newItem, setNewItem ] = useState('');
+  const [ search, setSearch ] = useState('');
 
-	useEffect(() => {
-    // 2. save local storage data, it's now 'items' not 'newItems'
-			localStorage.setItem('todolist', JSON.stringify(items));
-		}, [items]);
+  useEffect(() => {
+    // 2. save local storage data ('items')
+    localStorage.setItem('todolist', JSON.stringify(items));
+  }, [items]);
 
   // 3. remove 'setStateAndSaveItemsLocally' function
 
@@ -2129,7 +2136,8 @@ function App() {
 1. Here we're adding a _short circuit_ operator with an empty array. This is for the new users coming in who don't have a todo list yet, they receive an empty array. So, anytime `items` changes we will save them to local storage.
 
 2. We then move the logic for saving items up into the `useEffect` Hook and we pass `items` to the `setItem` method because it will be the current state we will be saving to local storage. So, anytime 'items' changes we will save them to local storage.
-
+\
+\
 Instead of loading everything at the beginning, we're just looking at the state of the `items` and if the state changes we save `items` to local storage to be pulled back into action next time the page loads.
 
 3. Lastly, we can remove our `setStateAndSaveItemsLocally` function we created to save the `newItems` and update the state.
