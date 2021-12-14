@@ -4,6 +4,7 @@ import ItemList from './ItemList';
 import styled from 'styled-components';
 const TodoStyled = styled.main`
 	height: 100%;
+	padding: 1rem 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

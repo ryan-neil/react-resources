@@ -27,6 +27,11 @@ const Li = styled.li`
 		}
 	}
 `;
+// styles for when the item is complete
+const taskComplete = {
+	textDecoration: 'line-through',
+	color: 'grey'
+};
 
 const LineItem = ({ item, handleChecked, handleDelete }) => {
 	return (
@@ -36,9 +41,7 @@ const LineItem = ({ item, handleChecked, handleDelete }) => {
 				checked={item.checked}
 				onChange={() => handleChecked(item.id)}
 			/>
-			<label
-				style={item.checked ? { textDecoration: 'line-through' } : null}
-			>
+			<label style={item.checked ? taskComplete : null}>
 				{item.task}
 			</label>
 			<button onClick={() => handleDelete(item.id)}>Delete</button>

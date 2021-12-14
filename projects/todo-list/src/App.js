@@ -4,7 +4,7 @@ import SearchItem from './components/SearchItem';
 import AddItem from './components/AddItem';
 import TodoList from './components/TodoList';
 import Footer from './components/Footer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // styles
 import './App.css';
 import styled from 'styled-components';
@@ -17,37 +17,21 @@ const Container = styled.div`
 	justify-content: space-around;
 `;
 
-// default data
-const tasks = [
-	{
-		id: 1,
-		checked: true,
-		task: 'Wash dishes'
-	},
-	{
-		id: 2,
-		checked: false,
-		task: 'Vacuum bedroom'
-	},
-	{
-		id: 3,
-		checked: true,
-		task: 'Call mom'
-	}
-];
-
 function App() {
 	const [ items, setItems ] = useState(
-		JSON.parse(localStorage.getItem('todolist'))
+		// load local storage data (or API data)
+		JSON.parse(localStorage.getItem('todolist')) || []
 	);
 	const [ newItem, setNewItem ] = useState('');
-	// 1. set search state
 	const [ search, setSearch ] = useState('');
 
-	const setStateAndSaveItemsLocally = (newItems) => {
-		setItems(newItems);
-		localStorage.setItem('todolist', JSON.stringify(newItems));
-	};
+	useEffect(
+		() => {
+			// save local storage data (or API data), it's now 'items' not 'newItems'
+			localStorage.setItem('todolist', JSON.stringify(items));
+		},
+		[ items ]
+	);
 
 	const addItem = (item) => {
 		// set id value
@@ -57,20 +41,25 @@ function App() {
 		// create new item list array (add the new item to the end of the list)
 		const listItems = [ ...items, myNewItem ];
 		// update the state of the todo list (same as handleChecked and handleDelete functions)
-		setStateAndSaveItemsLocally(listItems);
+		setItems(listItems);
 	};
 
 	const handleChecked = (id) => {
+		// loop through items
 		const listItems = items.map(
+			// if the item id is equal to the id coming in
+			// ? then update the current item's checked status to the opposite of what it currently is
+			// : if it is not, return the item
 			(item) =>
 				item.id === id ? { ...item, checked: !item.checked } : item
 		);
-		setStateAndSaveItemsLocally(listItems);
+		setItems(listItems);
 	};
 
 	const handleDelete = (id) => {
+		// filter through items and return the items that weren't clicked
 		const listItems = items.filter((item) => item.id !== id);
-		setStateAndSaveItemsLocally(listItems);
+		setItems(listItems);
 	};
 
 	const handleSubmit = (e) => {
@@ -85,10 +74,8 @@ function App() {
 	};
 
 	const handleSearch = () => {
-		return items.filter(
-			// (item) => item.task.includes(search)
-			// toLowerCase to remove casing
-			(item) => item.task.toLowerCase().includes(search.toLowerCase())
+		return items.filter((item) =>
+			item.task.toLowerCase().includes(search.toLowerCase())
 		);
 	};
 

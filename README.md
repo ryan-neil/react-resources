@@ -24,6 +24,8 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
       * 10.1 - [Default Props](#101-Default-Props)
       * 10.2 - [Prop Drilling (Threading)](#102-Prop-Drilling-Threading)
   11. [Controlled Form Inputs](#11-Controlled-Form-Inputs)
+  12. [useEffect Hook](#12-useEffect-Hook)
+  13. [Fetch API Data](#13-Fetch-API-Data)
 
 # 1. Resources
   * [React Docs:](https://reactjs.org/docs/getting-started.html) React Docs
@@ -1948,6 +1950,195 @@ export default SearchItem;
 ```
 
 And that's it! We've finished our little todo application.
+
+[⬆ Top](#Table-of-Contents)
+
+# 12. useEffect Hook
+  * [useEffect:](https://reactjs.org/docs/hooks-reference.html#useeffect) React Docs
+  * [React useEffect Hooks:](https://www.w3schools.com/react/react_useeffect.asp) w3schools
+  * [Learn the React useEffect Hook:](https://www.youtube.com/watch?v=UVhIMwHDS7k&list=PLfruCl-i8oXyhMH7S28cJtzCKjSqKXyyq&index=2) Sonny Sangha YouTube
+  * [React Hooks useEffect Tutorial:](https://www.youtube.com/watch?v=j1ZRyw7OtZs&list=PLfruCl-i8oXyhMH7S28cJtzCKjSqKXyyq&index=1&t=2s) Ben Awad YouTube
+
+The _Effect Hook_ lets you perform side effects in function components. Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.
+
+Previously, in _Class_ based components we had special functions called __lifecycle methods__. These were things like, `componentDidMount`, `componentDidUnmount`, `componentWillUpdate`, etc. What this meant was whenever the component would _reach a lifecycle point_, for example, when it __mounts__, when it's about to __render__, __rerender__, what happens before the rerender so when it __unmounts__, when the component receives __new props__ and so forth. All of these things you could tap into and execute a piece of code based on those _lifecycle functions_.
+
+Now, previously we couldn't do this in functional components but with the whole React code base switching over to functional components, functional programming, the team over at React introduced the _useEffect Hook_. The useEffect Hook replaces every single one of those lifecycle functions mentioned above.
+
+### Use Cases
+
+Let's have a look at some side-by-side comparisons of our old _Class_ based methods and the new `useEffect` alternatives.
+
+#### The new `componentDidMount`:
+```jsx
+// old 
+componentDidMount() {
+  // Lifecycle function - when component mounts/loads.
+  console.log('The component loaded');
+}
+
+// new
+useEffect(() => {
+  // Logs on every render
+  console.log('The component rendered');
+});
+
+useEffect(() => {
+  // Logs on first render/mount only - 'componentDidMount' alternative.
+  console.log('The component loaded');
+}, []);
+```
+
+In the above example, the difference between the two useEffect methods is the second one example has the _dependency array_ (although the array has nothing inside of it). So what this is telling React is, only run this method on the first render. In other words, only run it when the component mounts and after that if there are subsequent re-renders, don't run that code.
+
+#### The new `componentDidUpdate`:
+```jsx
+// old 
+componentDidUpdate(prevProps) {
+  // Lifecycle function - when component props change.
+  console.log('The components props changed');
+}
+
+// new 
+useEffect(() => {
+  // Logs on first render + whenever dependency changes - 'componentDidUpdate' alternative.
+  console.log(`The name changed: ${name}`);
+}, [name])
+```
+
+Previously, the `componentDidUpdate` only got triggered when the props changed. However, we may what a bit more control over this aspect. To get more control we can replace `componentDidUpdate` with the useEffect Hook and we can include a variable inside of the dependency array. 
+
+Now, this is an array which means we can include as many variables as we want. So, anytime any of those variables changes it will trigger the code. Inside the dependency array we can include:
+  * props
+  * state
+  * anything we want to trigger the rerender for
+
+This essentially makes it much more clear, where previously it wasn't always clear that a rerender was about to happen or not. A rule pf thumb is that, imagine we did not include anything in the dependency array but our code has a dependency, React will warn us that the React Hook useEffect has a missing dependency and that we should include it in the dependency array or remove it:
+```jsx
+// bad 
+useEffect(() => {
+  console.log(`The name changed: ${name}`);
+}, [])
+
+// good
+useEffect(() => {
+  console.log(`The name changed: ${name}`);
+}, [name])
+```
+
+#### The new `componentWillUnmount`:
+```jsx
+// old 
+componentWillUnmount() {
+  // Lifecycle function - when component unmounts/cleanup function.
+}
+
+// new 
+useEffect(() => {
+
+  console.log('The component changed');
+
+  return () => {
+    // cleanup...
+    // anything in here is fired on component unmount.
+    console.log('Component has been unmounted');
+  }
+}, [])
+```
+
+The useEffect in this example allows us to have something called a "cleanup" function. In every single `useEffect` we can return a function from the useEffect and this returned function is known as the "cleanup" function. What this means is, before the component re-renders, React quickly _unmounts_ the component so that it can re-render another one in its place.
+
+This is very powerful because for example, let's say you make a connection to a database and every single time the component re-renders you don't want to keep reconnecting. Instead we need to do a quick cleanup, we need to disconnect the current connection and then re-connect. An even better solution would be to only do it on the first render:
+```jsx
+useEffect(() => {
+  // initialize database connection
+  connectToDatabase();
+}, []);
+```
+
+This is where we need to think about which implementation of `useEffect` is best to use for the current situation.
+
+#### Combining both `componentDidMount` and `componentWillUnmount`
+
+This means that you can use `componentDidMount`, and `componentWillUnmount` in the same `useEffect` function call:
+```jsx
+useEffect(() => {
+  // anything in here is fired on component mount.
+  return () => {
+    // anything in here is fired on component unmount.
+  }
+}, [])
+```
+
+### Todo App Example:
+
+Let's incorporate useEffect into our Todo Application from the previous section.
+
+Inside of `App.js` we can now add `useEffect` and pass in our data:
+```jsx
+import { useState, useEffect } from 'react';
+
+function App() {
+  // update items 'useState' and initialize 'useEffect' with an empty array
+  const [ items, setItems ] = useState([]);
+  const [ newItem, setNewItem ] = useState('');
+  const [ search, setSearch ] = useState('');
+
+  useEffect(() => {
+    setItems(JSON.parse(localStorage.getItem('todolist'))); // or some API data
+  }, []);
+
+...
+```
+
+In the above code, `useEffect` will only call our `setItems` method on the _initial page load_, which is represented by the empty array dependency (`}, [])`). This is an ideal way to load data, especially when you are working with than API.
+
+It's important to note, that we would never want `setItems` inside of `useEffect` if you had an `items` dependency. This would cause an infinite loop.
+```jsx
+// bad
+useEffect(() => {
+  setItems(data);
+}, [ items ])
+
+// ok
+useEffect(() => {
+  setItems(data);
+}, [])
+```
+
+Let's see how we can refactor our App.js code a bit more:
+```jsx
+import { useState, useEffect } from 'react';
+
+function App() {
+  // 1.  load local storage data (or API data)
+  const [ items, setItems ] = useState(JSON.parse(localStorage.getItem('todolist')) || []);
+	const [ newItem, setNewItem ] = useState('');
+	const [ search, setSearch ] = useState('');
+
+	useEffect(() => {
+    // 2. save local storage data, it's now 'items' not 'newItems'
+			localStorage.setItem('todolist', JSON.stringify(items));
+		}, [items]);
+
+  // 3. remove 'setStateAndSaveItemsLocally' function
+
+...
+```
+
+1. Here we're adding a _short circuit_ operator with an empty array. This is for the new users coming in who don't have a todo list yet, they receive an empty array. So, anytime `items` changes we will save them to local storage.
+
+2. We then move the logic for saving items up into the `useEffect` Hook and we pass `items` to the `setItem` method because it will be the current state we will be saving to local storage. So, anytime 'items' changes we will save them to local storage.
+
+Instead of loading everything at the beginning, we're just looking at the state of the `items` and if the state changes we save `items` to local storage to be pulled back into action next time the page loads.
+
+3. Lastly, we can remove our `setStateAndSaveItemsLocally` function we created to save the `newItems` and update the state.
+
+[⬆ Top](#Table-of-Contents)
+
+# 13. Fetch API Data
+
+
 
 [⬆ Top](#Table-of-Contents)
 
