@@ -1,7 +1,7 @@
 // components
 import Header from './components/Header';
-import SearchItem from './components/SearchItem';
 import AddItem from './components/AddItem';
+import SearchItem from './components/SearchItem';
 import TodoList from './components/TodoList';
 import Footer from './components/Footer';
 import { useState, useEffect } from 'react';
@@ -14,24 +14,47 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: space-between;
 `;
 
 function App() {
-	const [ items, setItems ] = useState(
-		// load local storage data (or API data)
-		JSON.parse(localStorage.getItem('todolist')) || []
-	);
+	const API_URL = 'http://localhost:9001/items';
+
+	const [ items, setItems ] = useState([]);
 	const [ newItem, setNewItem ] = useState('');
 	const [ search, setSearch ] = useState('');
+	const [ fetchError, setFetchError ] = useState(null);
+  // add the loading state
+  const [isLoading, setIsLoading] = useState(true)
 
-	useEffect(
-		() => {
-			// save local storage data (or API data), it's now 'items' not 'newItems'
-			localStorage.setItem('todolist', JSON.stringify(items));
-		},
-		[ items ]
-	);
+	useEffect(() => {
+		const fetchItems = async () => {
+			try {
+				// fetch db data
+				const res = await fetch(API_URL);
+				// look for an error from response
+				if (!res.ok) throw Error('Did not receive expected data');
+				// receive data in json format
+				const listItems = await res.json();
+				console.log(listItems);
+				// update state to the returned items
+				setItems(listItems);
+				// update the fetch error
+				setFetchError(null);
+			} catch (err) {
+				console.log(err.message);
+				setFetchError(err.message);
+        // call 'isLoading'
+			} finally {
+        setIsLoading(false)
+      }
+		};
+
+		// simulate delayed fetch call
+		setTimeout(() => {
+			fetchItems();
+		}, 2000);
+	}, []);
 
 	const addItem = (item) => {
 		// set id value
@@ -42,6 +65,12 @@ function App() {
 		const listItems = [ ...items, myNewItem ];
 		// update the state of the todo list (same as handleChecked and handleDelete functions)
 		setItems(listItems);
+	};
+
+	const handleSearch = () => {
+		return items.filter((item) =>
+			item.task.toLowerCase().includes(search.toLowerCase())
+		);
 	};
 
 	const handleChecked = (id) => {
@@ -73,12 +102,6 @@ function App() {
 		setNewItem('');
 	};
 
-	const handleSearch = () => {
-		return items.filter((item) =>
-			item.task.toLowerCase().includes(search.toLowerCase())
-		);
-	};
-
 	return (
 		<Container className="App">
 			<Header title="Todo List" />
@@ -88,11 +111,22 @@ function App() {
 				handleSubmit={handleSubmit}
 			/>
 			<SearchItem search={search} setSearch={setSearch} />
-			<TodoList
-				items={handleSearch()}
-				handleChecked={handleChecked}
-				handleDelete={handleDelete}
-			/>
+			<>
+        {/* Display loading */}
+        {isLoading && <p>Loading items...</p>}
+				{/* Display fetch error */}
+				{fetchError && (
+					<p style={{ color: 'red' }}>{`Error: ${fetchError}`}</p>
+				)}
+				{/* If no error and not loading data, display todo list */}
+				{!fetchError && !isLoading && (
+					<TodoList
+						items={handleSearch()}
+						handleChecked={handleChecked}
+						handleDelete={handleDelete}
+					/>
+				)}
+			</>
 			<Footer length={items.length} />
 		</Container>
 	);

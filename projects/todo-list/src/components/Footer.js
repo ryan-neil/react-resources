@@ -25,4 +25,8 @@ const Footer = ({ length }) => {
 	);
 };
 
+Footer.defaultProps = {
+	length: 0
+};
+
 export default Footer;

@@ -26,6 +26,7 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   11. [Controlled Form Inputs](#11-Controlled-Form-Inputs)
   12. [useEffect Hook](#12-useEffect-Hook)
   13. [Fetch API Data](#13-Fetch-API-Data)
+  14. [React Router](#14-React-Router)
 
 # 1. Resources
   * [React Docs:](https://reactjs.org/docs/getting-started.html) React Docs
@@ -2070,7 +2071,7 @@ useEffect(() => {
 }, [])
 ```
 
-### Todo App Example:
+## Todo App Example:
 
 Let's incorporate useEffect into our Todo Application from the previous section.
 
@@ -2126,16 +2127,16 @@ function App() {
   useEffect(() => {
     // 2. save local storage data ('items')
     localStorage.setItem('todolist', JSON.stringify(items));
-  }, [items]);
+  }, [ items ]);
 
   // 3. remove 'setStateAndSaveItemsLocally' function
 
 ...
 ```
 
-1. Here we're adding a _short circuit_ operator with an empty array. This is for the new users coming in who don't have a todo list yet, they receive an empty array. So, anytime `items` changes we will save them to local storage.
+1. Here we're adding a _short circuit_ operator with an empty array. This is for the new users coming in who don't have a todo list yet, they receive an empty array.
 
-2. We then move the logic for saving items up into the `useEffect` Hook and we pass `items` to the `setItem` method because it will be the current state we will be saving to local storage. So, anytime 'items' changes we will save them to local storage.
+2. We then move the logic for saving items up into the `useEffect` Hook and we pass `items` to the `setItem` method because it will be the current state we will be saving to local storage. So, anytime `items` changes we will save them to local storage.
 \
 \
 Instead of loading everything at the beginning, we're just looking at the state of the `items` and if the state changes we save `items` to local storage to be pulled back into action next time the page loads.
@@ -2145,6 +2146,287 @@ Instead of loading everything at the beginning, we're just looking at the state 
 [⬆ Top](#Table-of-Contents)
 
 # 13. Fetch API Data
+  * [Fetch API:](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) MDN
+  * [Fetching Data with useEffect:](https://www.youtube.com/watch?v=T3Px88x_PsA) The Net Ninja
+
+Let's look at a quick example of how we can fetch data from an API in React using the useEffect Hook:
+```jsx
+import { useState, useEffect } from 'react';
+
+function App() {
+  const [items, setItems] = setState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch('https://example.com/api'); // fetch API
+        if (!res.ok) throw Error('Did not receive expected data'); // error handling
+
+        const data = await res.json(); // returned data
+        setItems(data); // update state
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchData();
+  }, [])
+
+  // some other App logic...
+
+  return (
+    // App JSX...
+  )
+}
+
+export default App;
+```
+
+## Todo App Example:
+
+Let's see how we can fetch data from an API inside our Todo List application we've been building out. To do this we will be using [JSON Server](https://www.npmjs.com/package/json-server) which will allow us to run a mock backend REST API so we can practice fetching data from it.
+
+To get our mock API up and running we need to create a new directory inside our root folder called `data`. Now inside the `data` folder we need to create a `db.json` file:
+```json
+// db.json
+{
+  "items": [
+    {
+      "id": 1,
+      "checked": false,
+      "task": "Wash dishes"
+    },
+    {
+      "id": 2,
+      "checked": true,
+      "task": "Take out trash"
+    },
+    {
+      "id": 3,
+      "checked": true,
+      "task": "Mow the lawn"
+    }
+  ]
+}
+```
+
+Once we have this created we fire up our JSON server. Inside the terminal we can run the command:
+```bash
+npx json-server -p 9001 -w data/db.json
+```
+
+And that's it our REST API is up and running over at, `http://localhost:9001/items`! So we can now fetch this URL and receive our JSON data back just like a live working API.
+
+### Fetching Data
+
+Now, over in App.js we can save our URL to a variable and replace our local storage logic with our new data coming from the local API:
+```jsx
+import Header from './components/Header'
+import AddItem from './components/AddItem'
+import SearchItem from './components/SearchItem'
+import TodoList from './components/TodoList'
+import Footer from './components/Footer'
+
+import { useState, useEffect } from 'react';
+
+function App() {
+  // save our API URL to a variable
+  const API_URL = 'http://localhost:9001/items';
+
+  // remove loading data from local storage (leave empty array as initial app state)
+  const [ items, setItems ] = useState([]);
+  const [ newItem, setNewItem ] = useState('');
+  const [ search, setSearch ] = useState('');
+
+  // define an async function we can call inside of useEffect
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        // fetch db.json data
+        const res = await fetch(API_URL);
+        // receive data in json format
+        const listItems = await res.json();
+        // update state to the returned items
+        setItems(listItems);
+      } catch (err) {
+        // log any errors
+        console.log(err.message);
+      }
+    };
+
+    // immediately invoke the function
+    fetchItems();
+  }, []);
+
+...
+```
+
+We're now receiving our data from our local API!
+
+### Handling Errors
+
+Let's see how we can handle and display any errors we receive back to the user.
+
+```jsx
+import Header from './components/Header'
+import AddItem from './components/AddItem'
+import SearchItem from './components/SearchItem'
+import TodoList from './components/TodoList'
+import Footer from './components/Footer'
+
+import { useState, useEffect } from 'react';
+
+function App() {
+  const API_URL = 'http://localhost:9001/items';
+
+  const [ items, setItems ] = useState([]);
+  const [ newItem, setNewItem ] = useState('');
+  const [ search, setSearch ] = useState('');
+  // set a fetch error with state
+	const [ fetchError, setFetchError ] = useState(null);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const res = await fetch(API_URL);
+
+        // look for an error from response
+        if (!res.ok) throw Error('Did not receive expected data');
+
+        const listItems = await res.json();
+        setItems(listItems);
+
+        // update the fetch error
+				setFetchError(null);
+      } catch (err) {
+        // update the fetch error
+        setFetchError(err.message);
+      }
+    };
+    fetchItems();
+  }, []);
+
+  // all app functions logic...
+
+  return (
+    // use our fetchError in JSX
+    <div className="App">
+      <Header title="Todo List" />
+      <AddItem
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
+      <SearchItem search={search} setSearch={setSearch} />
+      <>
+        {/* if error display fetch error */}
+        {fetchError && (
+          <p style={{ color: 'red' }}>{`Error: ${fetchError}`}</p>
+        )}
+        {/* if no error, display todo list */}
+        {!fetchError && (
+          <TodoList
+            items={handleSearch()}
+            handleChecked={handleChecked}
+            handleDelete={handleDelete}
+          />
+        )}
+      </>
+      <Footer length={items.length} />
+    </div>
+  )
+}
+
+export default App;
+```
+
+### Handling Loading
+
+Let's now handling our loading screen while we wait for the data to come back from the API. We want to show the user that in fact their data is being loaded from the API while they wait:
+```jsx
+import Header from './components/Header'
+import AddItem from './components/AddItem'
+import SearchItem from './components/SearchItem'
+import TodoList from './components/TodoList'
+import Footer from './components/Footer'
+
+import { useState, useEffect } from 'react';
+
+function App() {
+  const API_URL = 'http://localhost:9001/items';
+
+  const [ items, setItems ] = useState([]);
+  const [ newItem, setNewItem ] = useState('');
+  const [ search, setSearch ] = useState('');
+  const [ fetchError, setFetchError ] = useState(null);
+  // add loading state
+  const [ isLoading, setIsLoading ] = setState(true);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const res = await fetch(API_URL);
+        if (!res.ok) throw Error('Did not receive expected data');
+
+        const listItems = await res.json();
+        setItems(listItems);
+
+        setFetchError(null);
+      } catch (err) {
+        setFetchError(err.message);
+      // add a finally to update loading state to false once we get a success or failure
+      } finally {
+        setIsLoading(false)
+      }
+    };
+
+    // simulate delayed fetch call
+    setTimeout(() => {
+      fetchItems();
+    }, 2000);
+  }, []);
+
+  // all app functions logic...
+
+  return (
+    <div className="App">
+      <Header title="Todo List" />
+      <AddItem
+        newItem={newItem}
+        setNewItem={setNewItem}
+        handleSubmit={handleSubmit}
+      />
+      <SearchItem search={search} setSearch={setSearch} />
+      <>
+        {/* Display loading */}
+        {isLoading && <p>Loading items...</p>}
+        {fetchError && (
+          <p style={{ color: 'red' }}>{`Error: ${fetchError}`}</p>
+        )}
+        
+        {/* If no error and not loading data, display todo list */}
+        {!fetchError && !isLoading && (
+          <TodoList
+            items={handleSearch()}
+            handleChecked={handleChecked}
+            handleDelete={handleDelete}
+          />
+        )}
+      </>
+      <Footer length={items.length} />
+    </div>
+  )
+}
+
+export default App;
+```
+
+### CRUD Operations
+
+
+
+[⬆ Top](#Table-of-Contents)
+
+# 14. React Router
 
 
 
