@@ -2,7 +2,7 @@
 import ItemList from './ItemList';
 // styles
 import styled from 'styled-components';
-const TodoStyled = styled.main`
+const TodoStyled = styled.div`
 	height: 100%;
 	padding: 1rem 0;
 	display: flex;

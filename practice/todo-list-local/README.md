@@ -1,8 +1,8 @@
-# Simple Todo List App
+# Simple Todo List App (Training)
 
-[Video Tutorial (1:00:00)](https://www.youtube.com/watch?v=RVFAyFWO4go)
+## What we will be building:
 
-## What we need to build:
+This is a training exercise for building out a simple Todo List application. We will be using a local database JSON file/local storage for storing user data.
 
 ### Part 1: Initial Setup
 
@@ -251,7 +251,7 @@ const tasks = [
   
   ### Footer.js
   ```jsx
-  function Footer({ title }) {
+  function Footer({ length }) {
     return (
       <div>
         <h2>{length} List Items</h2>

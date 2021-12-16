@@ -26,7 +26,8 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   11. [Controlled Form Inputs](#11-Controlled-Form-Inputs)
   12. [useEffect Hook](#12-useEffect-Hook)
   13. [Fetch API Data](#13-Fetch-API-Data)
-  14. [React Router](#14-React-Router)
+  14. [CRUD Operations](#14-CRUD-Operations)
+  15. [React Router](#15-React-Router)
 
 # 1. Resources
   * [React Docs:](https://reactjs.org/docs/getting-started.html) React Docs
@@ -36,7 +37,6 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   * [Structuring a React App:](https://reactjs.org/docs/faq-structure.html) React Docs
   * [Bulletproof React:](https://github.com/alan2207/bulletproof-react) Github Repo
   * [React Cheat sheet:](https://dev.to/ericchapman/react-cheat-sheet-updated-may-2021-1mcd) DEV (Updated June 2021)
-  * [A Visual Guide to useEffect:](https://alexsidorenko.com/blog/useeffect/) Alex Sidorenko
 
 # 2. Tutorials
 #### Full Courses:
@@ -386,7 +386,8 @@ And that's it! It may not be a million dollar application but it's a start!
 [⬆ Top](#Table-of-Contents)
 
 # 6. Applying Styles
-  * [Styling and CSS: React Docs](https://reactjs.org/docs/faq-styling.html)
+  * [Styling and CSS:](https://reactjs.org/docs/faq-styling.html) React Docs
+  * [My Custom CSS Reset:](https://www.joshwcomeau.com/css/custom-css-reset/) Josh W. Comeau
 
 ## 6.1 Styling within React
 
@@ -1957,6 +1958,7 @@ And that's it! We've finished our little todo application.
 # 12. useEffect Hook
   * [useEffect:](https://reactjs.org/docs/hooks-reference.html#useeffect) React Docs
   * [React useEffect Hooks:](https://www.w3schools.com/react/react_useeffect.asp) w3schools
+  * [A Visual Guide to useEffect:](https://alexsidorenko.com/blog/useeffect/) Alex Sidorenko
   * [Learn the React useEffect Hook:](https://www.youtube.com/watch?v=UVhIMwHDS7k&list=PLfruCl-i8oXyhMH7S28cJtzCKjSqKXyyq&index=2) Sonny Sangha YouTube
   * [React Hooks useEffect Tutorial:](https://www.youtube.com/watch?v=j1ZRyw7OtZs&list=PLfruCl-i8oXyhMH7S28cJtzCKjSqKXyyq&index=1&t=2s) Ben Awad YouTube
 
@@ -2146,6 +2148,8 @@ Instead of loading everything at the beginning, we're just looking at the state 
 [⬆ Top](#Table-of-Contents)
 
 # 13. Fetch API Data
+  * [AJAX and APIs:](https://reactjs.org/docs/faq-ajax.html) React Docs
+  * [Fetching Data with AJAX Requests:](https://create-react-app.dev/docs/fetching-data-with-ajax-requests) Create React App
   * [Fetch API:](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) MDN
   * [Fetching Data with useEffect:](https://www.youtube.com/watch?v=T3Px88x_PsA) The Net Ninja
 
@@ -2187,7 +2191,6 @@ Let's see how we can fetch data from an API inside our Todo List application we'
 
 To get our mock API up and running we need to create a new directory inside our root folder called `data`. Now inside the `data` folder we need to create a `db.json` file:
 ```json
-// db.json
 {
   "items": [
     {
@@ -2282,7 +2285,7 @@ function App() {
   const [ newItem, setNewItem ] = useState('');
   const [ search, setSearch ] = useState('');
   // set a fetch error with state
-	const [ fetchError, setFetchError ] = useState(null);
+  const [ fetchError, setFetchError ] = useState(null);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -2296,7 +2299,7 @@ function App() {
         setItems(listItems);
 
         // update the fetch error
-				setFetchError(null);
+        setFetchError(null);
       } catch (err) {
         // update the fetch error
         setFetchError(err.message);
@@ -2420,13 +2423,201 @@ function App() {
 export default App;
 ```
 
-### CRUD Operations
+# 14. CRUD Operations
 
+Let's see how we can incorporate some CRUD operations inside our Todo List application. 
 
+We won't be covering _reading_ an item since we've been doing this throughout the application. This operation happens as soon as the app loads with the fetch method.
+
+To begin, let create another file called `apiRequest`. This file will hold our fetching data helper function:
+```js
+// apiRequest.js
+const apiRequest = async (url = '', optionsObj = null, errMsg = null) => {
+  try {
+    const response = await fetch(url, optionsObj);
+    // error check
+    if (!response.ok) throw Error('Please reload the app');
+  } catch (err) {
+    // if error, update the error message
+    errMsg = err.message;
+  } finally {
+    // the function will only return an error message, either null or the error message
+    return errMsg;
+  }
+};
+
+export default apiRequest;
+```
+
+In the code above, the `optionsObj` parameter is what makes the difference between this being a _create_, _update_, or _delete_ request. That's all there is to this function.
+
+## Create:
+
+Let's handle the _create_ portion of the CRUD operations. Back in our `App` component let's revise our `addItem` method:
+```jsx
+import Header from './components/Header';
+import AddItem from './components/AddItem';
+import SearchItem from './components/SearchItem';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+import { useState, useEffect } from 'react';
+// 1. import apiRequest method
+import apiRequest from './components/apiRequest';
+
+function App() {
+  const API_URL = 'http://localhost:9001/items';
+
+  const [ items, setItems ] = useState([]);
+  const [ newItem, setNewItem ] = useState('');
+  const [ search, setSearch ] = useState('');
+  const [ fetchError, setFetchError ] = useState(null);
+  const [ isLoading, setIsLoading ] = useState(true);
+
+  useEffect(() => {
+    // do some stuff...
+  })
+
+  // 2. revise to be async since our 'apiRequest' method is async
+  const addItem = async (item) => {
+    const id = items.length ? items[items.length - 1].id + 1 : 1;
+    const myNewItem = { id: id, checked: false, task: item };
+    const listItems = [ ...items, myNewItem ];
+    setItems(listItems);
+
+    // 3. define the new item type and content to be sent to REST API -> (db.json)
+    const postOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(myNewItem)
+    };
+    // 4. define the request and send to our API
+    const result = await apiRequest(API_URL, postOptions);
+    // 5. the 'apiRequest' will only return an error message, either null or the message so we can update setFetchError with this
+    if (result) setFetchError(result);
+  }
+
+  ...
+}
+```
+
+## Update:
+
+Let's now take care of the _update_ part of our CRUD operations. For this we will be revising our `handleChecked` method inside the `App` component:
+```jsx
+import Header from './components/Header';
+import AddItem from './components/AddItem';
+import SearchItem from './components/SearchItem';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+import { useState, useEffect } from 'react';
+import apiRequest from './components/apiRequest';
+
+function App() {
+  const API_URL = 'http://localhost:9001/items';
+
+  const [ items, setItems ] = useState([]);
+  const [ newItem, setNewItem ] = useState('');
+  const [ search, setSearch ] = useState('');
+  const [ fetchError, setFetchError ] = useState(null);
+  const [ isLoading, setIsLoading ] = useState(true);
+
+  useEffect(() => {
+    // do some stuff...
+  })
+
+  const addItem = async (item) => {
+    // do some stuff...
+  }
+
+  // 1. revise to be async
+  const handleChecked = async (id) => {
+    const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item);
+    setItems(listItems);
+
+    // 2. get the item that has been selected (checked)
+    const myItem = listItems.filter((item) => item.id === id);
+    // 3. define update options, we use PATCH for this
+    const updateOptions = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // myItem is an array of 1 value so we just do [0]
+      body: JSON.stringify({ checked: myItem[0].checked })
+    };
+    // 4. define our request URL (this will be a bit different than the URL for GET and POST)
+    const requestURL = `${API_URL}/${id}`;
+    // 5. define our result
+    const result = await apiRequest(requestURL, updateOptions);
+    // 6. again, the apiRequest will only return an error message, either null or the message so we can update setFetchError with this
+    if (result) setFetchError(result);
+  }
+
+  ...
+}
+```
+
+## Delete:
+
+Let's now take care of the _deleting_ part of our CRUD operations. For this we will be revising our `handleDelete` method inside the `App` component:
+```jsx
+import Header from './components/Header';
+import AddItem from './components/AddItem';
+import SearchItem from './components/SearchItem';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+import { useState, useEffect } from 'react';
+import apiRequest from './components/apiRequest';
+
+function App() {
+  const API_URL = 'http://localhost:9001/items';
+
+  const [ items, setItems ] = useState([]);
+  const [ newItem, setNewItem ] = useState('');
+  const [ search, setSearch ] = useState('');
+  const [ fetchError, setFetchError ] = useState(null);
+  const [ isLoading, setIsLoading ] = useState(true);
+
+  useEffect(() => {
+    // do some stuff...
+  })
+
+  const addItem = async (item) => {
+    // do some stuff...
+  }
+
+  const handleChecked = async (id) => {
+    // do some stuff...
+  }
+
+  // 1. revise to be async
+  const handleDelete = async (id) => {
+    const listItems = items.filter((item) => item.id !== id);
+    setItems(listItems);
+
+    // 2. define DELETE options (only need the method here)
+    const deleteOptions = {
+      method: 'DELETE'
+    };
+    // 3. define the request URL (same as UPDATE)
+    const requestURL = `${API_URL}/${id}`;
+    // 4. define our result
+    const result = await apiRequest(requestURL, deleteOptions);
+    // 5. update the setFetchError
+    if (result) setFetchError(result);
+  }
+
+  ...
+}
+```
+
+Okay these are all working as expected. So, now when we make changes to our application, our `db.json` file reflects this changes automatically. Pretty cool!
 
 [⬆ Top](#Table-of-Contents)
 
-# 14. React Router
+# 15. React Router
 
 
 
