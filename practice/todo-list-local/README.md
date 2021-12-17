@@ -18,21 +18,21 @@ This is a training exercise for building out a simple Todo List application. We 
 
 We can create our own default data or use this set:
 ```js
-const tasks = [
+const data = [
   {
     id: 1,
     checked: false,
-    task: 'Wash dishes'
+    item: 'Wash dishes'
   },
   {
     id: 2,
     checked: true,
-    task: 'Vacuum bedroom'
+    item: 'Vacuum bedroom'
   },
   {
     id: 3,
     checked: true,
-    task: 'Call mom'
+    item: 'Call mom'
   }
 ];
 ```
@@ -43,22 +43,6 @@ const tasks = [
   * We should be able to _delete_ an item from the list __(1:29:00)__
     * Each action should then update the current state
   * We should display a message if the list is empty
-
-<details>
-  <summary>Click to Show Handle Check Hint</summary>
-  
-  ## Handle Checked
-	* if the item id being looped is equal to the id coming in
-	* ? create a new object by spreading out the item object being looped and update that items checked value to be the opposite of what it currently is
-	* : if not equal, just return the object
-</details>
-
-<details>
-  <summary>Click to Show Handle Delete Hint</summary>
-  
-  ## Handle Delete
-	* return the items array who's item id being looped is not equal to the id coming in
-</details>
 
 4. Using prop drilling ("threading"):
   * The `Header` component should display a `title` property
@@ -111,64 +95,95 @@ const tasks = [
 ### Solution
 
 <details>
-  <summary>Toggle to view solution...</summary>
+  <summary>Toggle to View Solution:</summary>
   
-  ### App.js
+  #### `App.js`
   ```jsx
-  import { useState } from 'react';
-
   import Header from './components/Header';
+  import AddItem from './components/AddItem';
   import TodoList from './components/TodoList';
   import Footer from './components/Footer';
+  import { useState } from 'react';
 
-  const tasks = [
+  const data = [
     {
       id: 1,
       checked: true,
-      task: 'Wash dishes'
+      item: 'Wash dishes'
     },
     {
       id: 2,
       checked: false,
-      task: 'Vacuum bedroom'
+      item: 'Vacuum bedroom'
     },
     {
       id: 3,
       checked: true,
-      task: 'Call mom'
+      item: 'Call mom'
     }
   ];
 
   function App() {
-    const [ items, setItems ] = useState(tasks);
+    const [ items, setItems ] = useState(data);
     const [ newItem, setNewItem ] = useState('');
 
+    // handle checked
+    const handleChecked = (id) => {
+      const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item ); // update the object being checked
+      setItems(listItems); // update state with new checked state
+    };
+
+    // handle delete
+    const handleDelete = (id) => {
+      const listItems = items.filter((item) => item.id !== id); // if the item id is equal to the id coming in ? then update the current item's checked status to the opposite of what it currently is : if it is not, return the item
+      setItems(listItems); // update state to new filtered array
+    };
+
+    // handle add new item
+    const addItem = (item) => {
+      const id = items.length ? items[items.length - 1].id + 1 : 1; // check if the items array has length ? if yes, set the item id to be one more than the last item : if not, set the id to 1
+      const myNewItem = { id: id, checked: false, item: item }; // create the new item object
+      const listItems = [ ...items, myNewItem ]; // add new item to items array
+      setItems(listItems); // update state to include new item in items array
+    };
+
+    // handle submitting new item
+    const handleSubmit = (e) => {
+      e.preventDefault(); // prevent default browser reload
+      addItem(newItem); // call addItem method into action with the new item
+      setNewItem(''); // reset the new item state back to an empty string
+    };
+
     return (
-      <AppStyled>
+      <div className="App">
         <Header title="Todo List" />
-        <TodoList
-          items={items}
-          setItems={setItems}
+        <AddItem
+          handleSubmit={handleSubmit}
           newItem={newItem}
           setNewItem={setNewItem}
         />
+        <TodoList
+          items={items}
+          handleChecked={handleChecked}
+          handleDelete={handleDelete}
+        />
         <Footer length={items.length} />
-      </AppStyled>
+      </div>
     );
   }
 
   export default App;
   ```
 
-  ### Header.js
+  #### `components/Header.js`
   ```jsx
-  function Header({ title }) {
+  const Header = ({ title }) => {
     return (
       <div>
         <h2>{title}</h2>
       </div>
     );
-  }
+  };
 
   Header.defaultProps = {
     title: 'Todo List'
@@ -177,87 +192,77 @@ const tasks = [
   export default Header;
   ```
 
-  ### TodoList.js
+  #### `components/TodoList.js`
   ```jsx
-  function TodoList({ items, setItems, newItem, setNewItem }) {
-    // add item
-    const addItem = (item) => {
-      const id = items.length ? items[items.length - 1].id + 1 : 1;
-      const myNewItem = { id: id, checked: false, task: item };
-      const listItems = [ ...items, myNewItem ];
-      setItems(listItems);
-    };
+  import ListItem from './ListItem';
 
-    // handle check
-    const handleChecked = (id) => {
-      const listItems = items.map((item) => {
-        return item.id === id ? { ...item, checked: !item.checked } : item;
-      });
-      setItems(listItems);
-    };
-
-    // handle delete
-    const handleDelete = (id) => {
-      const listItems = items.filter((item) => {
-        return item.id !== id;
-      });
-      setItems(listItems);
-    };
-
-    // handle submit
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      addItem(newItem);
-      setNewItem('');
-    };
-
+  const TodoList = ({ items, handleChecked, handleDelete }) => {
     return (
-      <div>
-        {/* Add Item Form */}
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <label style={{ display: 'none' }}>Submit</label>
-          <input
-            type="text"
-            placeholder="Add Item"
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-            required
+      <ul>
+        {items.map((item) => (
+          <ListItem
+            key={item.id}
+            item={item}
+            handleChecked={handleChecked}
+            handleDelete={handleDelete}
           />
-          <button type="submit">Submit</button>
-        </form>
-
-        {/* Todo List */}
-        <ul>
-          {items.map((item) => {
-            return (
-              <li key={item.id}>
-                <input
-                  type="checkbox"
-                  checked={item.checked}
-                  onChange={() => handleChecked(item.id)}
-                />
-                <label>{item.task}</label>
-                <button onClick={() => handleDelete(item.id)}>Delete</button>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+        ))}
+      </ul>
     );
-  }
+  };
 
   export default TodoList;
   ```
   
-  ### Footer.js
+  #### `components/ListItem.js`
   ```jsx
-  function Footer({ length }) {
+  const ListItem = ({ item, handleChecked, handleDelete }) => {
+    return (
+      <li key={item.id}>
+        <input
+          type="checkbox"
+          checked={item.checked}
+          onChange={() => handleChecked(item.id)}
+        />
+        <label>{item.item}</label>
+        <button onClick={() => handleDelete(item.id)}>Delete</button>
+      </li>
+    );
+  };
+
+  export default ListItem;
+  ```
+  
+  #### `components/AddItem.js`
+  ```jsx
+  const AddItem = ({ handleSubmit, newItem, setNewItem }) => {
+    return (
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <label style={{ display: 'none' }}>Add item</label>
+        <input
+          type="text"
+          placeholder="Add Item"
+          required
+          value={newItem}
+          onChange={(e) => setNewItem(e.target.value)}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    );
+  };
+
+  export default AddItem;
+  ```
+  
+  #### `components/Footer.js`
+  ```jsx
+  const Footer = ({ length }) => {
     return (
       <div>
-        <h2>{length} List Items</h2>
+        <h2>{length} items in list</h2>
       </div>
     );
-  }
+  };
 
   Footer.defaultProps = {
     length: 0

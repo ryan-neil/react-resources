@@ -2,7 +2,6 @@ import styled from 'styled-components';
 const ButtonStyled = styled.button`
 	width: 100%;
 	height: 3rem;
-	margin: 0.5rem;
 
   /* background: ${(props) => (props.selected ? 'dodgerblue' : 'white')}; */
   /* color: ${(props) => (props.selected ? 'white' : 'dodgerblue')}; */
