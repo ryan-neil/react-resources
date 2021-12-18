@@ -16,7 +16,7 @@ For part 2, we will need to display our API data in a table format. For this we 
 <details>
   <summary>Toggle to View Part 1 Solution:</summary>
   
-  ### App.js:
+  #### `App.js`:
   ```jsx
   import Form from './components/Form';
   import DataList from './components/DataList';
@@ -55,7 +55,7 @@ For part 2, we will need to display our API data in a table format. For this we 
   export default App;
   ```
 
-  ### components/Form.js:
+  #### `components/Form.js`:
   ```jsx
   import Button from './Button';
 
@@ -85,7 +85,7 @@ For part 2, we will need to display our API data in a table format. For this we 
   export default Form;
   ```
 
-  ### components/Button.js:
+  #### `components/Button.js`:
   ```jsx
   const Button = ({ buttonText, reqType, setReqType }) => {
     return (
@@ -102,7 +102,7 @@ For part 2, we will need to display our API data in a table format. For this we 
   export default Button;
   ```
 
-  ### components/DataList.js:
+  #### `components/DataList.js`:
   ```jsx
   import ListItem from './ListItem';
 
@@ -141,8 +141,7 @@ For part 2, we will need to display our API data in a table format. For this we 
         const fetchData = async () => {
           try {
             const response = await fetch(`${API_URL}/${reqType}`); // fetch data
-            if (!response.ok)
-              throw Error('There was an issue fetching data.'); // error check the response
+            if (!response.ok) throw Error('There was an issue fetching data.'); // error check the response
             const data = await response.json(); // save data
             setItems(data); // update state to request type data
           } catch (err) {
