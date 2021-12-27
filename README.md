@@ -2618,8 +2618,118 @@ Okay these are all working as expected. So, now when we make changes to our appl
 [⬆ Top](#Table-of-Contents)
 
 # 15. React Router
+  * [React Router Overview:](https://reactrouter.com/docs/en/v6/getting-started/overview) React Router Docs
 
+_"React Router is a fully-featured client and server-side routing library for React. React Router runs anywhere React runs; on the web, on the server with node.js, and on React Native."_ - React Router Docs
 
+Typically on websites, when we go to the 'About' page or 'Contact' page we would have to fetch those pages from the server. However, with __React Router__ when we go to that 'About' page we would just load up that specific _component_.
+
+So, this means we don't need to go out and fetch for a HTML page. This makes everything very fast and dynamic. In addition, we don't get a page refresh which gives us that _"App"_ feeling.
+
+In this section we will be learning React Router by building a simple blog application.
+
+## Blog App Exercise
+
+### Installation
+
+To being we need to install React Router into our Create React App:
+```bash
+npm install react-router-dom@6
+```
+
+### Imports and Setup
+
+Inside the `index.js` we need to import the `BrowserRouter` component from React Router. Once we have this we now need to wrap our `App` component with the `BrowserRouter` component. 
+
+Let's handle all of this now:
+```js
+// index.js file
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+// import react router dependency
+import { BrowserRouter } from 'react-router-dom';
+
+ReactDOM.render(
+  <React.StrictMode>
+    {/* add BrowserRouter component */}
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+```
+
+Now, everything about our application will be inside of React Router and we can use everything associated with React Router including some hooks that come with the React Router DOM package.
+
+### App Components
+
+How React Router works is it routes components and sometimes we will always want specific components to stay on the page like a `Header`, `Navbar` or `Footer`. But other times we will want the main area of the page to change and React Router can route those components based URL file paths.
+
+In order to do this we need to have these components created and imported into our `App`. We'll do this now:
+```js
+// static components
+import Header from './components/Header';
+import Nav from './components/Nav';
+import Footer from './components/Footer';
+// page components
+import Home from './components/Home';
+import NewPost from './components/NewPost';
+import PostPage from './components/PostPage';
+import About from './components/About';
+import Missing from './components/Missing'; // 404 component
+
+function App() {
+  return (
+    <div className="App">
+      <Header />
+      <Nav />
+      <Home />
+      <NewPost />
+      <PostPage />
+      <About />
+      <Missing />
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+```
+
+Now, we don't want all of our 'page' components showing up at once. TO handle this we need to wrap those components with the `Routes` component. Next, each page gets wrapped in a `Route` component.
+```js
+// static components
+import Header from './components/Header';
+import Nav from './components/Nav';
+import Footer from './components/Footer';
+// page components
+import Home from './components/Home';
+import NewPost from './components/NewPost';
+import PostPage from './components/PostPage';
+import About from './components/About';
+import Missing from './components/Missing'; // 404 component
+
+function App() {
+  return (
+    <div className="App">
+      <Header />
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/new-post" element={<NewPost />} />
+        <Route path="/post-page" element={<PostPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/missing" element={<Missing />} />
+      </Routes>
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
+```
 
 [⬆ Top](#Table-of-Contents)
 

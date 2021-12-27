@@ -10,13 +10,16 @@ const AppStyled = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+
+	background-color: #17202a;
+	color: white;
 `;
 
 function App() {
 	return (
-		<AppStyled>
-			<h2>Data fetching training ground...</h2>
-		</AppStyled>
+		<div>
+			<h2>App running...</h2>
+		</div>
 	);
 }
 
