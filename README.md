@@ -2617,7 +2617,7 @@ Okay these are all working as expected. So, now when we make changes to our appl
 
 [⬆ Top](#Table-of-Contents)
 
-# 15. React Router
+# 15. React Router (v6)
   * [React Router Overview:](https://reactrouter.com/docs/en/v6/getting-started/overview) React Router Docs
 
 _"React Router is a fully-featured client and server-side routing library for React. React Router runs anywhere React runs; on the web, on the server with node.js, and on React Native."_ - React Router Docs
@@ -2628,108 +2628,219 @@ So, this means we don't need to go out and fetch for a HTML page. This makes eve
 
 In this section we will be learning React Router by building a simple blog application.
 
-## Blog App Exercise
-
 ### Installation
 
-To being we need to install React Router into our Create React App:
+To begin we need to install __React Router__ into our Create React App:
 ```bash
 npm install react-router-dom@6
 ```
 
 ### Imports and Setup
 
-Inside the `index.js` we need to import the `BrowserRouter` component from React Router. Once we have this we now need to wrap our `App` component with the `BrowserRouter` component. 
-
-Let's handle all of this now:
+To start we need to import the React Router dependencies:
 ```js
-// index.js file
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-// import react router dependency
-import { BrowserRouter } from 'react-router-dom';
-
-ReactDOM.render(
-  <React.StrictMode>
-    {/* add BrowserRouter component */}
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-```
-
-Now, everything about our application will be inside of React Router and we can use everything associated with React Router including some hooks that come with the React Router DOM package.
-
-### App Components
-
-How React Router works is it routes components and sometimes we will always want specific components to stay on the page like a `Header`, `Navbar` or `Footer`. But other times we will want the main area of the page to change and React Router can route those components based URL file paths.
-
-In order to do this we need to have these components created and imported into our `App`. We'll do this now:
-```js
-// static components
-import Header from './components/Header';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
-// page components
-import Home from './components/Home';
-import NewPost from './components/NewPost';
-import PostPage from './components/PostPage';
-import About from './components/About';
-import Missing from './components/Missing'; // 404 component
+// import react router dependencies
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Nav />
-      <Home />
-      <NewPost />
-      <PostPage />
-      <About />
-      <Missing />
-      <Footer />
-    </div>
+    {/* basic routing structure */}
+    <Router>
+      <Routes>
+        <Route />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
 ```
 
-Now, we don't want all of our 'page' components showing up at once. TO handle this we need to wrap those components with the `Routes` component. Next, each page gets wrapped in a `Route` component.
-```js
-// static components
-import Header from './components/Header';
-import Nav from './components/Nav';
-import Footer from './components/Footer';
-// page components
-import Home from './components/Home';
-import NewPost from './components/NewPost';
-import PostPage from './components/PostPage';
-import About from './components/About';
-import Missing from './components/Missing'; // 404 component
+### Adding Pages
+
+Next, we're going to import any pages that our application might have:
+```jsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import pages
+import Home from './pages/Home';
+import About from './pages/About';
+import Profile from './pages/Profile';
+import Missing from './pages/Missing';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <Nav />
+    <Router>
+      <Routes>
+        {/* set route components to render */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<Missing />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+```
+
+The `Missing` (404) route must be the last route in our application structure. For the path to our 404 page we want to add an `*` which represents all other pages not defined.
+
+### Adding Static Components
+
+Sometimes in our applications we may want certain components like a `Navbar` or `Footer` to display on every page in the application. With React Router this is very simple. All we need to do is call these static components outside of the `Routes` component:
+```js
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Profile from './pages/Profile';
+import Missing from './pages/Missing';
+// import static components
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
+function App() {
+  return (
+    <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/new-post" element={<NewPost />} />
-        <Route path="/post-page" element={<PostPage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/missing" element={<Missing />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<Missing />} />
       </Routes>
       <Footer />
-    </div>
+    </Router>
   );
 }
 
 export default App;
 ```
+
+### Adding Links
+
+When it comes to links in React Router we can use a traditional <a> tag or we can use the built in `Link` component. Let's see how we can use the `Link` component now. Over inside of our `Navbar` component let's add some links to our pages:
+```js
+// import link component from react router
+import { Link } from 'react-router-dom';
+
+const Navbar = () => {
+	return (
+		<nav>
+			<Link to="/">Home</Link>
+			<Link to="/about">About</Link>
+			<Link to="/profile">Profile</Link>
+		</nav>
+	);
+};
+
+export default Navbar;
+```
+
+In the code above all we do is call the `Link` component and pass in a prop called `to`, which points to the correct route that we want to send the user to. 
+
+### Navigating
+
+`useNavigate` is a new hook introduced in React Router v6 and it is extremely useful and easy to use. We can use useNavigate for:
+  * Going to previous or next pages
+  * Redirecting users to a specific URL
+
+When using `useNavigate` we want to start by importing the hook and setting it to a variable. For this example, let's add a `button` element to our `Home` page that redirects the user to the `Profile` page:
+```js
+// import useNavigate hook from react router
+import { useNavigate } from 'react-router-dom';
+
+const Home = () => {
+  // set variable
+  const navigate = useNavigate();
+
+  return (
+    <main>
+      <h2>Home Page</h2>
+      <button onClick={() => {navigate('/profile')}}>
+        To Profile page
+      </button>
+    </main>
+  );
+};
+
+export default Home;
+```
+
+From the code above, our `navigate` variable now represents a function that when called will now navigate toward some specified route.
+
+__Note:__ we can redirect a user to the previous page (in history) by calling:
+```js
+<button onClick={() => {navigate(-1)}}>
+  Go back
+</button>
+```
+
+We can also redirect a user to the next page (in history) by calling:
+```js
+<button onClick={() => {navigate(1)}}>
+  Go forward
+</button>
+```
+
+### Using Parameters
+
+When accessing parameters in React Router the `useParams` hook is used to access the URL params. It is very useful in the case that you want to display specific information about a user when that user is accessing their Profile page.
+
+Let's start by updating our `Profile` route in the `App` component
+```js
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import Profile from './pages/Profile';
+import Missing from './pages/Missing';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/profile/:name" element={<Profile />} />
+        <Route path="*" element={<Missing />} />
+      </Routes>
+      <Footer />
+    </Router>
+  );
+}
+
+export default App;
+```
+
+Next, we'll display specific information about a user based on the URL parameters:
+```bash
+# example URL
+http://localhost:3000/profile/katie
+```
+
+Now, over in our `Profile` page:
+```js
+// import useParams from react router
+import { useParams } from 'react-router-dom';
+
+const Profile = () => {
+  // destructure the parameter from the URL 
+	const { name } = useParams();
+
+	return (
+		<div>
+			<h3>Profile page for: {name}</h3>
+		</div>
+	);
+};
+
+export default Profile;
+```
+
+This is extremely useful for creating different profile pages for different users. We should note that it is recommended to use an id in the params rather than the users name. We could then make an API request using that `id` that was passed into the URL.
 
 [⬆ Top](#Table-of-Contents)
 

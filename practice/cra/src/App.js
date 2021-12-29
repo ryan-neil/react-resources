@@ -1,3 +1,4 @@
+// import react router dependencies
 // styles
 import './styles/globals.css';
 import styled from 'styled-components';
