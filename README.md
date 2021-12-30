@@ -4,6 +4,8 @@
 
 React is a JavaScript _library_ for creating user interfaces. It was created by the folks over at Meta (Facebook).
 
+This guide utilizes React Functional Components and Hooks.
+
 ### Table of Contents
   1. [Resources](#1-Resources)
   2. [Tutorials](#2-Tutorials)
@@ -28,6 +30,7 @@ React is a JavaScript _library_ for creating user interfaces. It was created by 
   13. [Fetch API Data](#13-Fetch-API-Data)
   14. [CRUD Operations](#14-CRUD-Operations)
   15. [React Router](#15-React-Router)
+  16. [Axios API Requests](#16-Axios-API-Requests)
 
 # 1. Resources
   * [React Docs:](https://reactjs.org/docs/getting-started.html) React Docs
@@ -2840,7 +2843,7 @@ const Profile = () => {
 export default Profile;
 ```
 
-This is extremely useful for creating different profile pages for different users. We should note that it is recommended to use an id in the params rather than the users name. We could then make an API request using that `id` that was passed into the URL.
+This is extremely useful for creating different profile pages for different users. We should note that it is recommended to use an `id` in the params rather than the users' name.
 
 [⬆ Top](#Table-of-Contents)
 
