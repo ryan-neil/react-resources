@@ -1,0 +1,32 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "tag": "react.js",
+      "title": "The Quest for the Perfect Dark Mode",
+      "datetime": "December 26, 2021",
+      "body": "Maybe the hardest/most complicated part of building this blog was adding Dark Mode. Not the live-embedded code snippets, not the unified GraphQL layer that manages and aggregates all content and data*, not the custom analytics system, not the myriad bits of whimsy. Freaking Dark Mode."
+    },
+    {
+      "id": 2,
+      "tag": "next.js",
+      "title": "Refreshing Server-Side Props",
+      "datetime": "December 27, 2021",
+      "body": "One of my favorite features about Next.js is that individual routes can opt-in to server-side rendering. While I tend to be a pretty big advocate for static generation, this is a perfect use-case for server-side rendering; I can fetch and inject the database data on first render, simplifying my front-end code."
+    },
+    {
+      "id": 3,
+      "tag": "styled-components",
+      "title": "Demystifying styled-components",
+      "datetime": "December 28, 2021",
+      "body": "When I first started using styled-components, it seemed like magic ✨. Somehow, using an obscure half-string-half-function syntax, the tool was able to take some arbitrary CSS and assign it to a React component, bypassing the CSS selectors we've always used."
+    },
+    {
+      "id": 4,
+      "tag": "programming",
+      "title": "How To Learn Stuff Quickly",
+      "datetime": "December 31, 2021",
+      "body": "It's often said that the internet has democratized education: the sum of human knowledge is only a Google search away! And yet, having access to information is only half of the story; you also need to be able to convert raw information into usable skills."
+    }
+  ]
+}

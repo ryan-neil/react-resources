@@ -15,6 +15,9 @@ const StyledNav = styled.nav`
 		padding: 0;
 		display: flex;
 		gap: 1.2rem;
+		li:hover {
+			opacity: 0.8;
+		}
 	}
 	form {
 		border-radius: .35rem;

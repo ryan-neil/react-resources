@@ -11,6 +11,8 @@ const Button = styled.button`
 	border-radius: .35rem;
 	cursor: pointer;
 	transition: .1s ease-in;
+	/* removes 100% width of flex parent */
+	align-self: flex-start;
 	&:hover {
 		opacity: 0.9;
 	}
@@ -19,10 +21,11 @@ const Button = styled.button`
 		css`
 			background-color: var(--white);
 			color: var(--text-h);
-			&:hover {
+			/* &:hover {
 				background-color: var(--light-grey);
-			}
+			} */
 		`};
+	${(props) => props.danger && css`background-color: var(--red);`};
 `;
 
 export { Button };

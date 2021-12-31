@@ -30,7 +30,6 @@ This guide utilizes React Functional Components and Hooks.
   13. [Fetch API Data](#13-Fetch-API-Data)
   14. [CRUD Operations](#14-CRUD-Operations)
   15. [React Router](#15-React-Router)
-  16. [Axios API Requests](#16-Axios-API-Requests)
 
 # 1. Resources
   * [React Docs:](https://reactjs.org/docs/getting-started.html) React Docs

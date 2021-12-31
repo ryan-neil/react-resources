@@ -7,7 +7,7 @@ const StyledArticle = styled.article`
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
-	a {
+	h2 {
 		transition: .1s ease-in;
 		&:hover {
 			color: var(--blue);

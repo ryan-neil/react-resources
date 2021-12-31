@@ -1,6 +1,22 @@
-import { Container } from '../components/styles/Container.styled';
-
 import { useParams, Link } from 'react-router-dom';
+
+import styled from 'styled-components';
+import { Button } from '../components/styles/Button.styled';
+const StyledMain = styled.main`
+	width: 100%;
+	max-width: 1100px;
+	padding: 1rem 1rem;
+	.article-content {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		.post-date {
+			margin-top: -16px;
+			font-size: 0.9rem;
+			color: var(--text-light);
+		}
+	}
+`;
 
 const PostPage = ({ posts, handleDelete }) => {
 	const { id } = useParams();
@@ -10,31 +26,37 @@ const PostPage = ({ posts, handleDelete }) => {
 	// const post = posts.find((post) => post.id == id);
 
 	return (
-		<Container>
+		<StyledMain>
 			<article className="post">
 				{/* if we have a post */}
 				{post && (
-					<div>
+					<div className="article-content">
 						<h2>{post.title}</h2>
 						<p className="post-date">{post.datetime}</p>
 						<p className="post-body">{post.body}</p>
-						<button onClick={() => handleDelete(post.id)}>
+						<Button
+							danger
+							onClick={() => handleDelete(post.id)}
+						>
 							Delete Post
-						</button>
+						</Button>
+						<Button secondary>
+							<Link to={`/edit/${post.id}`}>Edit Post</Link>
+						</Button>
 					</div>
 				)}
 				{/* if we do not have a post */}
 				{!post && (
-					<div>
+					<div className="article-content">
 						<h2>Post Not Found</h2>
 						<p>Hmm...That's disappointing.</p>
-						<p>
+						<Button>
 							<Link to="/">Go home</Link>
-						</p>
+						</Button>
 					</div>
 				)}
 			</article>
-		</Container>
+		</StyledMain>
 	);
 };
 

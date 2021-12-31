@@ -60,6 +60,7 @@ h6 {
 	overflow-wrap: break-word;
 }
 p {
+	color: var(--text-p);
 	font-weight: 400;
 }
 h1,
@@ -68,11 +69,12 @@ h3,
 h4,
 h5,
 h6 {
+	color: var(--text-h);
 	font-weight: 500;
 }
 a {
 	text-decoration: none;
-	color: var(--black);
+	color: inherit;
 }
 #root,
 #__next {

@@ -9,7 +9,7 @@ const StyledFeed = styled.div`
 const Feed = ({ posts }) => {
 	return (
 		<StyledFeed>
-			{posts.map((post) => <Post key={posts.id} post={post} />)}
+			{posts.map((post) => <Post key={post.id} post={post} />)}
 		</StyledFeed>
 	);
 };

@@ -1,14 +1,21 @@
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { Container } from '../components/styles/Container.styled';
+import { Button } from '../components/styles/Button.styled';
+const StyledMain = styled.main`
+	width: 100%;
+	max-width: 1100px;
+	padding: 1rem 1rem;
+`;
 
 const Missing = () => {
 	return (
-		<Container>
-			<h2>Uh oh! We can't find the page you're looking for.</h2>
-			<Link to="/">Go Home</Link>
-		</Container>
+		<StyledMain>
+			<h2>We can't find the page you're looking for.</h2>
+			<Button>
+				<Link to="/">Go Home</Link>
+			</Button>
+		</StyledMain>
 	);
 };
 
