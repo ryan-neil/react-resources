@@ -1,7 +1,7 @@
 const Footer = ({ length }) => {
 	return (
 		<div>
-			<h2>{length} items in list</h2>
+			<h2>{length} Items in List</h2>
 		</div>
 	);
 };
