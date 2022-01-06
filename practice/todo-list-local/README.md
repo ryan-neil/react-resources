@@ -2,23 +2,28 @@
 
 ## What we will be building:
 
-This is a training exercise for building out a simple Todo List application. We will be using a local database JSON file/local storage for storing user data.
+This is a training exercise for building out a simple Todo List application. Part 1 will have a very simple `data` object to store todo list items and part 2 will have a "local" database JSON file for storing the users data.
 
-### Part 1: Initial Setup
+## Part 1: Basic
 
-1. Create our initial components
-  * Create `Header` component
-  * Create `TodoList` or `Main` component
-  * Create `Footer` component
+### Features:
+  * Heading component
+  * Create item functionality
+  * Update item functionality
+  * Delete item functionality
+  * Footer component
 
-2. Give our application _state_
-  * `App` component should set all application state
-  * Initial state should be passed an array of default data
-  * In general, our components should hold their own default properties
+### Helpful Structure:
+  * build build out components skeleton
+  * import app components
+  * populate components
+  * skeleton out logical functions (create, update, delete, etc.)
+  * pass props and import props
+  * out logic (easiest to hardest)
 
-We can create our own default data or use this set:
+Data:
 ```js
-const data = [
+const items = [
   {
     id: 1,
     checked: false,
@@ -37,65 +42,10 @@ const data = [
 ];
 ```
 
-3. Create an unordered list of items in the `Main` component (todo tasks)
-  * Each item should have an "checkbox" `input`, `label`, and "delete" `button`
-  * We should be able to _check_ and _uncheck_ each item __(1:20:00)__
-  * We should be able to _delete_ an item from the list __(1:29:00)__
-    * Each action should then update the current state
-  * We should display a message if the list is empty
-
-4. Using prop drilling ("threading"):
-  * The `Header` component should display a `title` property
-  * The `Footer` component should display how many items are in our items list
-
-### Part 2: Adding Modularity (Refactoring)
-
-5. Create two new components `ItemList` and `LineItem` components __(1:48:30)__
-  * `ItemList` should hold the unordered list
-  * `LineItem` should how the list itself
-
-### Part 3: Adding Items
-
-6. Create a new component called `AddItem` __(2:04:00)__
-  * This component should hold the `form` logic for adding new items to the list
-    * The form element should hold a `label`, `input`, and "submit" `button`
-    * The form element should also handle the submit event for us
-
-7. We need to make our form a _controlled input_, which means we need to tie it to state, there should be one source of truth for the input and we need to change the state as the input changes __(2:10:30)__
-  * We must then make the `input` a _controlled input_ or _controlled component_ to be more accurate
-    * We can do this with the `value` attribute and passing in the current state (however, if we left it as this we couldn't change the state at all)
-    * We then need an `onChange` attribute that takes the "event" object and sets the new item state to the value of the input as the user types __(2:13:00)__
-
-8. Create the function and logic for handling the user submit __(2:16:40)__
-  * We should prevent the default browser response when submitting
-  * This function should call our function to add a new item
-  * We should also reset the input to it's default state
-
-9. Create the function and logic for adding an item to our list __(2:19:00)__
-  * We must first think about how we're constructing our `task` objects
-    * First, we must increment the ID
-    * Second, we must construct the new object
-    * Lastly, we must add the newly constructed object to our items list
-
-### Extra Credit: Incorporate Local Storage for Saving Items
-
-10. Save and pull our list items from local storage __(2:24:30)__
-
-### Part 4: Adding a Search Feature
-
-11. Incorporate a Searching feature to our items list __(2:26:00)__
-  * We must first create a `SearchItem` component
-    * `SearchItem` should hold a `form` element with an `onSubmit` event (upon submitting the page should not refresh)
-      * The `form` element should hold a `label` and `input`
-
-12. Create the function and logic for handling search feature __(2:32:40)__
-  * This function should filter through the items and only display the item that matches the search
-  * We must replace our `TodoList` items with our search function
-
-### Solution
+### Solution:
 
 <details>
-  <summary>Toggle to View Solution:</summary>
+  <summary>View Solution:</summary>
   
   #### `App.js`
   ```jsx
@@ -127,27 +77,27 @@ const data = [
     const [ items, setItems ] = useState(data);
     const [ newItem, setNewItem ] = useState('');
 
-    // handle checked
+    // update: handle checked functionality
     const handleChecked = (id) => {
-      const listItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item ); // update the object being checked
-      setItems(listItems); // update state with new checked state
+      const updatedListItems = items.map((item) => item.id === id ? { ...item, checked: !item.checked } : item ); // update the object being checked
+      setItems(updatedListItems); // update state with new checked state
     };
 
-    // handle delete
+    // delete: handle delete functionality
     const handleDelete = (id) => {
-      const listItems = items.filter((item) => item.id !== id); // if the item id is equal to the id coming in ? then update the current item's checked status to the opposite of what it currently is : if it is not, return the item
-      setItems(listItems); // update state to new filtered array
+      const updatedListItems = items.filter((item) => item.id !== id); // if the item id is equal to the id coming in ? then update the current item's checked status to the opposite of what it currently is : if it is not, return the item
+      setItems(updatedListItems); // update state to new filtered array
     };
 
-    // handle add new item
+    // create: handle create functionality
     const addItem = (item) => {
       const id = items.length ? items[items.length - 1].id + 1 : 1; // check if the items array has length ? if yes, set the item id to be one more than the last item : if not, set the id to 1
       const myNewItem = { id: id, checked: false, item: item }; // create the new item object
-      const listItems = [ ...items, myNewItem ]; // add new item to items array
-      setItems(listItems); // update state to include new item in items array
+      const updatedListItems = [ ...items, myNewItem ]; // add new item to items array
+      setItems(updatedListItems); // update state to include new item in items array
     };
 
-    // handle submitting new item
+    // handle submitting new item functionality
     const handleSubmit = (e) => {
       e.preventDefault(); // prevent default browser reload
       addItem(newItem); // call addItem method into action with the new item
@@ -198,16 +148,23 @@ const data = [
 
   const TodoList = ({ items, handleChecked, handleDelete }) => {
     return (
-      <ul>
-        {items.map((item) => (
-          <ListItem
-            key={item.id}
-            item={item}
-            handleChecked={handleChecked}
-            handleDelete={handleDelete}
-          />
-        ))}
-      </ul>
+      <main>
+        <>
+          {items.length 
+            ? <ul>
+              {items.map((item) => (
+                <ListItem
+                  key={item.id}
+                  item={item}
+                  handleChecked={handleChecked}
+                  handleDelete={handleDelete}
+                />
+              ))}
+            </ul> 
+            : <p>No items in your list...</p>
+          }
+        </>
+      </main>
     );
   };
 
@@ -218,7 +175,7 @@ const data = [
   ```jsx
   const ListItem = ({ item, handleChecked, handleDelete }) => {
     return (
-      <li key={item.id}>
+      <li>
         <input
           type="checkbox"
           checked={item.checked}
@@ -271,4 +228,258 @@ const data = [
   export default Footer;
   ```
 	
+</details>
+
+## Part 2: Intermediate
+
+### Features:
+  * Fetch data from database
+  * Search item functionality
+
+We can use [JSON Server](https://www.npmjs.com/package/json-server) which will allow us to run a mock backend REST API:
+```bash
+npx json-server -p 9001 -w src/data/db.json
+```
+
+Let's create our JSON file we will be using as our mock database, `/data/db.json`:
+```json
+{
+  "items": [
+    {
+      "id": 1,
+      "checked": false,
+      "item": "Wash dishes"
+    },
+    {
+      "id": 2,
+      "checked": true,
+      "item": "Take out trash"
+    },
+    {
+      "id": 3,
+      "checked": true,
+      "item": "Mow the lawn"
+    },
+    {
+      "id": 4,
+      "checked": false,
+      "item": "Call mom"
+    },
+    {
+      "id": 5,
+      "checked": true,
+      "item": "Walk the dog"
+    }
+  ]
+}
+```
+
+### Solution:
+
+<details>
+  <summary>View Solution:</summary>
+  
+  #### `src/App.js`
+  ```jsx
+  import Header from './components/Header';
+  import AddItem from './components/AddItem';
+  // import SearchItem component
+  import SearchItem from './components/SearchItem';
+  import TodoList from './components/TodoList';
+  import Footer from './components/Footer';
+  // import useEffect hook
+  import { useState, useEffect } from 'react';
+
+  function App() {
+    // add API url (coming from json-server)
+    const API_URL = 'http://localhost:9001/items';
+    const [ items, setItems ] = useState([]);
+    const [ newItem, setNewItem ] = useState('');
+    // set search state
+    const [ search, setSearch ] = setState('');
+
+    // fetch database data
+    useEffect(() => {
+      const fetchItems = async () => {
+        try {
+          const res = await fetch(API_URL);
+          if (!res.ok) throw Error('Did not receive expected data.');
+          const data = await res.json();
+          setItems(data);
+        } catch(err) {
+          console.log(err);
+        }
+      }
+      fetchItems();
+    }, [])
+
+    const handleChecked = (id) => {
+      // ...
+    };
+
+    const handleDelete = (id) => {
+      // ...
+    };
+
+    const addItem = (item) => {
+      // ...
+    };
+
+    const handleSubmit = (e) => {
+      // ...
+    };
+
+    // handle search feature
+    const handleSearch = () => items.filter((item) => 
+      item.item.toLowerCase().includes(search.toLowerCase())
+    );
+
+    return (
+      <div className="App">
+        <Header title="Todo List" />
+        <AddItem
+          handleSubmit={handleSubmit}
+          newItem={newItem}
+          setNewItem={setNewItem}
+        />
+        <SearchItem search={search} setSearch={setSearch} />
+        <TodoList
+          items={handleSearch()}
+          handleChecked={handleChecked}
+          handleDelete={handleDelete}
+        />
+        <Footer length={items.length} />
+      </div>
+    );
+  }
+
+  export default App;
+  ```
+
+  #### `src/components/SearchItem.jsx`
+  ```jsx
+  const SearchItem = ({ search, setSearch }) => {
+    return (
+      <form>
+        <label htmlFor="search">Search: </label>
+        <input
+          type="search"
+          id="search"
+          role="searchbox"
+          placeholder="Search items"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </form>
+    );
+  };
+
+  export default SearchItem;
+  ```
+	
+</details>
+
+## Part 3: Advanced
+
+### Features:
+  * Handle custom fetch errors
+  * Handle loading
+
+### Solution:
+
+<details>
+  <summary>View Solution:</summary>
+
+  #### `src/App.js`
+  ```jsx
+  import Header from './components/Header';
+  import AddItem from './components/AddItem';
+  import SearchItem from './components/SearchItem';
+  import TodoList from './components/TodoList';
+  import Footer from './components/Footer';
+  import { useState, useEffect } from 'react';
+
+  function App() {
+    const API_URL = 'http://localhost:9001/items';
+    const [ items, setItems ] = useState([]);
+    const [ newItem, setNewItem ] = useState('');
+    const [ search, setSearch ] = useState('');
+    // set fetch error state
+    const [ fetchError, setFetchError ] = useState(null)
+    // set loading state
+    const [ isLoading, setIsLoading ] = useState(true);
+
+    useEffect(() => {
+      const fetchItems = async () => {
+        try {
+          const res = await fetch(API_URL);
+          if (!res.ok) throw Error('Did not receive expected data');
+          const data = await res.json();
+          setItems(data);
+          // update fetch error on success
+          setFetchError(null);
+        } catch (err) {
+          // update fetch error on failure
+          setFetchError(err.message);
+        } finally {
+          // update loading state on success or failure
+          setIsLoading(false);
+        }
+      };
+
+      // simulate delayed fetch response
+      setTimeout(() => fetchItems(), 2000);
+    }, []);
+
+    const handleChecked = (id) => {
+      // ...
+    };
+
+    const handleDelete = (id) => {
+      // ...
+    };
+
+    const addItem = (item) => {
+      // ...
+    };
+
+    const handleSubmit = (e) => {
+      // ...
+    };
+
+    const handleSearch = () => items.filter((item) => 
+      // ...
+    );
+
+    return (
+      <div className="App">
+        <Header title="Todo List" />
+        <AddItem
+          handleSubmit={handleSubmit}
+          newItem={newItem}
+          setNewItem={setNewItem}
+        />
+        <SearchItem search={search} setSearch={setSearch} />
+        {/* add todo list container or fragment */}
+        <div className="todo-list">
+          {/* display loading text while loading is true */}
+          {isLoading && <p>Loading items...</p>}
+          {/* display error text if fetchError is true */}
+          {fetchError && <p style={{ color: 'red' }}>{`Error: ${fetchError}`}</p>}
+          {/* if no error AND not loading, display the todo list */}
+          {!fetchError && !isLoading && (
+            <TodoList
+              items={handleSearch()}
+              handleChecked={handleChecked}
+              handleDelete={handleDelete}
+            />
+          )}
+        </div>
+        <Footer length={items.length} />
+      </div>
+    );
+  }
+
+  export default App;
+  ```
 </details>
