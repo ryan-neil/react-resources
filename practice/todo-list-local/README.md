@@ -483,3 +483,9 @@ Let's create our JSON file we will be using as our mock database, `/data/db.json
   export default App;
   ```
 </details>
+
+## Part 3.1: Advanced CRUD Operations
+
+### Features
+
+### Solution
