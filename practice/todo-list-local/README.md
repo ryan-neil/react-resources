@@ -1,25 +1,25 @@
 # Simple Todo List App (Training)
 
-## What we will be building:
+### What we will be building:
 
 This is a training exercise for building out a simple Todo List application. Part 1 will have a very simple `data` object to store todo list items and part 2 will have a "local" database JSON file for storing the users data.
 
-## Part 1: Basic
+### Structure:
+  * Build out components skeleton
+  * Import app components
+  * Populate components
+  * Skeleton out logical functions (*create*, *update*, *delete*, etc.)
+  * Pass props and import props
+  * Build out logic (easiest to hardest)
 
-### Features:
+## 🟢 Part 1: Basic
+
+### 🛠 Features:
   * Heading component
   * *CREATE* item functionality
   * *UPDATE* item functionality
   * *DELETE* item functionality
   * Footer component
-
-### Helpful Structure:
-  * build build out components skeleton
-  * import app components
-  * populate components
-  * skeleton out logical functions (create, update, delete, etc.)
-  * pass props and import props
-  * out logic (easiest to hardest)
 
 Data:
 ```js
@@ -42,7 +42,7 @@ const items = [
 ];
 ```
 
-### Solution:
+### 💭 Solution:
 
 <details>
   <summary>View Solution:</summary>
@@ -230,9 +230,9 @@ const items = [
 	
 </details>
 
-## Part 2: Intermediate
+## 🟡 Part 2: Intermediate
 
-### Features:
+### 🛠 Features:
   * Fetch data from database
   * Search item functionality
 
@@ -274,7 +274,7 @@ npx json-server -p 9001 -w src/data/db.json
 }
 ```
 
-### Solution:
+### 💭 Solution:
 
 <details>
   <summary>View Solution:</summary>
@@ -379,13 +379,13 @@ npx json-server -p 9001 -w src/data/db.json
 	
 </details>
 
-## Part 3: Advanced
+## 🟠 Part 3: Advanced
 
-### Features:
+### 🛠 Features:
   * Handle custom fetch errors
   * Handle loading
 
-### Solution:
+### 💭 Solution:
 
 <details>
   <summary>View Solution:</summary>
@@ -484,15 +484,15 @@ npx json-server -p 9001 -w src/data/db.json
   ```
 </details>
 
-## Part 3.1: Advanced CRUD Operations
+## 🔴 Part 3.1: Advanced CRUD Operations
 
-### Features
+### 🛠 Features
   * Helper function to fetch and edit the data
   * Advanced *CREATE* item functionality
   * Advanced *UPDATE* item functionality
   * Advanced *DELETE* item functionality
 
-### Solution
+### 💭 Solution
 
 <details>
   <summary>View Solution:</summary>
