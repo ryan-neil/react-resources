@@ -2839,7 +2839,7 @@ const Profile = () => {
 	);
 };
 
-export default Profile;
+export default Profile; 
 ```
 
 This is extremely useful for creating different profile pages for different users. We should note that it is recommended to use an `id` in the params rather than the users' name.
