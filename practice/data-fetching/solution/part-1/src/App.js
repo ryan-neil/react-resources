@@ -1,34 +1,38 @@
-import Form from './components/Form';
+// JSONPlaceholder URL: 'https://jsonplaceholder.typicode.com';
+import Header from './components/Header';
 import DataList from './components/DataList';
+import Footer from './components/Footer';
 import { useState, useEffect } from 'react';
+
 // styles
 import './styles/globals.css';
 import styled from 'styled-components';
 const AppStyled = styled.div`
 	height: 100vh;
-	width: 100%;
+	padding: 1rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: space-between;
 `;
 
 function App() {
 	const API_URL = 'https://jsonplaceholder.typicode.com';
-	const [ reqType, setReqType ] = useState('users'); // reqType could be users, posts, or comments
+	// set states (api data, request type)
+	const [ reqType, setReqType ] = useState('users');
 	const [ items, setItems ] = useState([]);
 
+	// READ: fetch the data
 	useEffect(
 		() => {
 			const fetchData = async () => {
 				try {
-					// fetch data
-					const response = await fetch(`${API_URL}/${reqType}`);
-					// error check the response
-					if (!response.ok)
+					const res = await fetch(`${API_URL}/${reqType}`);
+					// error check before fetching data
+					if (!res.ok)
 						throw Error('There was an issue fetching data.');
-					// save data
-					const data = await response.json();
-					// update state to request type data
+					const data = await res.json();
+					// set items
 					setItems(data);
 				} catch (err) {
 					console.log(err.message);
@@ -36,14 +40,14 @@ function App() {
 			};
 			fetchData();
 		},
-		// we want the useEffect to re-render every time reqType changes
 		[ reqType ]
 	);
 
 	return (
 		<AppStyled>
-			<Form reqType={reqType} setReqType={setReqType} />
+			<Header reqType={reqType} setReqType={setReqType} />
 			<DataList items={items} />
+			<Footer length={items.length} />
 		</AppStyled>
 	);
 }

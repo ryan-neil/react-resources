@@ -6,20 +6,17 @@ import styled from 'styled-components';
 const AppStyled = styled.div`
 	height: 100vh;
 	padding: 1rem;
-
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-	background-color: #17202a;
-	color: white;
+	justify-content: space-between;
 `;
 
 function App() {
 	return (
-		<div>
-			<h2>App running...</h2>
-		</div>
+		<AppStyled>
+			<h2>Data Fetching Training...</h2>
+		</AppStyled>
 	);
 }
 

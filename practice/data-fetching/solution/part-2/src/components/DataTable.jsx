@@ -1,20 +1,21 @@
 import Row from './Row';
-
 import styled from 'styled-components';
-const TableStyled = styled.div`
-	margin-top: 4rem;
+const DivStyled = styled.div`
 	width: 100%;
+	height: auto;
 `;
 
 const Table = ({ items }) => {
 	return (
-		<TableStyled>
+		<DivStyled>
 			<table>
 				<tbody>
-					{items.map((item) => <Row key={item.id} item={item} />)}
+					{items.map((item) => (
+						<Row key={item.id} item={item} />
+					))}
 				</tbody>
 			</table>
-		</TableStyled>
+		</DivStyled>
 	);
 };
 

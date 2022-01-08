@@ -1,4 +1,3 @@
-// import react router dependencies
 // styles
 import './styles/globals.css';
 import styled from 'styled-components';
@@ -10,7 +9,6 @@ const AppStyled = styled.div`
 	justify-content: space-between;
 	/* justify-content: center; */
 `;
-// end styles
 
 function App() {
 	return (
