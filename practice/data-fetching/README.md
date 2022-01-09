@@ -168,6 +168,7 @@ For part 2, we will need to display our API data in a table format. For this we 
 ## 🟡 Part 2: Intermediate
 
 ### 🛠 Features
+  * Flatten out the data objects coming in (flattening nested objects)
   * Create a `DataTable` component and display the API data in a table format
 
 ### 💭 Solution

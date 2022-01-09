@@ -1,4 +1,9 @@
 // JSONPlaceholder URL: 'https://jsonplaceholder.typicode.com';
+import Header from './components/Header';
+// import DataList from './components/DataList';
+import DataTable from './components/DataTable';
+import Footer from './components/Footer';
+import { useState, useEffect } from 'react';
 
 // styles
 import './styles/globals.css';
@@ -13,9 +18,40 @@ const AppStyled = styled.div`
 `;
 
 function App() {
+	const API_URL = 'https://jsonplaceholder.typicode.com';
+	// set states (api data, request type)
+	const [ reqType, setReqType ] = useState('users');
+	const [ items, setItems ] = useState([]);
+
+	// READ: fetch the data
+	useEffect(
+		() => {
+			const fetchData = async () => {
+				try {
+					const res = await fetch(`${API_URL}/${reqType}`);
+					// error check before fetching data
+					if (!res.ok)
+						throw Error('There was an issue fetching data.');
+					const data = await res.json();
+
+					console.log(data);
+
+					// set items
+					setItems(data);
+				} catch (err) {
+					console.log(err.message);
+				}
+			};
+			fetchData();
+		},
+		[ reqType ]
+	);
+
 	return (
 		<AppStyled>
-			<h2>Data Fetching Training...</h2>
+			<Header reqType={reqType} setReqType={setReqType} />
+			<DataTable items={items} />
+			<Footer length={items.length} />
 		</AppStyled>
 	);
 }
