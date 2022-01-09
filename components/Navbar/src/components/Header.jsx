@@ -15,7 +15,7 @@ import {
 import Container from './styles/utils/Container.styled';
 import { Flex } from './styles/utils/Flex.styled';
 
-function Header(props) {
+const Header = (props) => {
 	function toggleTheme() {
 		return props.theme === 'light'
 			? props.setTheme('dark')
@@ -53,6 +53,6 @@ function Header(props) {
 			</Container>
 		</StyledHeader>
 	);
-}
+};
 
 export default Header;

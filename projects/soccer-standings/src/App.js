@@ -1,6 +1,26 @@
+// components
+import Header from './components/Header';
+import Table from './components/Table';
+import Footer from './components/Footer';
 import { useState, useEffect } from 'react';
+// global styles
+import { ThemeProvider } from 'styled-components';
+import GlobalStyles from './components/styles/Global.styled';
+import { mode } from './components/styles/Theme.styled';
+// styles
+import styled from 'styled-components';
+const StyledApp = styled.div`
+	min-height: 100vh;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+`;
 
 function App() {
+	// set theme state
+	const [ theme, setTheme ] = useState('light');
 	const endpoint = 'standings'; // league standings
 	const league = 'league=39'; // premier league
 	const season = 'season=2021'; // 2021-2022 season
@@ -22,12 +42,16 @@ function App() {
 
 			try {
 				const res = await fetch(API_URL, requestOptions);
+				// error handling
 				if (!res.ok)
 					throw Error('Did not receive expected data.');
 				const data = await res.json();
-				console.log(data);
 
-				setItems(data);
+				// get standings data
+				const refinedData = data.response[0].league.standings[0];
+
+				// update data state
+				setItems(refinedData);
 			} catch (error) {
 				console.log(error);
 			}
@@ -36,9 +60,14 @@ function App() {
 	}, []);
 
 	return (
-		<div className="App">
-			<h2>Soccer Standings</h2>
-		</div>
+		<ThemeProvider theme={mode[theme]}>
+			<StyledApp>
+				<GlobalStyles />
+				<Header theme={theme} setTheme={setTheme} />
+				<Table items={items} />
+				<Footer />
+			</StyledApp>
+		</ThemeProvider>
 	);
 }
 

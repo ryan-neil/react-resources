@@ -6,7 +6,8 @@ import { Search, LightMode, DarkMode } from '@styled-icons/material';
 export const StyledHeader = styled.header`
 	background-color: ${(props) => props.theme.colors.primaryBG};
 	padding: 20px 0;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+		0 1px 2px 0 rgba(0, 0, 0, 0.06);
 `;
 
 // Navbar
