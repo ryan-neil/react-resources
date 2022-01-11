@@ -1,3 +1,4 @@
+// styles
 import styled from 'styled-components';
 import { LightMode, DarkMode } from '@styled-icons/material';
 import { Button } from './styles/Button.styled';

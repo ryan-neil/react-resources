@@ -16,6 +16,8 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 // import dependencies
 import api from './api/posts';
+// 0. import custom hook
+import useAxiosFetch from './hooks/useAxiosFetch';
 
 // global styles
 import { ThemeProvider } from 'styled-components';
@@ -36,7 +38,7 @@ const StyledApp = styled.div`
 
 function App() {
 	// set theme state
-	const [ theme, setTheme ] = useState('light');
+	const [ theme, setTheme ] = useState('dark');
 	// posts content data state
 	const [ posts, setPosts ] = useState([]);
 	// nav search states
@@ -52,29 +54,18 @@ function App() {
 	const [ editTag, setEditTag ] = useState('');
 	// useNavigate hook
 	const navigate = useNavigate();
+	// 1. useAxiosFetch hook (this is json-server url)
+	const { data, fetchError, isLoading } = useAxiosFetch(
+		'http://localhost:9001/posts'
+	);
 
-	// fetch api data useEffect
-	useEffect(() => {
-		const fetchPosts = async () => {
-			try {
-				const res = await api.get('/posts');
-				console.log(res.data);
-
-				setPosts(res.data);
-			} catch (err) {
-				if (err.message) {
-					// if not in the 200 response range
-					console.log(err.response.data);
-					console.log(err.response.status);
-					console.log(err.response.header);
-				} else {
-					// there was no response or 404
-					console.log(`Error: ${err.message}`);
-				}
-			}
-		};
-		fetchPosts();
-	}, []);
+	// 2. this updates our post state data for the rest of the app to use, this only happens when the 'data' changes
+	useEffect(
+		() => {
+			setPosts(data);
+		},
+		[ data ]
+	);
 
 	// filtered search results useEffect
 	useEffect(
@@ -184,23 +175,33 @@ function App() {
 				<Header title={'React Blog'} theme={theme} setTheme={setTheme} />
 				<Nav search={search} setSearch={setSearch} />
 				<Routes>
-					<Route path="/" element={<Home posts={searchResults} />} />
-					{/* New Post Component */}
+					{/* Home component */}
+					<Route
+						path="/"
+						element={
+							<Home
+								posts={searchResults}
+								fetchError={fetchError}
+								isLoading={isLoading}
+							/>
+						}
+					/>
+					{/* New Post component */}
 					<Route
 						path="/post"
 						element={
 							<NewPost
+								handleSubmit={handleSubmit}
 								postTitle={postTitle}
 								setPostTitle={setPostTitle}
 								postBody={postBody}
 								setPostBody={setPostBody}
 								postTag={postTag}
 								setPostTag={setPostTag}
-								handleSubmit={handleSubmit}
 							/>
 						}
 					/>
-					{/* Edit Post Component */}
+					{/* Edit Post component */}
 					<Route
 						path="/edit/:id"
 						element={
@@ -216,13 +217,16 @@ function App() {
 							/>
 						}
 					/>
+					{/* Post Page component */}
 					<Route
 						path="/post/:id"
 						element={
 							<PostPage posts={posts} handleDelete={handleDelete} />
 						}
 					/>
+					{/* About component */}
 					<Route path="/about" element={<About />} />
+					{/* 404 component */}
 					<Route path="*" element={<Missing />} />
 				</Routes>
 				<Footer />

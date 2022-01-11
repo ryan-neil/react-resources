@@ -29,7 +29,8 @@ This guide utilizes React Functional Components and Hooks.
   12. [useEffect Hook](#12-useEffect-Hook)
   13. [Fetch API Data](#13-Fetch-API-Data)
   14. [CRUD Operations](#14-CRUD-Operations)
-  15. [React Router](#15-React-Router)
+  15. [React Router (v6)](#15-React-Router-v6)
+  15. [Custom Hooks](#16-Custom-Hooks)
 
 # 1. Resources
   * [React Docs:](https://reactjs.org/docs/getting-started.html) React Docs
@@ -2628,7 +2629,9 @@ Typically on websites, when we go to the 'About' page or 'Contact' page we would
 
 So, this means we don't need to go out and fetch for a HTML page. This makes everything very fast and dynamic. In addition, we don't get a page refresh which gives us that _"App"_ feeling.
 
-In this section we will be learning React Router by building a simple blog application.
+## Learn by Building: React Blog App
+
+Let's learn React Routing by building a little Blog Application.
 
 ### Installation
 
@@ -2649,7 +2652,7 @@ function App() {
     {/* basic routing structure */}
     <Router>
       <Routes>
-        <Route />
+        <Route path="/" element={<Home />}/>
       </Routes>
     </Router>
   );
@@ -2672,6 +2675,7 @@ import Missing from './pages/Missing';
 function App() {
   return (
     <Router>
+      {/* set routes */}
       <Routes>
         {/* set route components to render */}
         <Route path="/" element={<Home />} />
@@ -2704,6 +2708,7 @@ import Footer from './components/Footer';
 function App() {
   return (
     <Router>
+      {/* add static Navbar component */}
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -2711,6 +2716,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Missing />} />
       </Routes>
+      {/* add static Footer component */}
       <Footer />
     </Router>
   );
@@ -2843,6 +2849,137 @@ export default Profile;
 ```
 
 This is extremely useful for creating different profile pages for different users. We should note that it is recommended to use an `id` in the params rather than the users' name.
+
+[⬆ Top](#Table-of-Contents)
+
+# 16. Custom Hooks
+  * [Rules of Hooks:](https://reactjs.org/docs/hooks-rules.html) React Docs
+  * [Collection of React Hooks:](https://nikgraf.github.io/react-hooks/) Nik Graf
+
+React Hooks are a bit like JavaScript *utility* functions. React Hooks should all start with `use`. We can think of these like recipes
+
+Hooks are JavaScript functions, but you need to follow two rules when using them:
+
+### 1. Only call Hooks at the Top Level
+
+**Don't call Hooks inside loops, conditions, or nested functions**. Instead, always use Hooks at the top level of your React function, before any early returns.
+
+### 2. Only call Hooks from React Functions
+
+**Don't call Hooks from regular JavaScript functions or existing React Hooks (useEffect)**. Instead you can:
+  * Call Hooks from React function components
+  * Call Hooks from custom Hooks
+
+By following this rule, you can ensure that all stateful logic in a component is clearly visible from its source code.
+
+### React Blog App Example
+
+Let's see an example of how we can incorporate custom Hooks by revising our Axios fetch function as it's own Hook. To begin let's create a `useAxiosFetch` file for our custom Hook:
+```js
+// src/hooks/useAxiosFetch.js
+
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const useAxiosFetch = (dataUrl) => {
+  // set all states
+  const [ data, setData ] = useState([]);
+  const [ fetchError, setFetchError ] = useState(null);
+  const [ isLoading, setIsLoading ] = useState(false);
+
+  // define useEffect hook
+  useEffect(
+    () => {
+      let isMounted = true; // define mounted component (memory leak thing)
+      const cancelTokenSource = axios.CancelToken.source(); // define cancellation token, a part of axios used to cancel the request if the component is unmounted)
+
+      // define fetch data function
+      const fetchData = async (url) => {
+        setIsLoading(true); // initiate loading start
+
+        try {
+          const res = await axios.get(url, {
+            cancelToken: cancelTokenSource.token
+          });
+          if (isMounted) {
+            setData(res.data); // update the data state to the fetch response
+            setFetchError(null); // update error state to null
+          }
+        } catch (err) {
+          if (isMounted) {
+            setFetchError(err.message); // update error state to error
+            setData([]); // update the data state to an empty array
+          }
+        } finally {
+          isMounted && setIsLoading(false); // runs no matter what and checks to see if the component is still mounted and if true stops the loading state
+        }
+      };
+      fetchData(dataUrl); // call fetch into action with the url we receive
+
+      // define cleanUp function
+      const cleanUp = () => {
+        isMounted = false; // update isMounted to false
+        cancelTokenSource.cancel(); // cancels the request if the component is unloaded during the request
+      };
+
+      return cleanUp;
+    },
+    [ dataUrl ]
+  );
+
+  // return our current states
+  return { data, fetchError, isLoading };
+};
+
+export default useAxiosFetch;
+```
+
+Now back in App.js let make some revisions:
+```js
+// src/App.js
+
+import { useState, useEffect } from 'react';
+// 0. import custom hook
+import useAxiosFetch from './hooks/useAxiosFetch';
+
+function App() {
+  // 1. useAxiosFetch hook (this is json-server url)
+  const { data, fetchError, isLoading } = useAxiosFetch('http://localhost:9001/posts');
+
+  // 2. update the post state data for the rest of the app to use, this only happens when the 'data' changes
+  useEffect(() => {
+    setPosts(data);
+  }, [ data ]);
+
+  ...
+
+}
+```
+
+Now in our Home page component:
+```js
+// src/pages/Home.js
+
+import Feed from '../components/Feed';
+
+const Home = ({ posts, fetchError, isLoading }) => {
+  return (
+    <main className="Home">
+      {isLoading && <p>Loading posts...</p>}
+      {!isLoading && fetchError && <p style={{ color: 'red' }}>{fetchError}</p>}
+      {!isLoading && !fetchError && (posts.length ? <Feed posts={posts} /> : <p>No posts to display</p>)}
+    </main>
+  );
+};
+
+export default Home;
+```
+
+[⬆ Top](#Table-of-Contents)
+
+# 17. useContext
+
+
 
 [⬆ Top](#Table-of-Contents)
 
