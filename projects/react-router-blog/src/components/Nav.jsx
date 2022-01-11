@@ -5,18 +5,28 @@ import { Input } from './styles/Input.styled';
 const StyledNav = styled.nav`
 	width: 100%;
 	max-width: 1100px;
-	padding: 1rem 1rem 0 1rem;
+	padding: 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	flex-wrap: wrap;
 	gap: 1rem;
+	border-bottom: 1px solid ${(props) => props.theme.colors.border};
 	ul {
 		list-style-type: none;
 		padding: 0;
 		display: flex;
-		gap: 1.2rem;
-		li:hover {
-			opacity: 0.8;
+		gap: 0.25rem;
+		a {
+			padding: 0.25rem 0.75rem;
+			border-radius: .35rem;
+			transition: .1s ease-in;
+			background: ${(props) => props.theme.colors.secondaryBG};
+			color: ${(props) => props.theme.colors.heading};
+			cursor: pointer;
+			&:hover {
+				opacity: 0.75;
+			}
 		}
 	}
 	form {
@@ -46,10 +56,7 @@ const Nav = ({ search, setSearch }) => {
 				</li>
 			</ul>
 			{/* form */}
-			<form
-				className="search-form"
-				onSubmit={(e) => e.preventDefault()}
-			>
+			<form className="search-form" onSubmit={(e) => e.preventDefault()}>
 				<label htmlFor="search">Search Posts</label>
 				<Input
 					id="search"

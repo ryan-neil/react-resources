@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 const StyledArticle = styled.article`
-	background-color: var(--white);
+	background-color: ${({ theme }) => theme.colors.secondaryBG};
 	padding: 1rem;
 	border-radius: 0.5rem;
 	display: flex;
@@ -10,15 +10,15 @@ const StyledArticle = styled.article`
 	h2 {
 		transition: .1s ease-in;
 		&:hover {
-			color: var(--blue);
+			color: ${({ theme }) => theme.colors.primary};
 		}
 	}
 	.post-tag {
 		font-size: 0.7rem;
 		font-weight: 500;
 		text-transform: uppercase;
-		color: var(--blue);
-		background-color: var(--blue-light);
+		color: ${({ theme }) => theme.colors.primary};
+		background-color: ${({ theme }) => theme.colors.primaryLight};
 		width: auto;
 		width: fit-content; /* crucial */
 		height: auto;
@@ -28,11 +28,11 @@ const StyledArticle = styled.article`
 	}
 	.post-date {
 		margin-top: -8px;
-		color: var(--text-light);
+		color: ${({ theme }) => theme.colors.paragraphLight};
 		font-size: 0.8rem;
 	}
 	.post-body {
-		color: var(--text-p);
+		color: ${({ theme }) => theme.colors.paragraph};
 	}
 `;
 

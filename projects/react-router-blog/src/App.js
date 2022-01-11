@@ -9,19 +9,24 @@ import PostPage from './pages/PostPage';
 import EditPost from './pages/EditPost';
 import About from './pages/About';
 import Missing from './pages/Missing';
-// import react router dependencies
-import { Routes, Route, useNavigate } from 'react-router-dom';
-// import react hooks
+// import react dependencies
 import { useState, useEffect } from 'react';
-// import datetime helper package
+import { Routes, Route, useNavigate } from 'react-router-dom';
+// import dependencies
 import { format } from 'date-fns';
-// import external data (api)
+// import dependencies
 import api from './api/posts';
 
+// global styles
+import { ThemeProvider } from 'styled-components';
+import { mode } from './components/styles/Theme.styled';
+import GlobalStyles from './components/styles/Global.styled';
+// styles
 import styled from 'styled-components';
 const StyledApp = styled.div`
-	height: 100vh;
+	min-height: 100vh;
 	width: 100%;
+	background-color: ${(props) => props.theme.colors.primaryBG};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -30,6 +35,8 @@ const StyledApp = styled.div`
 `;
 
 function App() {
+	// set theme state
+	const [ theme, setTheme ] = useState('light');
 	// posts content data state
 	const [ posts, setPosts ] = useState([]);
 	// nav search states
@@ -75,12 +82,8 @@ function App() {
 			// filter out our results
 			const filteredResults = posts.filter(
 				(post) =>
-					post.body
-						.toLowerCase()
-						.includes(search.toLowerCase()) ||
-					post.title
-						.toLowerCase()
-						.includes(search.toLowerCase())
+					post.body.toLowerCase().includes(search.toLowerCase()) ||
+					post.title.toLowerCase().includes(search.toLowerCase())
 			);
 			// update search state
 			setSearchResults(filteredResults.reverse());
@@ -175,59 +178,56 @@ function App() {
 	};
 
 	return (
-		<StyledApp>
-			<Header title={'React Blog'} />
-			<Nav search={search} setSearch={setSearch} />
-			<Routes>
-				<Route
-					path="/"
-					element={<Home posts={searchResults} />}
-				/>
-				{/* New Post Component */}
-				<Route
-					path="/post"
-					element={
-						<NewPost
-							postTitle={postTitle}
-							setPostTitle={setPostTitle}
-							postBody={postBody}
-							setPostBody={setPostBody}
-							postTag={postTag}
-							setPostTag={setPostTag}
-							handleSubmit={handleSubmit}
-						/>
-					}
-				/>
-				{/* Edit Post Component */}
-				<Route
-					path="/edit/:id"
-					element={
-						<EditPost
-							posts={posts}
-							editTitle={editTitle}
-							setEditTitle={setEditTitle}
-							editBody={editBody}
-							setEditBody={setEditBody}
-							editTag={editTag}
-							setEditTag={setEditTag}
-							handleEdit={handleEdit}
-						/>
-					}
-				/>
-				<Route
-					path="/post/:id"
-					element={
-						<PostPage
-							posts={posts}
-							handleDelete={handleDelete}
-						/>
-					}
-				/>
-				<Route path="/about" element={<About />} />
-				<Route path="*" element={<Missing />} />
-			</Routes>
-			<Footer />
-		</StyledApp>
+		<ThemeProvider theme={mode[theme]}>
+			<StyledApp>
+				<GlobalStyles />
+				<Header title={'React Blog'} theme={theme} setTheme={setTheme} />
+				<Nav search={search} setSearch={setSearch} />
+				<Routes>
+					<Route path="/" element={<Home posts={searchResults} />} />
+					{/* New Post Component */}
+					<Route
+						path="/post"
+						element={
+							<NewPost
+								postTitle={postTitle}
+								setPostTitle={setPostTitle}
+								postBody={postBody}
+								setPostBody={setPostBody}
+								postTag={postTag}
+								setPostTag={setPostTag}
+								handleSubmit={handleSubmit}
+							/>
+						}
+					/>
+					{/* Edit Post Component */}
+					<Route
+						path="/edit/:id"
+						element={
+							<EditPost
+								posts={posts}
+								editTitle={editTitle}
+								setEditTitle={setEditTitle}
+								editBody={editBody}
+								setEditBody={setEditBody}
+								editTag={editTag}
+								setEditTag={setEditTag}
+								handleEdit={handleEdit}
+							/>
+						}
+					/>
+					<Route
+						path="/post/:id"
+						element={
+							<PostPage posts={posts} handleDelete={handleDelete} />
+						}
+					/>
+					<Route path="/about" element={<About />} />
+					<Route path="*" element={<Missing />} />
+				</Routes>
+				<Footer />
+			</StyledApp>
+		</ThemeProvider>
 	);
 }
 

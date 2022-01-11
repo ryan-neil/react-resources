@@ -19,9 +19,11 @@ const StyledMain = styled.main`
 		gap: 1rem;
 		input {
 			margin-top: -10px;
+			color: ${({ theme }) => theme.colors.paragraph};
 		}
 		textarea {
 			margin-top: -10px;
+			color: ${({ theme }) => theme.colors.paragraph};
 		}
 	}
 `;
@@ -91,10 +93,7 @@ const EditPost = ({
 							onChange={(e) => setEditTag(e.target.value)}
 						/>
 						{/* submit button */}
-						<Button
-							type="submit"
-							onClick={() => handleEdit(post.id)}
-						>
+						<Button type="submit" onClick={() => handleEdit(post.id)}>
 							Submit
 						</Button>
 					</form>

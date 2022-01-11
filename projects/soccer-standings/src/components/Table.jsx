@@ -1,4 +1,5 @@
 const Table = ({ items }) => {
+	console.log(items);
 	return (
 		<main>
 			<ul>

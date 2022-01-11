@@ -13,7 +13,11 @@ const StyledMain = styled.main`
 		.post-date {
 			margin-top: -16px;
 			font-size: 0.9rem;
-			color: var(--text-light);
+			color: ${({ theme }) => theme.colors.paragraphLight};
+		}
+		.button-container {
+			display: flex;
+			gap: 1rem;
 		}
 	}
 `;
@@ -34,15 +38,14 @@ const PostPage = ({ posts, handleDelete }) => {
 						<h2>{post.title}</h2>
 						<p className="post-date">{post.datetime}</p>
 						<p className="post-body">{post.body}</p>
-						<Button
-							danger
-							onClick={() => handleDelete(post.id)}
-						>
-							Delete Post
-						</Button>
-						<Button secondary>
-							<Link to={`/edit/${post.id}`}>Edit Post</Link>
-						</Button>
+						<div className="button-container">
+							<Button danger onClick={() => handleDelete(post.id)}>
+								Delete Post
+							</Button>
+							<Button secondary>
+								<Link to={`/edit/${post.id}`}>Edit Post</Link>
+							</Button>
+						</div>
 					</div>
 				)}
 				{/* if we do not have a post */}

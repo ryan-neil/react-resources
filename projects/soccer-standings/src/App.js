@@ -2,6 +2,8 @@
 import Header from './components/Header';
 import Table from './components/Table';
 import Footer from './components/Footer';
+import Error from './components/Error';
+import Loading from './components/Loading';
 import { useState, useEffect } from 'react';
 // global styles
 import { ThemeProvider } from 'styled-components';
@@ -21,12 +23,17 @@ const StyledApp = styled.div`
 function App() {
 	// set theme state
 	const [ theme, setTheme ] = useState('light');
+	// url params
 	const endpoint = 'standings'; // league standings
 	const league = 'league=39'; // premier league
 	const season = 'season=2021'; // 2021-2022 season
 	const API_URL = `https://v3.football.api-sports.io/${endpoint}?${league}&${season}`;
 	// set data state
 	const [ items, setItems ] = useState([]);
+	// set fetch error state
+	const [ fetchError, setFetchError ] = useState(null);
+	// set loading state
+	const [ isLoading, setIsLoading ] = useState(true);
 
 	// fetch the data
 	useEffect(() => {
@@ -43,17 +50,19 @@ function App() {
 			try {
 				const res = await fetch(API_URL, requestOptions);
 				// error handling
-				if (!res.ok)
-					throw Error('Did not receive expected data.');
+				if (!res.ok) throw Error('Did not receive expected data.');
 				const data = await res.json();
-
 				// get standings data
 				const refinedData = data.response[0].league.standings[0];
 
 				// update data state
 				setItems(refinedData);
-			} catch (error) {
-				console.log(error);
+				// update fetch error
+				setFetchError(null);
+			} catch (err) {
+				setFetchError(err.message);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 		fetchData();
@@ -64,7 +73,11 @@ function App() {
 			<StyledApp>
 				<GlobalStyles />
 				<Header theme={theme} setTheme={setTheme} />
-				<Table items={items} />
+				<div>
+					{isLoading && <Loading />}
+					{fetchError && <Error fetchError={fetchError} />}
+					{!fetchError && <Table items={items} />}
+				</div>
 				<Footer />
 			</StyledApp>
 		</ThemeProvider>

@@ -6,8 +6,8 @@ const Button = styled.button`
 	padding: 0.25rem 0.75rem;
 	font-size: 1rem;
 	font-weight: 500;
-	color: var(--white);
-	background-color: var(--blue);
+	color: ${(props) => props.theme.colors.white};
+	background-color: ${(props) => props.theme.colors.primary};
 	border-radius: .35rem;
 	cursor: pointer;
 	transition: .1s ease-in;
@@ -19,13 +19,14 @@ const Button = styled.button`
 	${(props) =>
 		props.secondary &&
 		css`
-			background-color: var(--white);
-			color: var(--text-h);
-			/* &:hover {
-				background-color: var(--light-grey);
-			} */
+			background-color: ${(props) => props.theme.colors.secondaryBG};
+			color: ${(props) => props.theme.colors.heading};
 		`};
-	${(props) => props.danger && css`background-color: var(--red);`};
+	${(props) =>
+		props.danger &&
+		css`
+			background-color: ${(props) => props.theme.colors.red};
+		`};
 `;
 
 export { Button };
