@@ -2934,7 +2934,7 @@ const useAxiosFetch = (dataUrl) => {
 export default useAxiosFetch;
 ```
 
-Now back in App.js let make some revisions:
+Now back in `App.js` let make some revisions:
 ```js
 // src/App.js
 
@@ -2953,10 +2953,56 @@ function App() {
 
   ...
 
+  return (
+    <div className="App">
+      <Header title={'React Blog'} theme={theme} setTheme={setTheme} />
+      <Nav search={search} setSearch={setSearch} />
+      <Routes>
+        <Route path="/" element={
+          <Home
+            posts={searchResults}
+            // 3. pass in props from useAxiosFetch
+            fetchError={fetchError}
+            isLoading={isLoading}
+          />
+        }/>
+        <Route path="/post" element={
+          <NewPost
+            handleSubmit={handleSubmit}
+            postTitle={postTitle}
+            setPostTitle={setPostTitle}
+            postBody={postBody}
+            setPostBody={setPostBody}
+            postTag={postTag}
+            setPostTag={setPostTag}
+          />
+        }/>
+        <Route path="/edit/:id" element={
+          <EditPost
+            posts={posts}
+            editTitle={editTitle}
+            setEditTitle={setEditTitle}
+            editBody={editBody}
+            setEditBody={setEditBody}
+            editTag={editTag}
+            setEditTag={setEditTag}
+            handleEdit={handleEdit}
+          />
+        }/>
+        {/* Post Page component */}
+        <Route path="/post/:id" element={<PostPage posts={posts} handleDelete={handleDelete} />}/>
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<Missing />} />
+      </Routes>
+      <Footer />
+    </div>
+	);
 }
+
+export default App;
 ```
 
-Now in our Home page component:
+Now in our `Home` page component:
 ```js
 // src/pages/Home.js
 
@@ -2977,9 +3023,211 @@ export default Home;
 
 [⬆ Top](#Table-of-Contents)
 
-# 17. useContext
+# 17. Context
+  * [Context:](https://reactjs.org/docs/context.html) React Docs
 
+*"Context provides a way to pass data through the component tree without having to pass props down manually at every level."* - React Docs
 
+### React Blog App Example
+
+Let's add *context* to our React Blog Application we have been building. To begin we will build out our skeleton for the useContext Hook file:
+```js
+// src/context/DataContext.js
+
+// import 'createContext' from react
+import { createContext, useState, useEffect } from 'react';
+
+// define the 'dataContext' and set it equal to the imported 'createContext'
+const DataContext = createContext({});
+
+// dataProvider provides the data to our different components
+// 'children' refers to the components that are within the 'dataProvider', the data will then be available to the children of the 'dataProvider'
+export const DataProvider = ({ children }) => {
+  // we add the, what have been, props inside the value prop of our DataContext.Provider component
+  return (
+    <DataContext.Provider value={{
+      // add props...
+    }}>
+      {children}
+    </DataContext.Provider>;
+  )
+}
+
+export default DataContext;
+```
+
+Let's move over to `App.js` and import our *context* in:
+```js
+// 0. import context
+import { DataProvider } from './context/DataContext';
+
+...
+
+function App() {
+  return (
+			<StyledApp>
+        {/* 1. context wrapper */}
+				<DataProvider>
+          {/* static component routes */}
+					<Header
+						title={"React Blog"}
+						theme={theme}
+						setTheme={setTheme}
+					/>
+					<Nav 
+            search={search} 
+            setSearch={setSearch} 
+          />
+          {/* dynamic component routes */}
+					<Routes>
+            {/* Home route */}
+						<Route
+							path="/"
+							element={
+								<Home
+									posts={searchResults}
+									fetchError={fetchError}
+									isLoading={isLoading}
+								/>
+							}
+						/>
+            {/* NewPost route */}
+						<Route
+							path="/post"
+							element={
+								<NewPost
+									handleSubmit={handleSubmit}
+									postTitle={postTitle}
+									setPostTitle={setPostTitle}
+									postBody={postBody}
+									setPostBody={setPostBody}
+									postTag={postTag}
+									setPostTag={setPostTag}
+								/>
+							}
+						/>
+            {/* EditPost route */}
+						<Route
+							path="/edit/:id"
+							element={
+								<EditPost
+									posts={posts}
+									editTitle={editTitle}
+									setEditTitle={setEditTitle}
+									editBody={editBody}
+									setEditBody={setEditBody}
+									editTag={editTag}
+									setEditTag={setEditTag}
+									handleEdit={handleEdit}
+								/>
+							}
+						/>
+            {/* PostPage route */}
+						<Route
+							path="/post/:id"
+							element={
+								<PostPage
+									posts={posts}
+									handleDelete={handleDelete}
+								/>
+							}
+						/>
+            {/* About route */}
+						<Route 
+              path="/about" 
+              element={<About />} 
+            />
+            {/* 404 route */}
+						<Route 
+              path="*" 
+              element={<Missing />} 
+            />
+					</Routes>
+					<Footer />
+				</DataProvider>
+			</StyledApp>
+	);
+}
+
+export default App;
+```
+
+By wrapping all the app components with the `DataProvider` component, the components within can subscribe at will to the data provider. In other words, the data that is coming from the context (`DataContext.Provider`) inside the data provider (`DataContext` component), will be available to all of the components within, if we choose to pull that component in with the `useContext` Hook.
+
+Next, we need to move all of our state and app logic over into our context file (`DataContext`).
+
+We can now start adding our prop values for the `Navbar` and `Header` components in our `DataContext.Provider` component:
+```js
+// src/context/DataContext.js
+
+import { useState, useEffect, createContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import api from '../api/posts';
+import useAxiosFetch from '../hooks/useAxiosFetch';
+
+const DataContext = createContext({});
+
+export const DataProvider = ({ children }) => {
+  // states
+	const [ theme, setTheme ] = useState('dark');
+	const [ posts, setPosts ] = useState([]);
+	const [ search, setSearch ] = useState('');
+	const [ searchResults, setSearchResults ] = useState([]);
+	const [ postTitle, setPostTitle ] = useState('');
+	const [ postBody, setPostBody ] = useState('');
+	const [ postTag, setPostTag ] = useState('');
+	const [ editTitle, setEditTitle ] = useState('');
+	const [ editBody, setEditBody ] = useState('');
+	const [ editTag, setEditTag ] = useState('');
+  // hooks
+	const navigate = useNavigate();
+	const { data, fetchError, isLoading } = useAxiosFetch(
+		'http://localhost:9001/posts'
+	);
+
+	useEffect(
+		// ...
+		[ data ]
+	);
+
+	useEffect(
+		// ...
+		[ posts, search ]
+	);
+
+	const handleSubmit = async (e) => {
+		// ...
+	};
+
+	const handleEdit = async (id) => {
+		// ...
+	};
+
+	const handleDelete = async (id) => {
+		// ...
+	};
+
+	return (
+		<DataContext.Provider
+			value={{
+				// Header props
+				theme,
+				setTheme,
+				// Navbar props
+				search,
+				setSearch
+			}}
+		>
+			{children}
+		</DataContext.Provider>
+	);
+};
+
+export default DataContext;
+```
+
+Once we finish moving all the props to `DataContext` our `App` component is much cleaner and more manageable.
 
 [⬆ Top](#Table-of-Contents)
 

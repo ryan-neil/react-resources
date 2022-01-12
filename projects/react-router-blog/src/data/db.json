@@ -25,7 +25,7 @@
       "id": 5,
       "tag": "react.js",
       "title": "The Quest for the Perfect Dark Mode",
-      "datetime": "January 10, 2022",
+      "datetime": "January 11, 2022",
       "body": "Maybe the hardest/most complicated part of building this blog was adding Dark Mode. Not the live-embedded code snippets, not the unified GraphQL layer that manages and aggregates all content and data*, not the custom analytics system, not the myriad bits of whimsy. Freaking Dark Mode."
     }
   ]

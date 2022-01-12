@@ -1,4 +1,6 @@
+// external
 import { Link } from 'react-router-dom';
+// styles
 import styled from 'styled-components';
 const StyledArticle = styled.article`
 	background-color: ${({ theme }) => theme.colors.secondaryBG};
@@ -36,19 +38,19 @@ const StyledArticle = styled.article`
 	}
 `;
 
-const Post = ({ post }) => {
+const Post = ({ result }) => {
 	return (
 		<StyledArticle>
-			<p className="post-tag">{post.tag}</p>
-			<Link to={`/post/${post.id}`}>
-				<h2>{post.title}</h2>
+			<p className="post-tag">{result.tag}</p>
+			<Link to={`/post/${result.id}`}>
+				<h2>{result.title}</h2>
 			</Link>
-			<p className="post-date">{post.datetime}</p>
+			<p className="post-date">{result.datetime}</p>
 			<p className="post-body">
-				{post.body.length <= 50 ? (
-					post.body
+				{result.body.length <= 50 ? (
+					result.body
 				) : (
-					`${post.body.slice(0, 50)}...`
+					`${result.body.slice(0, 50)}...`
 				)}
 			</p>
 		</StyledArticle>

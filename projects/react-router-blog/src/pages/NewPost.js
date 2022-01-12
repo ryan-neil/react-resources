@@ -1,3 +1,10 @@
+// external
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+// internal
+import api from '../api/posts';
+import DataProvider from '../context/DataContext';
 // styles
 import styled from 'styled-components';
 import { Button } from '../components/styles/Button.styled';
@@ -23,15 +30,51 @@ const StyledMain = styled.main`
 	}
 `;
 
-const NewPost = ({
-	postTitle,
-	setPostTitle,
-	postBody,
-	setPostBody,
-	postTag,
-	setPostTag,
-	handleSubmit
-}) => {
+const NewPost = () => {
+	// set state
+	const [ postTitle, setPostTitle ] = useState('');
+	const [ postBody, setPostBody ] = useState('');
+	const [ postTag, setPostTag ] = useState('');
+	// set context
+	const { posts, setPosts } = useContext(DataProvider);
+	// history hook
+	const navigate = useNavigate();
+
+	// CREATE a new post
+	const handleSubmit = async (e) => {
+		// prevent default page load on submit
+		e.preventDefault();
+		// set the new posts id
+		const id = posts.length ? posts[posts.length - 1].id + 1 : 1;
+		//  set the new posts date time value
+		const datetime = format(new Date(), 'MMMM dd, yyyy');
+		// create the new post object with the above information
+		const newPost = {
+			id: id,
+			tag: postTag,
+			title: postTitle,
+			datetime: datetime,
+			body: postBody
+		};
+
+		// send the new data to the api (axios)
+		try {
+			const res = await api.post('/posts', newPost);
+			// add the new post object to the posts array
+			const allPosts = [ ...posts, res.data ];
+			// update posts state
+			setPosts(allPosts);
+			// reset all new post fields
+			setPostTitle('');
+			setPostBody('');
+			setPostTag('');
+			// go back to home page after the new post has been submitted
+			navigate('/');
+		} catch (err) {
+			console.log(`Error: ${err.message}`);
+		}
+	};
+
 	return (
 		<StyledMain>
 			<h2>Create a New Post</h2>

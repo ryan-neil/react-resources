@@ -1,5 +1,6 @@
+// external
 import { Link } from 'react-router-dom';
-
+// styles
 import styled from 'styled-components';
 import { Button } from '../components/styles/Button.styled';
 const StyledMain = styled.main`

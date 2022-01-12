@@ -1,5 +1,12 @@
+// external
+import { useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+// internal
+import api from '../api/posts';
+import DataProvider from '../context/DataContext';
+// styles
 import styled from 'styled-components';
 import { Button } from '../components/styles/Button.styled';
 const StyledMain = styled.main`
@@ -22,12 +29,29 @@ const StyledMain = styled.main`
 	}
 `;
 
-const PostPage = ({ posts, handleDelete }) => {
+const PostPage = () => {
+	const { posts, setPosts } = useContext(DataProvider);
+	const navigate = useNavigate();
 	const { id } = useParams();
+
 	// grab the post coming from the params (need to set to string)
 	const post = posts.find((post) => post.id.toString() === id);
-	// or another way...
-	// const post = posts.find((post) => post.id == id);
+
+	// DELETE a post
+	const handleDelete = async (id) => {
+		try {
+			// no response here
+			await api.delete(`/posts/${id}`);
+			// define posts list
+			const postsList = posts.filter((post) => post.id !== id);
+			// update posts state
+			setPosts(postsList);
+			// go back to home page with useNavigate hook
+			navigate('/');
+		} catch (err) {
+			console.log(`Error: ${err.message}`);
+		}
+	};
 
 	return (
 		<StyledMain>

@@ -1,6 +1,10 @@
-import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-
+// external
+import { useEffect, useState, useContext } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+// internal
+import api from '../api/posts';
+import DataProvider from '../context/DataContext';
 // styles
 import styled from 'styled-components';
 import { Button } from '../components/styles/Button.styled';
@@ -28,17 +32,15 @@ const StyledMain = styled.main`
 	}
 `;
 
-const EditPost = ({
-	posts,
-	handleEdit,
-	editBody,
-	setEditBody,
-	editTitle,
-	setEditTitle,
-	editTag,
-	setEditTag
-}) => {
+const EditPost = () => {
+	const [ editTitle, setEditTitle ] = useState('');
+	const [ editBody, setEditBody ] = useState('');
+	const [ editTag, setEditTag ] = useState('');
+
+	const { posts, setPosts } = useContext(DataProvider);
+	const navigate = useNavigate();
 	const { id } = useParams();
+
 	const post = posts.find((post) => post.id.toString() === id);
 
 	// this will automatically fill out our form and the controlled form will be ready to edit
@@ -53,6 +55,41 @@ const EditPost = ({
 		},
 		[ post, setEditTitle, setEditBody, setEditTag ]
 	);
+
+	// UPDATE a post
+	const handleEdit = async (id) => {
+		//  set the updated posts date time value
+		const datetime = format(new Date(), 'MMMM dd, yyyy');
+		// create the updated posts object with the above information
+		const updatedPost = {
+			id: id,
+			tag: editTag,
+			title: editTitle,
+			datetime: datetime,
+			body: editBody
+		};
+		try {
+			const res = await api.put(`/posts/${id}`, updatedPost);
+			// we use map to eliminate the old post and just add in the new information
+			setPosts(
+				posts.map(
+					// what our ternary is saying is:
+					// if the iterated post id is equal to the id being passed in
+					// ? then we use the response data which is the new post information
+					// : if not then we just pass in the post as it is
+					(post) => (post.id === id ? { ...res.data } : post)
+				)
+			);
+			// reset all edited fields
+			setEditTitle('');
+			setEditBody('');
+			setEditTag('');
+			// go home after the post has been edited and submitted
+			navigate('/');
+		} catch (err) {
+			console.log(`Error: ${err.message}`);
+		}
+	};
 
 	return (
 		<StyledMain>

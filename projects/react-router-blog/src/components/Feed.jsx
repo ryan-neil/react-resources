@@ -1,4 +1,6 @@
+// components
 import Post from './Post';
+// styles
 import styled from 'styled-components';
 const StyledFeed = styled.div`
 	display: flex;
@@ -6,10 +8,12 @@ const StyledFeed = styled.div`
 	gap: 1rem;
 `;
 
-const Feed = ({ posts }) => {
+const Feed = ({ searchResults }) => {
 	return (
 		<StyledFeed>
-			{posts.map((post) => <Post key={post.id} post={post} />)}
+			{searchResults.map((result) => (
+				<Post key={result.id} result={result} />
+			))}
 		</StyledFeed>
 	);
 };

@@ -1,5 +1,9 @@
+// external
 import { Link } from 'react-router-dom';
-
+import { useContext } from 'react';
+// internal
+import DataContext from '../context/DataContext';
+// styles
 import styled from 'styled-components';
 import { Input } from './styles/Input.styled';
 const StyledNav = styled.nav`
@@ -40,7 +44,10 @@ const StyledNav = styled.nav`
 	}
 `;
 
-const Nav = ({ search, setSearch }) => {
+const Nav = () => {
+	// bring in all our context props for the component
+	const { search, setSearch } = useContext(DataContext);
+
 	return (
 		<StyledNav>
 			{/* navigation links */}
