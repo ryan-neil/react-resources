@@ -1,7 +1,7 @@
 // external
 import { useContext } from 'react';
-import DataProvider from '../context/DataContext';
 // internal
+import DataProvider from '../context/DataContext';
 import Feed from '../components/Feed';
 // styles
 import { Container } from '../components/styles/Container.styled';

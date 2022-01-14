@@ -34,7 +34,8 @@ This guide utilizes React Functional Components and Hooks.
 
 # 1. Resources
   * [React Docs:](https://reactjs.org/docs/getting-started.html) React Docs
-  * [React Docs:](https://beta.reactjs.org/) React Docs (Beta)
+  * [React Docs (Beta):](https://beta.reactjs.org/) React Docs (Beta)
+  * [Hooks API Reference:](https://reactjs.org/docs/hooks-reference.html) React Docs
   * [Thinking in React:](https://reactjs.org/docs/thinking-in-react.html) React Docs
   * [Airbnb React/JSX Style Guide:](https://github.com/airbnb/javascript/tree/master/react) Airbnb Github Repo
   * [Structuring a React App:](https://reactjs.org/docs/faq-structure.html) React Docs
@@ -3025,10 +3026,41 @@ export default Home;
 
 # 17. Context
   * [Context:](https://reactjs.org/docs/context.html) React Docs
+  * [Passing Data Deeply with Context:](https://beta.reactjs.org/learn/passing-data-deeply-with-context) React Docs (Beta)
 
 *"Context provides a way to pass data through the component tree without having to pass props down manually at every level."* - React Docs
 
-### React Blog App Example
+### Build a Micro App with Context
+
+Let's build Superhero App.
+
+---
+
+`src/App.js`
+```js
+import { DataProvider } from './context/DataContext';
+import Header from './components/Header';
+import AddItem from './components/AddItem';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
+
+// styles...
+
+function App() {
+	return (
+		<div className="App">
+			<DataProvider>
+				<Header title="Superhero App" />
+				<AddItem />
+				<TodoList />
+				<Footer />
+			</DataProvider>
+		</div>
+	);
+}
+
+export default App;
+```
 
 Let's add *context* to our React Blog Application we have been building. To begin we will build out our skeleton for the useContext Hook file:
 ```js

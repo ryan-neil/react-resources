@@ -1,5 +1,10 @@
+// internal
+import { DataProvider } from './context/DataContext';
+import Header from './components/Header';
+import AddItem from './components/AddItem';
+import TodoList from './components/TodoList';
+import Footer from './components/Footer';
 // styles
-import './styles/globals.css';
 import styled from 'styled-components';
 const AppStyled = styled.div`
 	/* background-color: #22272e; */
@@ -12,9 +17,16 @@ const AppStyled = styled.div`
 `;
 
 function App() {
+	// Create a new items
+
 	return (
 		<AppStyled>
-			<h2>Todo List Training...</h2>
+			<DataProvider>
+				<Header title="Todo List" />
+				<AddItem />
+				<TodoList />
+				<Footer />
+			</DataProvider>
 		</AppStyled>
 	);
 }

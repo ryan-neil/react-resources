@@ -28,7 +28,7 @@ function App() {
 	const [ isLoading, setIsLoading ] = useState(true);
 
 	useEffect(() => {
-		const fetchItems = async () => {
+		const fetchData = async () => {
 			try {
 				// fetch db data
 				const res = await fetch(API_URL);
@@ -50,11 +50,7 @@ function App() {
 				setIsLoading(false);
 			}
 		};
-
-		// simulate delayed fetch call
-		setTimeout(() => {
-			fetchItems();
-		}, 1000);
+		fetchData();
 	}, []);
 
 	const addItem = async (item) => {
@@ -90,8 +86,7 @@ function App() {
 	const handleChecked = async (id) => {
 		const listItems = items.map(
 			// if the item id is equal to the id coming in ? then update the current item's checked status to the opposite of what it currently is : if it is not, return the item
-			(item) =>
-				item.id === id ? { ...item, checked: !item.checked } : item
+			(item) => (item.id === id ? { ...item, checked: !item.checked } : item)
 		);
 		setItems(listItems);
 

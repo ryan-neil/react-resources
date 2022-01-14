@@ -1,0 +1,38 @@
+{
+  "heros": [
+    {
+      "id": 1,
+      "name": "Thor",
+      "ability": "Strength",
+      "checked": true
+    },
+    {
+      "name": "Iron Man",
+      "ability": "Intelligence",
+      "id": 2,
+      "updateHero": {
+        "name": "Iron Man",
+        "ability": "Intelligence"
+      },
+      "checked": true
+    },
+    {
+      "id": 3,
+      "name": "The Hulk",
+      "ability": "Strength",
+      "checked": false
+    },
+    {
+      "id": 4,
+      "name": "Captain America",
+      "ability": "Team Work",
+      "checked": false
+    },
+    {
+      "id": 5,
+      "name": "Doctor Strange",
+      "ability": "Magic",
+      "checked": true
+    }
+  ]
+}

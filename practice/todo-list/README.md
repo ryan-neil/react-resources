@@ -234,6 +234,7 @@ const items = [
 
 ### 🛠 Features:
   * Fetch data from database
+  * Use the Context API 
   * Search item functionality
 
 We can use [JSON Server](https://www.npmjs.com/package/json-server) which will allow us to run a mock backend REST API:
