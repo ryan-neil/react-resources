@@ -3100,7 +3100,6 @@ function App() {
 			<StyledApp>
         {/* 1. context wrapper */}
 				<DataProvider>
-          {/* static component routes */}
 					<Header
 						title={"React Blog"}
 						theme={theme}
@@ -3110,9 +3109,7 @@ function App() {
             search={search} 
             setSearch={setSearch} 
           />
-          {/* dynamic component routes */}
 					<Routes>
-            {/* Home route */}
 						<Route
 							path="/"
 							element={
@@ -3123,7 +3120,6 @@ function App() {
 								/>
 							}
 						/>
-            {/* NewPost route */}
 						<Route
 							path="/post"
 							element={
@@ -3138,7 +3134,6 @@ function App() {
 								/>
 							}
 						/>
-            {/* EditPost route */}
 						<Route
 							path="/edit/:id"
 							element={
@@ -3154,7 +3149,6 @@ function App() {
 								/>
 							}
 						/>
-            {/* PostPage route */}
 						<Route
 							path="/post/:id"
 							element={
@@ -3164,12 +3158,10 @@ function App() {
 								/>
 							}
 						/>
-            {/* About route */}
 						<Route 
               path="/about" 
               element={<About />} 
             />
-            {/* 404 route */}
 						<Route 
               path="*" 
               element={<Missing />} 

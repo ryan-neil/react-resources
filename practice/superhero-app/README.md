@@ -1,70 +1,130 @@
-# Getting Started with Create React App
+# Superhero App (Training)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### What we will be building:
 
-## Available Scripts
+Basically all this mini app does is take data objects, in the form of superheros from a mock backend, and displays them to the page. The hero objects being displayed will show a checkbox, their *name*, and their special *ability*. 
 
-In the project directory, you can run:
+The user will have the ability to search for a hero, toggle a checkbox next to the hero, edit the hero, delete the hero, and add a new hero to the page via the Add page.
 
-### `npm start`
+This project will incorporate many modern application functionalities that we see and use everyday. Let's have a look at some of the features that this training project uses:
+  * "React Router DOM" for app page management
+  * Fetching data from a mock backend database (json-server)
+  * Standard React Hooks (`useState`, `useEffect`, `useContext`)
+  * Custom hooks (`useFetch`)
+  * Basic and advanced "CRUD" operations
+  * Search functionality
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🟢 Part 1: Basic
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🛠 Features:
+  * React Router DOM for page management
+  * Data fetching
+  * Introduce standard React hooks as well as custom hooks
+  * Add *Create*, *Read*, and *Delete* operations logic
+  * Search functionality
 
-### `npm test`
+We will use [JSON Server](https://www.npmjs.com/package/json-server) which will allow us to run a mock backend REST API:
+```bash
+npx json-server -p 9001 -w src/data/db.json
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+`data/db.json`:
+```json
+{
+  "heros": [
+    {
+      "id": 1,
+      "name": "Thor",
+      "ability": "Strength",
+      "checked": true
+    },
+    {
+      "id": 2,
+      "name": "Iron Man",
+      "ability": "Intelligence",
+      "checked": true
+    },
+    {
+      "id": 3,
+      "name": "The Hulk",
+      "ability": "Strength",
+      "checked": false
+    },
+    {
+      "id": 4,
+      "name": "Captain America",
+      "ability": "Team Work",
+      "checked": false
+    },
+    {
+      "id": 5,
+      "name": "Doctor Strange",
+      "ability": "Magic",
+      "checked": true
+    }
+  ]
+}
+```
 
-### `npm run build`
+### 💭 Solution:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+├── data
+│  └── db.json
+├── public
+├── src
+│  ├── api
+│  │  └── apiRequest.js
+│  ├── components
+│  │  ├── Header.jsx
+│  │  ├── Search.jsx
+│  │  ├── HeroList.jsx
+│  │  ├── HeroListItem.jsx
+│  │  ├── Empty.jsx
+│  │  └── Footer.jsx
+│  ├── hooks
+│  │  └── useFetch.js
+│  ├── pages
+│  │  ├── Home.js
+│  │  ├── Add.js
+│  │  └── Missing.js
+│  ├── App.js
+│  ├── index.css
+│  └── index.js
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🟡 Part 2: Intermediate
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 🛠 Features:
+  * Add *Update* (edit) operation logic
+  * Incorporate `useContext` hook for state/props management
 
-### `npm run eject`
+### 💭 Solution:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+├── data
+│  └── db.json
+├── public
+├── src
+│  ├── api
+│  │  └── apiRequest.js
+│  ├── components
+│  │  ├── Header.jsx
+│  │  ├── Search.jsx
+│  │  ├── HeroList.jsx
+│  │  ├── HeroListItem.jsx
+│  │  ├── Empty.jsx
+│  │  └── Footer.jsx
+│  ├── context
+│  │  └── DataContext.js
+│  ├── hooks
+│  │  └── useFetch.js
+│  ├── pages
+│  │  ├── Home.js
+│  │  ├── Add.js
+│  │  ├── Edit.js
+│  │  └── Missing.js
+│  ├── App.js
+│  ├── index.css
+│  └── index.js
+```

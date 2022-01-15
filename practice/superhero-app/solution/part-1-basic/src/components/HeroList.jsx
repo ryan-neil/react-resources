@@ -6,9 +6,11 @@ const HeroList = ({ heros, setHeros, setFetchError }) => {
 
 	// UPDATE item
 	const handleChecked = async (id) => {
+		// update the object in the list
 		const updatedHeroList = heros.map(
 			(hero) => (hero.id === id ? { ...hero, checked: !hero.checked } : hero)
 		);
+		// set the items list state
 		setHeros(updatedHeroList);
 
 		// 1. get the selected hero list item

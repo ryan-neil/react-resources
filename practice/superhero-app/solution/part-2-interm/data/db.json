@@ -7,13 +7,9 @@
       "checked": true
     },
     {
+      "id": 2,
       "name": "Iron Man",
       "ability": "Intelligence",
-      "id": 2,
-      "updateHero": {
-        "name": "Iron Man",
-        "ability": "Intelligence"
-      },
       "checked": true
     },
     {

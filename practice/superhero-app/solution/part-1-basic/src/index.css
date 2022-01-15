@@ -36,6 +36,10 @@ textarea,
 select {
 	font: inherit;
 }
+a {
+	color: #a9b2c0;
+	/* color: #1a1a1a; */
+}
 p,
 h1,
 h2,
