@@ -1,11 +1,8 @@
 const Table = ({ items }) => {
-	console.log(items);
 	return (
 		<main>
 			<ul>
-				{items.map((item) => (
-					<li key={item.team.id}>{item.team.name}</li>
-				))}
+				{items.map((item) => <li key={item.team.id}>{item.team.name}</li>)}
 			</ul>
 		</main>
 	);
