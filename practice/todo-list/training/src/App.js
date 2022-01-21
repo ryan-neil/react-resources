@@ -1,9 +1,3 @@
-// internal
-import { DataProvider } from './context/DataContext';
-import Header from './components/Header';
-import AddItem from './components/AddItem';
-import TodoList from './components/TodoList';
-import Footer from './components/Footer';
 // styles
 import styled from 'styled-components';
 const AppStyled = styled.div`
@@ -17,16 +11,9 @@ const AppStyled = styled.div`
 `;
 
 function App() {
-	// Create a new items
-
 	return (
 		<AppStyled>
-			<DataProvider>
-				<Header title="Todo List" />
-				<AddItem />
-				<TodoList />
-				<Footer />
-			</DataProvider>
+			<h2>Todo List Training...</h2>
 		</AppStyled>
 	);
 }
