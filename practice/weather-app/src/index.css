@@ -14,6 +14,7 @@
 	--text-p: rgba(0, 0, 0, 0.8);
 	--text-h: rgba(0, 0, 0, 0.9);
 	--text-light: rgba(0, 0, 0, 0.4);
+	--border-radius: 0.35rem;
 }
 /* Resets */
 *,
