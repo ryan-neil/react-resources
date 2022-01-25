@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Search from '../components/Search';
+import Details from '../components/Details';
 import useDebounce from '../hooks/useDebounce';
 // styles
 import styled from 'styled-components';
@@ -48,6 +49,7 @@ const Home = () => {
 				searchQuery={searchQuery}
 				setSearchQuery={setSearchQuery}
 			/>
+			<Details />
 		</StyledMain>
 	);
 };
