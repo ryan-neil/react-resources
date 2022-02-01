@@ -1,29 +1,24 @@
+// styles
 import {
 	StyledHeader,
-	Nav,
-	Img,
-	H1,
-	Tag,
-	LogoContainer,
-	SearchContainer,
+	StyledNav,
+	StyledLogo,
+	StyledSearchBar,
 	InputSearchIcon,
-	Input,
 	SearchIcon,
 	SunIcon,
 	MoonIcon
 } from './styles/Header.styled';
-import Container from './styles/utils/Container.styled';
-import { Flex } from './styles/utils/Flex.styled';
+import { Container, Flex } from './styles/Utils.styled';
 
-const Header = (props) => {
-	function toggleTheme() {
-		return props.theme === 'light'
-			? props.setTheme('dark')
-			: props.setTheme('light');
-	}
+const Header = ({ theme, setTheme }) => {
+	const toggleTheme = () => {
+		return theme === 'light' ? setTheme('dark') : setTheme('light');
+	};
 
+	// set theme icon
 	const themeIcon =
-		props.theme === 'light' ? (
+		theme === 'light' ? (
 			<MoonIcon onClick={toggleTheme} />
 		) : (
 			<SunIcon onClick={toggleTheme} />
@@ -32,24 +27,24 @@ const Header = (props) => {
 	return (
 		<StyledHeader>
 			<Container>
-				<Nav>
+				<StyledNav>
 					{/* Logo */}
-					<LogoContainer>
-						<Img src="./logo.svg" />
-						<H1>GoSurf</H1>
-						<Tag>Beta</Tag>
-					</LogoContainer>
+					<StyledLogo>
+						<img src="./logo.svg" />
+						<h1>GoSurf</h1>
+						<p>Beta</p>
+					</StyledLogo>
 					{/* SearchBar */}
-					<SearchContainer>
+					<StyledSearchBar>
 						<InputSearchIcon />
-						<Input type="text" placeholder="Search spot" />
-					</SearchContainer>
+						<input type="text" placeholder="Search spot" />
+					</StyledSearchBar>
 					{/* Widgets */}
 					<Flex>
 						<SearchIcon />
 						{themeIcon}
 					</Flex>
-				</Nav>
+				</StyledNav>
 			</Container>
 		</StyledHeader>
 	);

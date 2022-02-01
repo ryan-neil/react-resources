@@ -4,87 +4,84 @@ import { Search, LightMode, DarkMode } from '@styled-icons/material';
 
 // Header
 export const StyledHeader = styled.header`
-	background-color: ${(props) => props.theme.colors.primaryBG};
+	background-color: ${({ theme }) => theme.colors.primaryBG};
 	padding: 20px 0;
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
-		0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 `;
 
 // Navbar
-export const Nav = styled.nav`
+export const StyledNav = styled.nav`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 `;
 
-// Header Left
 // Logo
-export const LogoContainer = styled.div`
+export const StyledLogo = styled.div`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
-`;
-export const Img = styled.img`
-	height: 36px;
-	width: 36px;
-	margin-right: .5rem;
-`;
-export const H1 = styled.h1`
-	font-size: 1.6rem;
-	font-weight: 500;
-	margin-right: .5rem;
-	letter-spacing: .025em;
-`;
-export const Tag = styled.p`
-	color: ${(props) => props.theme.colors.primary};
-	background-color: ${(props) => props.theme.colors.primaryLight};
+	img {
+		height: 36px;
+		width: 36px;
+		margin-right: .5rem;
+	}
+	h1 {
+		font-size: 1.6rem;
+		font-weight: 500;
+		margin-right: .5rem;
+		letter-spacing: .025em;
+	}
+	p {
+		color: ${({ theme }) => theme.colors.primary};
+		background-color: ${({ theme }) => theme.colors.primaryLight};
 
-	font-size: 0.7rem;
-	padding: 0 .25rem;
-	letter-spacing: .025em;
-	border-radius: .25rem;
-	text-transform: uppercase;
+		font-size: 0.7rem;
+		padding: 0 .25rem;
+		letter-spacing: .025em;
+		border-radius: .25rem;
+		text-transform: uppercase;
+	}
 `;
 
-// Header Center
-// Search
-export const SearchContainer = styled.div`
-	background-color: ${(props) => props.theme.colors.inputBG};
+// SearchBar
+export const StyledSearchBar = styled.div`
+	background-color: ${({ theme }) => theme.colors.inputBG};
 	display: flex;
 	align-items: center;
 	height: 2.5rem;
 	padding: 0.25rem 1rem;
 	border-radius: .5rem;
-	box-shadow: ${(props) => props.theme.colors.boxShadowInset};
+	box-shadow: ${({ theme }) => theme.colors.boxShadowInset};
+	input {
+		color: ${({ theme }) => theme.colors.paragraph};
+		font-size: .9rem;
+		letter-spacing: .025em;
+		text-align: left;
+		background: transparent;
+		border: none;
+		/* outline: none; */
+		&::placeholder {
+			color: ${({ theme }) => theme.colors.paragraphLight};
+		}
+	}
 
 	/* Responsive Queries */
-	@media (max-width: ${(props) => props.theme.mobile.width}) {
+	@media (max-width: ${({ theme }) => theme.mobile.width}) {
 		display: none;
 	}
 `;
+// SearchBar Icon
 export const InputSearchIcon = styled(Search)`
-  color: ${(props) => props.theme.colors.paragraphLight};
+  color: ${({ theme }) => theme.colors.paragraphLight};
   width: 1rem;
   margin-right: .5rem;
 `;
-export const Input = styled.input`
-	color: ${(props) => props.theme.colors.paragraph};
-	font-size: .9rem;
-	letter-spacing: .025em;
-	text-align: left;
-	background: transparent;
-	border: none;
-	outline: none;
 
-	&::placeholder {
-		color: ${(props) => props.theme.colors.paragraphLight};
-	}
-`;
-
-// Header Right
+// Search Icon
 export const SearchIcon = styled(Search)`
   display: none;
-  color: ${(props) => props.theme.colors.heading};
+  color: ${({ theme }) => theme.colors.heading};
   width: 1.8rem;
   height: 1.8rem;
   margin-right: .5rem;
@@ -92,40 +89,38 @@ export const SearchIcon = styled(Search)`
   padding-right: .25rem;
   border-radius: .25rem;
   cursor: pointer;
-  
   &:hover {
-    background-color: ${(props) => props.theme.colors.secondaryBG};
+    background-color: ${({ theme }) => theme.colors.secondaryBG};
   }
-
   /* Responsive Queries */
-	@media (max-width: ${(props) => props.theme.mobile.width}) {
+	@media (max-width: ${({ theme }) => theme.mobile.width}) {
 		display: block;
 	}
 `;
+// Sun Icon
 export const SunIcon = styled(LightMode)`
-  color: ${(props) => props.theme.colors.heading};
+  color: ${({ theme }) => theme.colors.heading};
   width: 1.8rem;
 	height: 1.8rem;
   padding-left: .25rem;
   padding-right: .25rem;
   border-radius: .25rem;
   cursor: pointer;
-  transition: ${(props) => props.theme.colors.transition};
-  
+  transition: ${({ theme }) => theme.colors.transition};
   &:hover {
-    background-color: ${(props) => props.theme.colors.secondaryBG};
+    background-color: ${({ theme }) => theme.colors.secondaryBG};
   }
-  `;
+`;
+// Moon Icon
 export const MoonIcon = styled(DarkMode)`
-  color: ${(props) => props.theme.colors.heading};
+  color: ${({ theme }) => theme.colors.heading};
   width: 1.8rem;
 	height: 1.8rem;
   padding-left: .25rem;
   padding-right: .25rem;
   border-radius: .25rem;
   cursor: pointer;
-  
   &:hover {
-    background-color: ${(props) => props.theme.colors.secondaryBG};
+    background-color: ${({ theme }) => theme.colors.secondaryBG};
   }
 `;

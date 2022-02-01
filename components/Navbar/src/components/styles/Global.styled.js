@@ -17,9 +17,6 @@ const GlobalStyles = createGlobalStyle`
   body {
     height: 100%;
     font-family: Ubuntu, -apple-system;
-
-    /* DELETE */
-    background-color: ${({ theme }) => theme.colors.primaryBG};
   }
   body {
     line-height: 1.5;

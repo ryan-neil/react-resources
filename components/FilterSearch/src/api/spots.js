@@ -1,4 +1,4 @@
-const Data = [
+const spots = [
 	{
 		name: 'Secret Spot',
 		id: 1,
@@ -990,4 +990,4 @@ const Data = [
 	}
 ];
 
-export default Data;
+export default spots;

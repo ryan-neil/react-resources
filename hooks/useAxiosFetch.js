@@ -1,3 +1,4 @@
+// definition
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -48,7 +49,11 @@ const useAxiosFetch = (dataUrl) => {
 	);
 
 	// return our current states
-	return { data, fetchError, isLoading };
+	return {
+		data,
+		fetchError,
+		isLoading
+	};
 };
 
 export default useAxiosFetch;

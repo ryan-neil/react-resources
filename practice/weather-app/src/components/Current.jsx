@@ -39,12 +39,16 @@ const StyledCurrent = styled.div`
 	}
 `;
 
-const Current = ({ city, temperature, icon, weatherText }) => {
+const Current = ({ city, currentData }) => {
+	const temperature = currentData[0].Temperature.Imperial.Value;
+	const weatherText = currentData[0].WeatherText;
+	const weatherIcon = currentData[0].WeatherIcon;
+
 	return (
 		<StyledCurrent>
 			<div className="heading">
 				<div className="heading-left">
-					<span>{icon}</span>
+					<span>{weatherIcon}</span>
 					<div>
 						<p>{city}</p>
 						<p>{temperature}°F</p>

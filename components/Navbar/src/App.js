@@ -2,7 +2,7 @@ import { useState } from 'react';
 // Global Styles
 import { ThemeProvider } from 'styled-components';
 import GlobalStyles from './components/styles/Global.styled';
-import { mode } from './components/styles/utils/Theme.styled';
+import { mode } from './components/styles/Theme.styled';
 // Components
 import Header from './components/Header.jsx';
 
@@ -11,7 +11,7 @@ function App() {
 
 	return (
 		<ThemeProvider theme={mode[theme]}>
-			<div>
+			<div className="App">
 				<GlobalStyles />
 				<Header theme={theme} setTheme={setTheme} />
 			</div>

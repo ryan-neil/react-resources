@@ -8,14 +8,20 @@ const StyledForecast = styled.div`
 	gap: 1rem;
 `;
 
-const Forecast = () => {
+const Forecast = ({ forecastData }) => {
+	const results = forecastData.DailyForecasts;
+
 	return (
 		<StyledForecast>
-			<Day title="Mon" temperature={80} />
-			<Day title="Tue" temperature={78} />
-			<Day title="Wed" temperature={79} />
-			<Day title="Thu" temperature={80} />
-			<Day title="Fri" temperature={81} />
+			{results.map((day) => (
+				<Day
+					key={day.EpochDate}
+					title={day.EpochDate}
+					minTemp={day.Temperature.Minimum.Value}
+					maxTemp={day.Temperature.Maximum.Value}
+					phrase={day.Day.IconPhrase}
+				/>
+			))}
 		</StyledForecast>
 	);
 };

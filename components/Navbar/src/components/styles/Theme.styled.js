@@ -1,7 +1,6 @@
 // root theme styles
 // https://blog.agney.dev/theming-on-styled-components/
 
-// NEW
 export const LightTheme = {
 	colors: {
 		primary: '#19A0F6',
