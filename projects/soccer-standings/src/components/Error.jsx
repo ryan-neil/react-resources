@@ -8,10 +8,11 @@ const StyledError = styled.div`
 	}
 `;
 
-const Error = ({ fetchError }) => {
+const Error = ({ error }) => {
 	return (
 		<StyledError>
-			<p>{fetchError}</p>
+			<p>Error with the request!</p>
+			<p>{error}</p>
 		</StyledError>
 	);
 };

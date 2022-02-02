@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import StandingsContext from '../context/StandingsContext';
+// components
 import ReqButton from './ReqButton';
 // styles
 import styled from 'styled-components';
@@ -6,7 +9,9 @@ const StyledForm = styled.form`
 	gap: 1rem;
 `;
 
-const Nav = ({ reqType, setReqType }) => {
+const Nav = () => {
+	const { reqType, setReqType } = useContext(StandingsContext);
+
 	return (
 		<StyledForm onSubmit={(e) => e.preventDefault()}>
 			<ReqButton
