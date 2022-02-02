@@ -4,8 +4,7 @@ const StyledHeader = styled.header`
 	width: 100%;
 	padding: 1rem 1rem;
 	background-color: ${(props) => props.theme.colors.primaryBG};
-	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
-		0 1px 2px 0 rgba(0, 0, 0, 0.06);
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 	.wrapper {
 		width: ${({ theme }) => theme.web.width};
 		max-width: 100%;
@@ -63,7 +62,7 @@ const Header = ({ theme, setTheme }) => {
 	return (
 		<StyledHeader>
 			<div className="wrapper">
-				<h1>Football Standings</h1>
+				<h1>Tables</h1>
 				{themeIcon}
 			</div>
 		</StyledHeader>

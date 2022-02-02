@@ -1,7 +1,6 @@
 // root theme styles
 // https://blog.agney.dev/theming-on-styled-components/
 
-// NEW
 export const LightTheme = {
 	colors: {
 		primary: '#19A0F6',
@@ -12,12 +11,12 @@ export const LightTheme = {
 		heading: '#23272f',
 		paragraph: '#404756',
 		paragraphLight: '#99A1B3',
-		border: '#444c56',
+		border: '#efefef',
 		inputBG: '#EBECF0',
 		// misc
-		transition: 'ease .2s',
-		boxShadow: '',
-		boxShadowInset: 'inset 0 1px 4px 0 rgba(0,0,0,0.05);',
+		danger: '#da3633',
+		dangerBG: 'rgba(218, 54, 51, 0.2)',
+		success: '#45fa39',
 		tertiary: '#FFAD42',
 		white: 'fff',
 		black: '000',
@@ -27,6 +26,13 @@ export const LightTheme = {
 		pink: '#d961a1',
 		violet: '#8957e5',
 		blue: '#378afc'
+	},
+	styles: {
+		transition: 'ease .2s',
+		borderRadiusSm: '0.25rem',
+		borderRadiusMd: '0.35rem',
+		boxShadow: '0 1px 4px 0 rgba(0, 0, 0, .05)',
+		boxShadowInset: 'inset 0 1px 4px 0 rgba(0,0,0,0.05);'
 	},
 	web: {
 		width: '1275px'
@@ -46,12 +52,12 @@ export const DarkTheme = {
 		heading: '#f6f7f9',
 		paragraph: '#EBECF0',
 		paragraphLight: '#99A1B3',
-		border: '#f5f5f5',
+		border: '#414958',
 		inputBG: '#343A46',
 		// misc
-		transition: 'ease .2s',
-		boxShadow: '0 1px 4px 0 rgba(0, 0, 0, .05)',
-		boxShadowInset: 'inset 0 1px 4px 0 rgba(0, 0, 0, .05)',
+		danger: '#da3633',
+		dangerBG: 'rgba(218, 54, 51, 0.2)',
+		success: '#45fa39',
 		tertiary: '#FFAD42',
 		white: 'fff',
 		black: '000',
@@ -61,6 +67,13 @@ export const DarkTheme = {
 		pink: '#d961a1',
 		violet: '#8957e5',
 		blue: '#378afc'
+	},
+	styles: {
+		transition: 'ease .2s',
+		borderRadiusSm: '0.25rem',
+		borderRadiusMd: '0.35rem',
+		boxShadow: '0 1px 4px 0 rgba(0, 0, 0, .05)',
+		boxShadowInset: 'inset 0 1px 4px 0 rgba(0,0,0,0.05);'
 	},
 	web: {
 		width: '1275px'

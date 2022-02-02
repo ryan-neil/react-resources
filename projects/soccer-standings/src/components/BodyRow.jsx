@@ -1,10 +1,12 @@
 import Cell from './Cell';
+import ClubCell from './ClubCell';
+import FormCell from './FormCell';
 
 const BodyRow = ({ item }) => {
 	return (
 		<tr>
 			<Cell data={item.rank} />
-			<Cell data={item.team.name} />
+			<ClubCell badge={item.team.logo} data={item.team.name} />
 			<Cell data={item.all.played} />
 			<Cell data={item.all.win} />
 			<Cell data={item.all.draw} />
@@ -17,7 +19,7 @@ const BodyRow = ({ item }) => {
 				}
 			/>
 			<Cell data={item.points} />
-			<Cell data={item.form} />
+			<FormCell data={item.form} />
 		</tr>
 	);
 };

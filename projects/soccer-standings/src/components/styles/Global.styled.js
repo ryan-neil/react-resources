@@ -56,6 +56,10 @@ const GlobalStyles = createGlobalStyle`
   select {
     font: inherit;
   }
+  ul {
+    margin: 0;
+    padding: 0;
+  }
   li, a {
     color: ${({ theme }) => theme.colors.paragraph};
   }
@@ -71,6 +75,28 @@ const GlobalStyles = createGlobalStyle`
   h6 {
     overflow-wrap: break-word;
     color: ${({ theme }) => theme.colors.heading};
+  }
+  table {
+    width: 100%;
+    font-size: 0.9rem;
+    color: ${({ theme }) => theme.colors.paragraph};
+    box-shadow: ${({ theme }) => theme.styles.boxShadow};
+    border-collapse: collapse;
+    overflow-x: auto;
+  }
+  th, td {
+    text-align: left;
+  }
+  th {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 300;
+    background-color: ${({ theme }) => theme.colors.secondaryBG};
+    color: ${({ theme }) => theme.colors.paragraphLight};
+  }
+  td {
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+    padding: 0.75rem;
   }
   #root,
   #__next {

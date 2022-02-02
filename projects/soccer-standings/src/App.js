@@ -14,6 +14,8 @@ import { mode } from './components/styles/Theme.styled';
 // styles
 import styled from 'styled-components';
 const StyledApp = styled.div`
+	font-family: 'Poppins', sans-serif, -apple-system;
+	font-weight: 300;
 	min-height: 100vh;
 	width: 100%;
 	display: flex;
@@ -22,7 +24,7 @@ const StyledApp = styled.div`
 	align-items: center;
 	.main-container {
 		width: 100%;
-		padding: 1rem 0 2rem 0;
+		padding: 1rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -32,7 +34,7 @@ const StyledApp = styled.div`
 
 function App() {
 	// set theme state
-	const [ theme, setTheme ] = useState('light');
+	const [ theme, setTheme ] = useState('dark');
 	const { loading, error } = useContext(StandingsContext);
 
 	return (

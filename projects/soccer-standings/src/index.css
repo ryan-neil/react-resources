@@ -1,20 +1,3 @@
-:root {
-	--white: #fff;
-	--black: #000;
-	--light-grey: #f8f8f8;
-	--yellow: #f4b400;
-	--red: #db4437;
-	--blue: #4285f4;
-	--blue-light: rgba(66, 133, 244, 0.2);
-	--green: #34a853;
-	--pink: #ff00bf;
-	--purple: #6f1ab1;
-	--border: #dfdfdf;
-	--shadow: #eeeeee;
-	--text-p: rgba(0, 0, 0, 0.8);
-	--text-h: rgba(0, 0, 0, 0.9);
-	--text-light: rgba(0, 0, 0, 0.4);
-}
 /* Resets */
 *,
 *::before,
@@ -29,7 +12,6 @@ body {
 	height: 100%;
 }
 body {
-	font-family: 'Ubuntu', -apple-system;
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 	background-color: var(--light-grey);
@@ -57,19 +39,6 @@ h5,
 h6 {
 	overflow-wrap: break-word;
 }
-p {
-	color: var(--text-p);
-	font-weight: 400;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	color: var(--text-h);
-	font-weight: 500;
-}
 a {
 	text-decoration: none;
 	color: inherit;
@@ -77,4 +46,5 @@ a {
 #root,
 #__next {
 	isolation: isolate;
+	/* color: rgba(218, 54, 51, 0.2); */
 }
