@@ -1,8 +1,3 @@
-// this hook is for saving state long-term (on page reload)
-
-/**
- * Definition:
- */
 import { useState, useEffect } from 'react';
 
 // using local storage with api's
@@ -41,41 +36,4 @@ export const useLocalStorageApi = (key, defaultValue) => {
 	});
 
 	return [value, setValue];
-};
-
-/**
- * Usage with API's:
- */
-import { useLocalStorageApi } from './hooks/useLocalStorageApi';
-
-const Component = () => {
-	// fetch api data logic ...
-
-	const [data, setData] = useLocalStorageApi('key', apiData);
-
-	useEffect(() => {
-		setData(apiData);
-	}, [apiData]);
-
-	return (
-		<>
-			<div>{data}</div>
-		</>
-	);
-};
-
-/**
- * Usage standard:
- */
-import { useLocalStorage } from './hooks/useLocalStorage';
-
-const Component = () => {
-	const [count, setCount] = useLocalStorage('myCount', 0);
-
-	return (
-		<>
-			<button onClick={() => setCount(0)}>Clear</button>
-			<button onClick={() => setCount(count + 1)}>{count}</button>
-		</>
-	);
 };

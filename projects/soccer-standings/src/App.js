@@ -1,6 +1,7 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { StandingsDataProvider } from './context/StandingsContext';
 import StandingsContext from './context/StandingsContext';
+import { useFetch } from './hooks/useFetch';
 // components
 import Header from './components/Header';
 import Nav from './components/Nav';

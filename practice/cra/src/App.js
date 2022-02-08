@@ -10,12 +10,12 @@ const AppStyled = styled.div`
 	/* justify-content: center; */
 `;
 
-function App() {
+const App = () => {
 	return (
 		<AppStyled>
 			<h2>App running...</h2>
 		</AppStyled>
 	);
-}
+};
 
 export default App;
