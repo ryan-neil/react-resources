@@ -1,10 +1,10 @@
-// definition
+// Definition
 import { useEffect, useState } from 'react';
 
-export const useFetch = (url, dependencies = []) => {
-	const [ data, setData ] = useState(null);
-	const [ fetchError, setFetchError ] = useState(null);
-	const [ isLoading, setIsLoading ] = useState(false);
+export const useFetch = (url, options) => {
+	const [data, setData] = useState([]);
+	const [hasError, setHasError] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		let isMounted = true;
@@ -12,16 +12,16 @@ export const useFetch = (url, dependencies = []) => {
 		const fetchData = async () => {
 			setIsLoading(true);
 			try {
-				const res = await fetch(url);
+				const res = await fetch(url, options);
 				if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
-				const apiData = await res.json();
 				if (isMounted) {
-					setData(apiData);
-					setFetchError(null);
+					const json = await res.json();
+					setData(json);
+					setHasError(null);
 				}
 			} catch (err) {
 				if (isMounted) {
-					setFetchError(err.message);
+					setHasError(err.message);
 					setData(null);
 				}
 			} finally {
@@ -35,11 +35,11 @@ export const useFetch = (url, dependencies = []) => {
 		};
 
 		return cleanUp;
-	}, dependencies);
+	}, [url]);
 
 	return {
 		data,
-		fetchError,
-		isLoading
+		isLoading,
+		hasError,
 	};
 };
