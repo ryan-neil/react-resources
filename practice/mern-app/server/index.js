@@ -25,7 +25,7 @@ app.use(cors());
  * mongoose 'connect' takes in a string that represents the connection to the cluster
  */
 mongoose.connect(
-  'mongodb+srv://josephskycrest:Harley2014!@mern-app-db.hyslw.mongodb.net/MERN-App-DB?retryWrites=true&w=majority'
+  'mongodb+srv://{username}:{password}@{project-name}.hyslw.mongodb.net/{db-name}?retryWrites=true&w=majority'
 );
 
 /**
