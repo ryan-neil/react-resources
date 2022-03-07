@@ -7,8 +7,8 @@ const TodoList = () => {
 
 	// Update an item
 	const handleChecked = (id) => {
-		const itemsList = items.map(
-			(item) => (item.id === id ? { ...item, checked: !item.checked } : item)
+		const itemsList = items.map((item) =>
+			item.id === id ? { ...item, checked: !item.checked } : item
 		);
 		setItems(itemsList);
 	};

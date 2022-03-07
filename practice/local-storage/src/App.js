@@ -1,5 +1,5 @@
-import { useLocalStorage } from './hooks/useLocalStorage';
 // Components
+import Counter from './components/Counter';
 import Parent from './components/Parent';
 // styles
 import './styles/globals.css';
@@ -14,16 +14,9 @@ const AppStyled = styled.div`
 `;
 
 function App() {
-	const [count, setCount] = useLocalStorage('myCount', 0);
-
 	return (
 		<AppStyled>
-			<div>
-				<h2>Counter:</h2>
-				<button onClick={() => setCount(0)}>Clear</button>
-				<button onClick={() => setCount(count + 1)}>{count}</button>
-			</div>
-
+			<Counter />
 			<Parent />
 		</AppStyled>
 	);

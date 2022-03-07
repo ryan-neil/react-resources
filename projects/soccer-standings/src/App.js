@@ -1,7 +1,6 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { StandingsDataProvider } from './context/StandingsContext';
 import StandingsContext from './context/StandingsContext';
-import { useFetch } from './hooks/useFetch';
 // components
 import Header from './components/Header';
 import Nav from './components/Nav';
@@ -35,7 +34,7 @@ const StyledApp = styled.div`
 
 function App() {
 	// set theme state
-	const [ theme, setTheme ] = useState('dark');
+	const [theme, setTheme] = useState('dark');
 	const { loading, error } = useContext(StandingsContext);
 
 	return (

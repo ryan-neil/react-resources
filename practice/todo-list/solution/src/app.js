@@ -17,8 +17,6 @@ const AppStyled = styled.div`
 `;
 
 function App() {
-	// Create a new items
-
 	return (
 		<AppStyled>
 			<DataProvider>
