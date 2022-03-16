@@ -29,7 +29,11 @@ function App() {
       return setError('The email you input is invalid.');
     } else if (signupInput.password.length < 5) {
       return setError('The password you entered should contain 5 or more characters.');
+    } else if (signupInput.password !== signupInput.confirmPassword) {
+      return setError('The passwords you entered do not match. Try again.');
     }
+
+    // resets
     setSignupInput({ email: '', password: '', confirmPassword: '' });
     setError('');
   };
