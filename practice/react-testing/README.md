@@ -1,53 +1,38 @@
-# 18. Testing
+# React Testing
 
+### Resources:
+
+- [React Testing Library Bootcamp](https://www.udemy.com/course/the-react-testing-library-bootcamp/learn/lecture/29910006#overview): Udemy
 - [React Testing Library Crash Course](https://www.youtube.com/playlist?list=PL4cUxeGkcC9gm4_-5UsNmLqMosM-dzuvQ): The Net Ninja
 - [React Testing Crash Course](https://www.youtube.com/watch?v=OVNjsIto9xM&t=300s): Traversy Media
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/): React Testing Library
 
-### Table of Contents
+## What is it and Why?
 
-1. [Introduction to Testing](#1-introduction-to-testing)
-2. [Structure of Tests](#2-structure-of-tests)
-3. [Query Methods](#3-query-methods)
-4. [Priority](#4-priority)
+Testing is a method to check whether the acual product matches the expected requirements. The main reason we would want to testing our application is to increase our confidence in our app's functionality.
 
-## 1. Introduction to Testing
+<br>
 
-### Why
+## Types of Testing
 
-Here are some reasons as to why we should test our React applications:
+When it comes to testing, there's two main methodologies that we can utilize:
 
-- Check whether an application behaves as expected
-- Safeguard against unwanted behavior when changes are made
-- Automated, and thus efficient in the long-term
+1. Manual
+2. Automated
 
-### What
+<br>
 
-Let's look at some examples of what we might test in our applications:
+## The Philosophy of RTL
 
-1. High value features
-2. Edge cases in high value features
-3. Things that are easy to break
-4. Basic React component testing
-   - user interactions
-   - Conditional rendering
-   - utils/hooks
+_TLDR_: Always test how the software is meant to be used, not how it has been implemented.
 
-### Unit Testing
+When it comes to testing we will never focus on the implementation details when testing our React application, but rather how the software should actually work.
 
-This is very testing a small part of the code. In functional programming this refers to testing a function.
+For example, we _should_ be able to type into the input or if we type something incorrectly and hit submit, we _should_ receive an error message. How we get to the logic behind this implementation, React Testing Library does not care. It just simply tests the outcome of the software product.
 
-### Integration Testing
+<br>
 
-This refers to testing whether or not multiple units or components in the application are working together as we expect them to. Essentially we are combining multiple unit tests into one larger _integration_ test.
-
-### End-to-End Testing
-
-This is testing from the frontend all the way to the backend. This is essentially very similar to mimicking how a user would use the application in the browser.
-
-[⬆ Top](#table-of-contents)
-
-## 2. Structure of Tests
+## The Structure of RTL Tests
 
 Let's have a look at the common structure of a test.
 
@@ -128,35 +113,245 @@ test('renders learn react link', () => {
 
 [⬆ Top](#table-of-contents)
 
-## 3. Query Methods
+## RTL Query Methods
 
-We'll be looking at the initial example Create React App gives us and specifically `screen` and the methods that come with it:
+Let's have a look at the React Testing Library query methods we can use:
 
-```js
-import { render, screen } from '@testing-library/react';
-import App from './App';
+| $\!$     | `getBy...` | `findBy...` | `queryBy...` | `getAllBy...` | `findAllBy...` | `queryAllBy...` |
+| :------- | :--------- | :---------- | :----------- | :------------ | :------------- | :-------------- |
+| No Match | error      | error       | null         | error         | error          | array           |
+| 1 Match  | return     | return      | return       | array         | array          | array           |
+| 1+ Match | error      | error       | error        | array         | array          | array           |
+| Await    | no         | yes         | no           | no            | yes            | no              |
 
-test('renders learn react link', () => {
-  render(<App />);
-  // here we're using 'screen' to look for a potential link element with the text of "learn react"
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
-```
+### Priorities
 
-But what are some other methods we can use? Let's have a look below:
+- [Queries - Priority](https://testing-library.com/docs/queries/about/#priority): React Testing Library
 
-| $\!$     | getBy  | findBy | queryBy | getAllBy | findAllBy | queryAllBy |
-| :------- | :----- | :----- | :------ | :------- | :-------- | :--------- |
-| No Match | error  | error  | null    | error    | error     | array      |
-| 1 Match  | return | return | return  | array    | array     | array      |
-| 1+ Match | error  | error  | error   | array    | array     | array      |
-| Await    | no     | yes    | no      | no       | yes       | no         |
+_"Based on the Guiding Principles, your test should resemble how users interact with your code (component, page, etc.) as much as possible. With this in mind, we recommend this order of priority"_ - React Testing Library
 
 [⬆ Top](#table-of-contents)
 
-## 4. Priority
+## Our First Test
 
-Now that we know a little more about the different methods we can utilize to get specific elements from our component and the differences between them, we can now talk about the attribute portion of those methods.
+For our first test we will be writing a test that tests if we can type into a form input. After we have this test written we will code out the feature until it passes our test.
+
+```js
+// App.js
+
+function App() {
+  return (
+    <div className="App">
+      <form>
+        <div className="input-container">
+          <label htmlFor="email" className="form-label">
+            Email Address
+          </label>
+          <input type="email" name="email" id="email" className="form-control" />
+        </div>
+
+        <div className="input-container">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input type="password" name="password" id="password" className="form-control" />
+        </div>
+
+        <div className="input-container">
+          <label htmlFor="confirm-password" className="form-label">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            name="confirm-password"
+            id="confirm-password"
+            className="form-control"
+          />
+        </div>
+      </form>
+    </div>
+  );
+}
+```
+
+Now lets' write the test:
+
+```js
+// App.test.js
+
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+test('inputs should be initially empty', () => {
+  // 1) RENDER the component to be tested
+  render(<App />);
+  // 2) FIND our input elements (query them)
+  const emailInputElement = screen.getByRole('textbox');
+  const passwordInputElement = screen.getByLabelText('Password');
+  const confirmPasswordInputElement = screen.getByLabelText(/confirm password/i);
+  // 3) ASSERT our test elements
+  expect(emailInputElement.value).toBe('');
+  expect(passwordInputElement.value).toBe('');
+  expect(confirmPasswordInputElement.value).toBe('');
+});
+```
+
+And that's it! We've just written our first test!
+
+[⬆ Top](#table-of-contents)
+
+## Handling Browser Interactions
+
+### User Events
+
+- [React Testing Library - User Events](https://testing-library.com/docs/ecosystem-user-event/#api): React Testing Library
+
+Let's write an example of testing some user events:
+
+```js
+// App.test.js
+
+test('user should be able to type an email', () => {
+  render(<App />);
+  const emailInputElement = screen.getByRole('textbox', {
+    name: /email/i,
+  });
+  // add our type event
+  userEvent.type(emailInputElement, 'katie@gmail.com');
+  expect(emailInputElement.value).toBe('katie@gmail.com');
+});
+
+test('user should be able to type a password', () => {
+  render(<App />);
+  const passwordInputElement = screen.getByLabelText('Password');
+  userEvent.type(passwordInputElement, 'password123');
+  expect(passwordInputElement.value).toBe('password123');
+});
+
+test('user should be able to type a confirmation password', () => {
+  render(<App />);
+  const confirmPasswordInputElement = screen.getByLabelText(/confirm password/i);
+  userEvent.type(confirmPasswordInputElement, 'password123');
+  expect(confirmPasswordInputElement.value).toBe('password123');
+});
+```
+
+### Testing the Presence of an Element
+
+Let's write a test where we're seeing if a certain element exists in our document:
+
+```js
+// App.js
+
+function App() {
+  // get the value of our inputs inside state
+  const [signupInput, setSignupInput] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+  // set error state
+  const [error, setError] = useState('');
+
+  // handle the input change
+  const handleChange = (e) => {
+    // update the state
+    setSignupInput({
+      ...signupInput, // spread out the signupInput state
+      [e.target.name]: e.target.value, // this resolves to whatever the name of the input it's being called in
+    });
+  };
+
+  // handle submit button click
+  const handleClick = (e) => {
+    e.preventDefault();
+    // get the email and validate that its an actual email
+    if (!validator.isEmail(signupInput.email)) {
+      setError('The email you input is invalid');
+    }
+  };
+
+  return (
+    <div className="App">
+      <form>
+        <div className="email-input-container">
+          <label htmlFor="email" className="form-label">
+            Email Address
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            className="form-control"
+            value={signupInput.email}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="input-container">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            className="form-control"
+            value={signupInput.password}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="input-container">
+          <label htmlFor="confirmPassword" className="form-label">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirm-password"
+            className="form-control"
+            value={signupInput.confirmPassword}
+            onChange={handleChange}
+          />
+        </div>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit" onClick={handleClick}>
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+}
+```
+
+```js
+// App.test.js
+
+...
+
+test('should show email error message on invalid email', () => {
+  // render
+  render(<App />);
+
+  // find our elements
+  const emailInputElement = screen.getByRole('textbox', {
+    name: /email/i,
+  });
+  const emailErrorElement = screen.queryByText(/the email you input is invalid/i); // needs to be 'query'
+  const submitButtonElement = screen.getByRole('button', {
+    name: /submit/i,
+  });
+
+  // assert the error element is not yet in the doc
+  expect(emailErrorElement).not.toBeInTheDocument();
+
+  // events
+  userEvent.type(emailInputElement, 'katiegmail.com');
+  userEvent.click(submitButtonElement);
+
+  // assert the error element is in the doc when invalid email
+  const emailErrorElementAgain = screen.queryByText(/the email you input is invalid/i); // needs to be 'query'
+  expect(emailErrorElementAgain).toBeInTheDocument();
+});
+```
 
 [⬆ Top](#table-of-contents)
