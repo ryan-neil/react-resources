@@ -2,7 +2,7 @@
 
 ### Resources:
 
-- [React Testing Library Bootcamp](https://www.udemy.com/course/the-react-testing-library-bootcamp/learn/lecture/29910006#overview): Udemy
+- [React Testing Library Bootcamp](https://www.udemy.com/course/the-react-testing-library-bootcamp/learn/lecture/29979578#overview): Udemy
 - [React Testing Library Crash Course](https://www.youtube.com/playlist?list=PL4cUxeGkcC9gm4_-5UsNmLqMosM-dzuvQ): The Net Ninja
 - [React Testing Crash Course](https://www.youtube.com/watch?v=OVNjsIto9xM&t=300s): Traversy Media
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/): React Testing Library
@@ -241,117 +241,192 @@ test('user should be able to type a confirmation password', () => {
 Let's write a test where we're seeing if a certain element exists in our document:
 
 ```js
-// App.js
+// App.test.js
 
-function App() {
-  // get the value of our inputs inside state
-  const [signupInput, setSignupInput] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  // set error state
-  const [error, setError] = useState('');
+test('should show email error message on invalid email', () => {
+	render(<App />);
 
-  // handle the input change
-  const handleChange = (e) => {
-    // update the state
-    setSignupInput({
-      ...signupInput, // spread out the signupInput state
-      [e.target.name]: e.target.value, // this resolves to whatever the name of the input it's being called in
-    });
-  };
+  // * check for email error element to NOT be in the document
+  const emailErrorElement = screen.queryByText(/the email you input is invalid/i);
+  expect(emailErrorElement).not.toBeInTheDocument();
 
-  // handle submit button click
-  const handleClick = (e) => {
-    e.preventDefault();
-    // get the email and validate that its an actual email
-    if (!validator.isEmail(signupInput.email)) {
-      setError('The email you input is invalid');
-    }
-  };
+  // * type invalid email
+	const emailInputElement = screen.getByRole('textbox', { name: /email/i });
+	userEvent.type(emailInputElement, 'katiegmail.com');
 
-  return (
-    <div className="App">
-      <form>
-        <div className="email-input-container">
-          <label htmlFor="email" className="form-label">
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            className="form-control"
-            value={signupInput.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="input-container">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            className="form-control"
-            value={signupInput.password}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="input-container">
-          <label htmlFor="confirmPassword" className="form-label">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirm-password"
-            className="form-control"
-            value={signupInput.confirmPassword}
-            onChange={handleChange}
-          />
-        </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" onClick={handleClick}>
-          Submit
-        </button>
-      </form>
-    </div>
-  );
+  // * submit form
+  const submitButtonElement = screen.getByRole('button', { name: /submit/i });
+  userEvent.click(submitButtonElement);
+
+  // * check for email error element to be in the document
+  const emailErrorElementAgain = screen.queryByText(/the email you input is invalid/i); // needs to be 'query'
+  expect(emailErrorElementAgain).toBeInTheDocument();
 }
 ```
+
+[⬆ Top](#table-of-contents)
+
+## Organizing Test Files
+
+Let's see how we can refactor and cleanup the above test block:
+
+```js
+// App.test.js
+
+// jest beforeEach hook (this will run before each and every test)
+beforeEach(() => {
+  render(<App />);
+});
+
+// helper function that finds the elements and types into them for us
+const typeIntoForm = ({ email, password, confirmPassword }) => {
+  // find: all the input elements
+  const emailInputElement = screen.getByRole('textbox', { name: /email/i });
+  const passwordInputElement = screen.getByLabelText('Password');
+  const confirmPasswordInputElement = screen.getByLabelText(/confirm password/i);
+
+  // event: type into our elements
+  if (email) {
+    userEvent.type(emailInputElement, email);
+  }
+  if (password) {
+    userEvent.type(passwordInputElement, password);
+  }
+  if (confirmPassword) {
+    userEvent.type(confirmPasswordInputElement, confirmPassword);
+  }
+
+	// if we need to assert that an element is or is not in the document
+  return {
+    emailInputElement,
+    passwordInputElement,
+    confirmPasswordInputElement,
+  };
+};
+
+// helper function to click submit
+const clickSubmitButton = () => {
+  const submitButtonElement = screen.getByRole('button', { name: /submit/i });
+  userEvent.click(submitButtonElement);
+};
+
+test('should show email error message on invalid email', () => {
+	// * assert that the email error element is NOT in the document
+  expect(screen.queryByText(/the email you input is invalid/i)).not.toBeInTheDocument();
+
+  // * type invalid email
+  typeIntoForm({ email: 'katiegmail.com' });
+
+  // * submit form
+  clickSubmitButton();
+
+  // * assert that the email error element is in the document
+  expect(screen.queryByText(/the email you input is invalid/i)).toBeInTheDocument();
+}
+
+...
+```
+
+There we go! Much cleaner.
+
+### The Describe Block
+
+When all of our tests have a common action like, testing the functionality of our `App` component. We can utilize the `describe` block to group similar tests together.
+
+Let's see an example of this now:
 
 ```js
 // App.test.js
 
 ...
 
-test('should show email error message on invalid email', () => {
-  // render
-  render(<App />);
+describe('App', () => {
+	// render the App component before each test in this describe block
+	beforeEach(() => {
+		render(<App />);
+	});
 
-  // find our elements
-  const emailInputElement = screen.getByRole('textbox', {
-    name: /email/i,
+  // input fields should all be empty
+  test('inputs should be initially empty', () => {
+    expect(screen.getByRole('textbox').value).toBe('');
+    expect(screen.getByLabelText('Password').value).toBe('');
+    expect(screen.getByLabelText(/confirm password/i).value).toBe('');
   });
-  const emailErrorElement = screen.queryByText(/the email you input is invalid/i); // needs to be 'query'
-  const submitButtonElement = screen.getByRole('button', {
-    name: /submit/i,
+
+  test('user should be able to type an email', () => {
+    const { emailInputElement } = typeIntoForm({ email: 'katie@gmail.com' });
+    expect(emailInputElement.value).toBe('katie@gmail.com');
   });
 
-  // assert the error element is not yet in the doc
-  expect(emailErrorElement).not.toBeInTheDocument();
-
-  // events
-  userEvent.type(emailInputElement, 'katiegmail.com');
-  userEvent.click(submitButtonElement);
-
-  // assert the error element is in the doc when invalid email
-  const emailErrorElementAgain = screen.queryByText(/the email you input is invalid/i); // needs to be 'query'
-  expect(emailErrorElementAgain).toBeInTheDocument();
+	...
 });
 ```
+
+We can also nest `describe` blocks inside `describe` blocks:
+
+```js
+// App.test.js
+
+...
+
+describe('App', () => {
+	beforeEach(() => {
+		render(<App />);
+	});
+
+	// input fields should all be empty
+  test('inputs should be initially empty', () => {
+    expect(screen.getByRole('textbox').value).toBe('');
+    expect(screen.getByLabelText('Password').value).toBe('');
+    expect(screen.getByLabelText(/confirm password/i).value).toBe('');
+  });
+
+	// type an email into the field
+  test('user should be able to type an email', () => {
+    const { emailInputElement } = typeIntoForm({ email: 'katie@gmail.com' });
+    expect(emailInputElement.value).toBe('katie@gmail.com');
+  });
+
+	// App error handling
+	describe('Error handling', () => {
+		// email error
+    test('should show email error message on invalid email', () => {
+      expect(screen.queryByText(/the email you input is invalid/i)).not.toBeInTheDocument();
+
+      typeIntoForm({ email: 'katiegmail.com' });
+
+      clickSubmitButton();
+
+      expect(screen.queryByText(/the email you input is invalid/i)).toBeInTheDocument();
+    });
+
+    // password error
+    test('should show password error if password is less than 5 characters', () => {
+      expect(
+        screen.queryByText(/the password you entered should contain 5 or more characters/i)
+      ).not.toBeInTheDocument();
+
+      typeIntoForm({
+        email: 'katie@gmail.com',
+        password: '123',
+      });
+
+      clickSubmitButton();
+
+      expect(
+        screen.queryByText(/the password you entered should contain 5 or more characters/i)
+      ).toBeInTheDocument();
+    });
+
+		...
+	}
+
+	...
+});
+```
+
+[⬆ Top](#table-of-contents)
+
+## Testing Components with Props
 
 [⬆ Top](#table-of-contents)
