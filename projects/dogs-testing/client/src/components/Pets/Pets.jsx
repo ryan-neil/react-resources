@@ -1,12 +1,8 @@
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { PetsContext } from '../../context/PetsContext';
 import Filter from '../Filter/Filter';
 import Cards from '../Cards/Cards';
 import './Pets.css';
-
-export const PetsContext = createContext({
-  dogs: [],
-  setDogs: () => {},
-});
 
 const Pets = () => {
   const [dogs, setDogs] = useState([]);

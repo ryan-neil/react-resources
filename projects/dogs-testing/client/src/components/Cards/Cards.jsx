@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { PetsContext } from '../Pets/Pets';
+import { PetsContext } from '../../context/PetsContext';
 import Card from '../Card/Card';
 import './Cards.css';
 

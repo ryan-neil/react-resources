@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import dogs from '../../mocks/dogs.json';
-import { PetsContext } from '../Pets/Pets';
+import { PetsContext } from '../../context/PetsContext';
 // components
 import Cards from './Cards';
 

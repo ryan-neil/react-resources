@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PetsContext } from '../Pets/Pets';
+import { PetsContext } from '../../context/PetsContext';
 import Card from './Card';
 import dogs from '../../mocks/dogs.json';
 

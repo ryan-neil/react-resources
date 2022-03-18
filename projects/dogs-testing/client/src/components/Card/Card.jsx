@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { PetsContext } from '../Pets/Pets';
+import { PetsContext } from '../../context/PetsContext';
 import './Card.css';
 import heartFilled from '../../svgs/heartFilled.svg';
 import heartOutline from '../../svgs/heartOutline.svg';
