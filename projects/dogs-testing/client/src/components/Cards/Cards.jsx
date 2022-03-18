@@ -2,21 +2,21 @@
 import Card from '../Card/Card';
 import './Cards.css';
 
-const Cards = ({ dogs, isLoading, hasError }) => {
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (hasError) {
-    return <p>Error fetching data ({hasError}).</p>;
-  }
+const Cards = ({ dogs, setDogs }) => {
+  // handle favorite toggle
+  const updateFavorite = (idx, favored) => {
+    const updatedDogs = [...dogs];
+    // update the favored value of the indexed dog given to us with the favored status
+    updatedDogs[idx].favored = favored;
+    // update dogs array state
+    setDogs(updatedDogs);
+  };
 
   return (
     <div className="pet-cards-container">
-      {dogs.map((dog) => (
+      {dogs.map((dog, index) => (
         <Card
           key={dog.id}
-          id={dog.id}
           name={dog.name}
           phone={dog.phone}
           email={dog.email}
@@ -25,8 +25,8 @@ const Cards = ({ dogs, isLoading, hasError }) => {
             alt: dog.image.alt,
           }}
           favored={dog.favored}
-          color={dog.color}
-          gender={dog.gender}
+          updateFavorite={updateFavorite}
+          index={index}
         />
       ))}
     </div>

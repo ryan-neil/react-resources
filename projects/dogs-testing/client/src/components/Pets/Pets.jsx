@@ -10,7 +10,10 @@ const Pets = () => {
   const [filteredDogs, setFilteredDogs] = useState([]);
   const [filters, setFilters] = useState({
     gender: 'any',
+    favored: 'any',
   });
+
+  console.log(dogs);
 
   // fetch api data
   useEffect(() => {
@@ -45,15 +48,29 @@ const Pets = () => {
       );
     }
 
+    if (filters.favored !== 'any') {
+      dogsFiltered = dogsFiltered.filter(
+        (dog) => dog.favored === (filters.favored === 'favored' ? true : false)
+      );
+    }
+
     // update the filtered dogs state
     setFilteredDogs(dogsFiltered);
   }, [filters]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (hasError) {
+    return <p>Error fetching data ({hasError}).</p>;
+  }
 
   return (
     <div className="container">
       <div className="app-container">
         <Filter filters={filters} setFilters={setFilters} />
-        <Cards dogs={filteredDogs} isLoading={isLoading} hasError={hasError} />
+        <Cards dogs={filteredDogs} setDogs={setDogs} />
       </div>
     </div>
   );

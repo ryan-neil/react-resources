@@ -4,7 +4,17 @@ const Filter = ({ filters, setFilters }) => {
       {/* Favorite */}
       <div className="filter-container">
         <label htmlFor="favorite">Favorite</label>
-        <select name="favorite" id="favorite" className="form-select">
+        <select
+          name="favorite"
+          id="favorite"
+          className="form-select"
+          onChange={(e) => {
+            setFilters({
+              ...filters,
+              favored: e.target.value,
+            });
+          }}
+        >
           <option value="any">Any</option>
           <option value="favored">Favored</option>
           <option value="not favored">Not Favored</option>

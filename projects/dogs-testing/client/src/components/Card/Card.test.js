@@ -12,6 +12,8 @@ const cardProps = {
     alt: 'golden retriever puppy',
   },
   favored: false,
+  updateFavorite: () => {},
+  index: 0,
 };
 
 describe('Card', () => {
