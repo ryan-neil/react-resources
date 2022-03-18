@@ -13,8 +13,6 @@ const Pets = () => {
     favored: 'any',
   });
 
-  console.log(dogs);
-
   // fetch api data
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +34,7 @@ const Pets = () => {
     fetchData();
   }, []);
 
-  // handle gender filters
+  // handle filters
   useEffect(() => {
     // create a duplicate dogs array
     let dogsFiltered = [...dogs];
