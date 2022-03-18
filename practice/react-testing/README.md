@@ -426,7 +426,3 @@ describe('App', () => {
 ```
 
 [⬆ Top](#table-of-contents)
-
-## Testing Components with Props
-
-[⬆ Top](#table-of-contents)

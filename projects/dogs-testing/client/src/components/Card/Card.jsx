@@ -1,22 +1,26 @@
+import { useState, useContext } from 'react';
+import { PetsContext } from '../Pets/Pets';
 import './Card.css';
 import heartFilled from '../../svgs/heartFilled.svg';
 import heartOutline from '../../svgs/heartOutline.svg';
-import { useState } from 'react';
 
-const Card = ({
-  name,
-  phone,
-  email,
-  image,
-  favored,
-  updateFavorite,
-  index,
-}) => {
+const Card = ({ name, phone, email, image, favored, index }) => {
+  const { dogs, setDogs } = useContext(PetsContext);
   const [isFavored, setIsFavored] = useState(favored);
 
+  // handle toggle favorite
   const toggleFavored = () => {
     updateFavorite(index, !isFavored);
     setIsFavored(!isFavored);
+  };
+
+  // handle favorite toggle
+  const updateFavorite = (idx, favored) => {
+    const updatedDogs = [...dogs];
+    // update the favored value of the indexed dog given to us with the favored status
+    updatedDogs[idx].favored = favored;
+    // update dogs array state
+    setDogs(updatedDogs);
   };
 
   return (

@@ -41,28 +41,28 @@ describe('App', () => {
   });
 
   // input fields should all be empty
-  test('inputs should be initially empty', () => {
+  test('Should be initially empty', () => {
     expect(screen.getByRole('textbox').value).toBe('');
     expect(screen.getByLabelText('Password').value).toBe('');
     expect(screen.getByLabelText(/confirm password/i).value).toBe('');
   });
 
   // type an email into the field
-  test('user should be able to type an email', () => {
+  test('Should be able to type an email', () => {
     // * type into email input
     const { emailInputElement } = typeIntoForm({ email: 'katie@gmail.com' });
     expect(emailInputElement.value).toBe('katie@gmail.com');
   });
 
   // type a password into the field
-  test('user should be able to type a password', () => {
+  test('Should be able to type a password', () => {
     // * type into password input
     const { passwordInputElement } = typeIntoForm({ password: 'password123' });
     expect(passwordInputElement.value).toBe('password123');
   });
 
   // type a confirmation password into the field
-  test('user should be able to type a confirmation password', () => {
+  test('Should be able to type a confirmation password', () => {
     // * type into 'confirm' password input
     const { confirmPasswordInputElement } = typeIntoForm({ confirmPassword: 'password123' });
     expect(confirmPasswordInputElement.value).toBe('password123');
@@ -71,7 +71,7 @@ describe('App', () => {
   // App component error handling describe block
   describe('Error handling', () => {
     // email error
-    test('should show email error message on invalid email', () => {
+    test('Should show email error message on invalid email', () => {
       // * assert that the email error element to not be in the document
       expect(screen.queryByText(/the email you input is invalid/i)).not.toBeInTheDocument();
 
@@ -86,7 +86,7 @@ describe('App', () => {
     });
 
     // password error
-    test('should show password error if password is less than 5 characters', () => {
+    test('Should show password error if password is less than 5 characters', () => {
       // * assert that the password error element is NOT in the document
       expect(
         screen.queryByText(/the password you entered should contain 5 or more characters/i)
@@ -108,7 +108,7 @@ describe('App', () => {
     });
 
     // confirm password error
-    test('should show confirm password error if passwords dont match', () => {
+    test('Should show confirm password error if passwords dont match', () => {
       // * input correct email
       typeIntoForm({ email: 'katie@gmail.com' });
 
@@ -133,7 +133,7 @@ describe('App', () => {
     });
 
     // no error message is present if all inputs are correct
-    test('should show no error message if every input is valid', () => {
+    test('Should show no error message if every input is valid', () => {
       // * type valid input data
       typeIntoForm({
         email: 'katie@gmail.com',

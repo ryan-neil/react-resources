@@ -1,16 +1,10 @@
-// take in an array of objects and render them to the screen
+import { useContext } from 'react';
+import { PetsContext } from '../Pets/Pets';
 import Card from '../Card/Card';
 import './Cards.css';
 
-const Cards = ({ dogs, setDogs }) => {
-  // handle favorite toggle
-  const updateFavorite = (idx, favored) => {
-    const updatedDogs = [...dogs];
-    // update the favored value of the indexed dog given to us with the favored status
-    updatedDogs[idx].favored = favored;
-    // update dogs array state
-    setDogs(updatedDogs);
-  };
+const Cards = () => {
+  const { dogs } = useContext(PetsContext);
 
   return (
     <div className="pet-cards-container">
@@ -25,7 +19,6 @@ const Cards = ({ dogs, setDogs }) => {
             alt: dog.image.alt,
           }}
           favored={dog.favored}
-          updateFavorite={updateFavorite}
           index={index}
         />
       ))}
