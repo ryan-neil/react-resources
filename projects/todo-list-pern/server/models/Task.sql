@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS tasks cascade;
+
+-- Task Table
+CREATE TABLE task(
+	id SERIAL PRIMARY KEY NOT NULL,
+	task TEXT,
+	done BOOLEAN DEFAULT FALSE,
+	created_at TIMESTAMP
+)
