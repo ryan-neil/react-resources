@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { selectAllPosts } from './postsSlice';
 import PostAuthor from './PostAuthor';
 import TimeAgo from './TimeAgo';
+import Reactions from './Reactions';
 
 const PostsList = () => {
   // invoke the useSelector
@@ -16,9 +17,11 @@ const PostsList = () => {
   const renderPosts = orderedPosts.map((post) => (
     <article key={post.id}>
       <h3>{post.title}</h3>
-      <PostAuthor userId={post.userId} />
-      <TimeAgo timestamp={post.date} />
+      <p>
+        <PostAuthor userId={post.userId} /> · <TimeAgo timestamp={post.date} />
+      </p>
       <p>{post.content.substring(0, 100)}</p>
+      <Reactions post={post} />
     </article>
   ));
 

@@ -7,6 +7,11 @@ const initialState = [
     title: 'Learning Redux Toolkit',
     content: 'I have always wanted to learn Redux. Let us do that now!',
     date: sub(new Date(), { minutes: 10 }).toISOString(),
+    reactions: {
+      thumbsUp: 0,
+      thumbsDown: 0,
+      rocket: 0,
+    },
   },
   {
     id: 2,
@@ -14,6 +19,11 @@ const initialState = [
     content:
       'Let us look at the similarities of Redux and the built in React hook, useReducer.',
     date: sub(new Date(), { minutes: 5 }).toISOString(),
+    reactions: {
+      thumbsUp: 0,
+      thumbsDown: 0,
+      rocket: 0,
+    },
   },
 ];
 
@@ -35,9 +45,25 @@ const postsSlice = createSlice({
             content: content,
             date: new Date().toISOString(),
             userId: userId,
+            reactions: {
+              thumbsUp: 0,
+              thumbsDown: 0,
+              rocket: 0,
+            },
           },
         };
       },
+    },
+    reactionAdded(state, action) {
+      const { postId, reaction } = action.payload;
+      // get the existing post from the state
+      const existingPost = state.find((post) => post.id === postId);
+
+      // check if we found an existing post
+      if (existingPost) {
+        // normally this would mutate the state but because we're in the createSlice immer.js takes care of this for us
+        existingPost.reactions[reaction]++;
+      }
     },
   },
 });
@@ -46,6 +72,6 @@ const postsSlice = createSlice({
 export const selectAllPosts = (state) => state.posts;
 
 // this is an automatically created action creator function
-export const { postAdded } = postsSlice.actions;
+export const { postAdded, reactionAdded } = postsSlice.actions;
 
 export default postsSlice.reducer;

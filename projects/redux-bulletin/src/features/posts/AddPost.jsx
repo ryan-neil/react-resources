@@ -8,8 +8,8 @@ const AddPost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [userId, setUserId] = useState('');
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const users = useSelector(selectAllUsers);
 
   const onTitleChanged = (e) => setTitle(e.target.value);
@@ -34,6 +34,7 @@ const AddPost = () => {
     </option>
   ));
 
+  // all input fields must be filled out to submit the form
   const canSave = Boolean(title) && Boolean(content) && Boolean(userId);
 
   return (
