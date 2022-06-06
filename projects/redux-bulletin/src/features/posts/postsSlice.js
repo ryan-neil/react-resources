@@ -1,31 +1,14 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit';
 import { sub } from 'date-fns';
 
-const initialState = [
-  {
-    id: 1,
-    title: 'Learning Redux Toolkit',
-    content: 'I have always wanted to learn Redux. Let us do that now!',
-    date: sub(new Date(), { minutes: 10 }).toISOString(),
-    reactions: {
-      thumbsUp: 0,
-      thumbsDown: 0,
-      rocket: 0,
-    },
-  },
-  {
-    id: 2,
-    title: 'Redux Toolkit vs. useReducer',
-    content:
-      'Let us look at the similarities of Redux and the built in React hook, useReducer.',
-    date: sub(new Date(), { minutes: 5 }).toISOString(),
-    reactions: {
-      thumbsUp: 0,
-      thumbsDown: 0,
-      rocket: 0,
-    },
-  },
-];
+// define base url
+const POSTS_URL = 'https://jsonplaceholder.typicode.com/posts';
+
+const initialState = {
+  posts: [],
+  status: 'idle', // Can be: 'idle' | 'loading' | 'succeeded' | 'failed'
+  error: null,
+};
 
 const postsSlice = createSlice({
   name: 'posts',
@@ -35,7 +18,7 @@ const postsSlice = createSlice({
     postAdded: {
       reducer(state, action) {
         // we can use .push for state because of immer.js (https://immerjs.github.io/immer/)
-        state.push(action.payload); // payload is the form data we send and we push that to state
+        state.posts.push(action.payload); // payload is the form data we send and we push that to state
       },
       prepare(title, content, userId) {
         return {
@@ -57,7 +40,7 @@ const postsSlice = createSlice({
     reactionAdded(state, action) {
       const { postId, reaction } = action.payload;
       // get the existing post from the state
-      const existingPost = state.find((post) => post.id === postId);
+      const existingPost = state.posts.find((post) => post.id === postId);
 
       // check if we found an existing post
       if (existingPost) {
@@ -69,7 +52,7 @@ const postsSlice = createSlice({
 });
 
 // this ties the state to the slice and not the component
-export const selectAllPosts = (state) => state.posts;
+export const selectAllPosts = (state) => state.posts.posts;
 
 // this is an automatically created action creator function
 export const { postAdded, reactionAdded } = postsSlice.actions;
