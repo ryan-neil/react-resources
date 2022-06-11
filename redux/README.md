@@ -14,12 +14,15 @@ All things React Redux.
 # 2. Tutorials
 
 - [Redux Toolkit Tutorial](https://www.youtube.com/watch?v=bbkBuqC1rU4&list=PLfruCl-i8oXw6NQUN7jS3wj2HtTxUpV1g&index=1): FCC
-- [useReducer Crash Course](https://www.youtube.com/watch?v=26ogBZXeBwc): Laith Academy
-- [useReducer](https://www.youtube.com/watch?v=26ogBZXeBwc): Dave Gray
 
 ## useReducer
 
 This is a quick refresher for the `useReducer` hook.
+
+### Resources
+
+- [useReducer Crash Course](https://www.youtube.com/watch?v=26ogBZXeBwc): Laith Academy
+- [useReducer](https://www.youtube.com/watch?v=26ogBZXeBwc): Dave Gray
 
 Step one to using the `useReducer` hook is to define the initial state of the application as well as the dispatch of the application.
 
